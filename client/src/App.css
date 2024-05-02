@@ -1,0 +1,89 @@
+
+/* for testing */
+.test {
+	border : 1px solid #333;
+	background-color : #bbb
+}
+/*.............*/
+
+/*.... Customization Classes....*/
+
+
+* {
+	box-sizing:border-box;
+	margin:0;
+	padding:0;
+
+}
+
+select :focus {
+	outline:none !important ;
+}
+
+select  {
+	cursor:pointer;
+	outline:none !important ;
+	appearance: none;
+	color: #ffffff;
+	border: 2px solid #aaa;
+/*	border-bottom: 1px solid #888;*/
+	background-color:#ddd;
+	max-height:100px;
+	overflow:scroll;
+
+}
+select  option{ 
+	appearance: none;
+background-color:#eee;	
+
+}
+
+select  option :hover{ 
+	cursor:pointer;
+}
+
+.text-gray {
+	color: #aaaaaa;
+}
+
+.btn {
+	cursor:pointer
+}
+
+.inner-overlay {
+	background-color: rgba(100 , 100 , 100 , 0.5)
+}
+
+
+/*..............................*/
+/*-----Hero Section-----*/
+
+.hero-section {
+	background-image:linear-gradient(rgb(0 20 161 / 68%), rgb(0 0 0 / 68%)), url(/src/assets/images/backgroundhero.jpg)
+}
+
+
+/*-----LatestArticles Section-----*/
+
+.article-card {
+	width: 440px;
+	border-radius:10px;
+	overflow:hidden;
+}
+
+
+.article-card .article-img {
+
+/*	background-image:linear-gradient(rgb(0 20 161 / 68%), rgb(0 0 0 / 68%)), url(/src/assets/images/backgroundhero.jpg)*/
+}
+
+
+.ArticleSidebarCard {
+	background-image:linear-gradient(rgb(0 20 161 / 68%), rgb(0 0 0 / 68%)), url(/src/assets/images/backgroundhero.jpg)
+	
+}
+
+.outer {
+	background-image: url(/src/assets/images/backgroundhero.jpg);
+}
+
