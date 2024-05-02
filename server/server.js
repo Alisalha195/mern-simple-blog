@@ -6,7 +6,7 @@ import connectDB from "./db/connection.js";
 import ArticleRouter  from "./routes/ArticleRouter.js";
 import UserRouter  from "./routes/UserRouter.js";
 
-import AuthRouter from "routes/routes/AuthRouter.js"
+import AuthRouter from "./routes/AuthRouter.js"
 
 import cors from "cors"; 
 dotenv.config();
