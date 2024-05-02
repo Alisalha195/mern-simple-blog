@@ -1,18 +1,49 @@
 import React, {useState} from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 
-
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-
 import SignupWithAccounts from "../../components/user/auth/SignupWithAccounts"
 
-
 const SignUp = ()=>  {
-
-  const navigate = useNavigate();  
-
-
   
+  const navigate = useNavigate();  
+  
+  const [formData , setFormData] = useState({});
+  
+  const [loading , setLoading] = useState(false);
+  
+  const [error , setError]= useState(null);
+  
+  const handleChange = (e)=> {
+    setFormData({
+      ...formData , 
+      [e.target.id] : e.target.value
+    })
+  }
+
+  const handleSignup= () => {
+    
+    try {
+      
+    const res = fetch("/api/auth" , {
+      method: "post" ,
+      headers : {
+        "content-type" : "application/json"
+      },
+      body : { 
+        data :json.Stringify(formData)
+      }
+    });
+    const data = res.json();
+    
+    if(data)
+    
+      
+    } catch (error){
+      
+    }
+    
+  }
+
 
   return (
   
