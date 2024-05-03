@@ -10,17 +10,21 @@ export const signup = async (req, res, next) => {
 
   try {
     const existingUser = await User.find({email:email});
-    if(existingUser) {
-      console.log("existingUser : " , existingUser)
-      res.status(400).json({
-        "success": false ,
-        "message" : 'email already taken by another user!'
-      });
-    } else {
+    // if(existingUser) {
+    //   // console.log("existingUser : " , existingUser)
+    //   res.status(201).json({
+    //     "success": false ,
+    //     "message" : 'email already taken by another user!'
+    //   });
+    // } else {
+    // const user = await User.create({ username, email, password: hashedPassword })
+    // 
+    // res.status(201).json('User created successfully!');
+    // }
+
     const user = await User.create({ username, email, password: hashedPassword })
     
     res.status(201).json('User created successfully!');
-    }
   } catch (error) {
     next(error);
   }

@@ -9,9 +9,7 @@ const SignUp = ()=>  {
   const navigate = useNavigate();  
   
   const [formData , setFormData] = useState({});
-  
   const [loading , setLoading] = useState(false);
-  
   const [error , setError]= useState(null);
   
   const handleChange = (e)=> {
@@ -19,7 +17,7 @@ const SignUp = ()=>  {
       ...formData , 
       [e.target.id] : e.target.value
     });
-    log(formData)
+    // log(formData)
   }
 
   const handleSignup= async() => {
@@ -34,12 +32,12 @@ const SignUp = ()=>  {
         body : JSON.stringify(formData)
         
       });
-      const data = res.json();
-      
+      const data = await res.json();
+      log(data)
       if(data.success === false) {
         setLoading(false);
         setError(data.message);
-         navigate('/error');
+         // navigate('/error');
         return;
       }
       
