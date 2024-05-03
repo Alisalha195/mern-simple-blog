@@ -39,12 +39,14 @@ const SignUp = ()=>  {
       if(data.success === false) {
         setLoading(false);
         setError(data.message);
+         navigate('/error');
         return;
       }
       
       setLoading(false);
       setError(null);
       navigate('/login');
+
     } catch (error){
       setLoading(false);
       setError(error.message);
