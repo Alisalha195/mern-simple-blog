@@ -16,6 +16,16 @@ const ArticleSchema = new mongoose.Schema({
     required: true,
     default : "Global Author"
   },
+  pending : {
+    type : Boolean,
+    required: true,
+    default: true
+  },
+  approved: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
   date: { type: Date, default: Date.now },
 });
  
