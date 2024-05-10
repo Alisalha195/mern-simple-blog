@@ -26,6 +26,14 @@ const ArticleSchema = new mongoose.Schema({
     required: true,
     default: false
   },
+  likes : {
+    type: Number,
+    default: 0
+  },
+  dislikes: {
+    type: Number,
+    default: 0
+  },
   date: { type: Date, default: Date.now },
 });
  

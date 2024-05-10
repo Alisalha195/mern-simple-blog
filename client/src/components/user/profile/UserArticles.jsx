@@ -23,6 +23,10 @@ const UserArticles = ({articles}) => {
 									    author={article.author}
 									    pending={article.pending}
 									    approved={article.approved}
+									    likes={article.likes}
+									    dislikes={
+									      article.dislikes
+									    }
 							/>
 						))
 					}

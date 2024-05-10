@@ -9,14 +9,24 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 
 import articleImage from '../../assets/images/backgroundhero.jpg';
 
-const ArticleCard = ({size , title,content,author,pending,approved }) => {
+const ArticleCard = ({size , title,content,author,pending,approved, likes, dislikes }) => {
 
 	const textLong = 45;
 	const articleText = "this is the text about the article you stand at now , you can click the article title to view the entire details of this particular article." 
 
 	const getBreifText = (text , cutPoint) => {
-		return (`${text.substring(0,cutPoint)}...`)
-	} 
+		return (`${text.substring(0,cutPoint)}...`);
+	} ;
+	const getLikesBreifValue = (value)=> {
+	  if((value > 0) && (value <= 999)) {
+	    return value;
+	  } 
+	  if((value > 999) && (value <= 999999) ) {
+	    return (`${value/1000}K`);
+	  } else if((value > 999999) && (value < 999999999)) {
+	    return (`${value/1000000}M`);
+	  }
+	};
 	return (
 		
 		(size == "small")  
@@ -35,11 +45,11 @@ const ArticleCard = ({size , title,content,author,pending,approved }) => {
 							     xs:text-[23px] sm:text-[28px] xmd:text-[34px]" 
 							     
 						     >
-								Article Title
+								{title}
 							</div>
 							<div className=" flex flex-row xs:pl-[5px] xmd:pl-[8px] xs:text-[18px] sm:text-[22px] xmd:text-[24px] lg:text-[25px] font-bold text-gray-700">
 								<span>
-									John Doe 
+									{author}
 								</span>
 								
 							</div>
@@ -52,7 +62,7 @@ const ArticleCard = ({size , title,content,author,pending,approved }) => {
 					<div className="xs:mt-[4px]  md:mt-2 xs:pl-[10px] md:pl-2 
 					                xs:pr-2 xmd:pr-4 text-gray-600 xs:text-[12px] sm:text-[14px]" 
 	                >
-					{getBreifText(content`												` , textLong )}	
+					{getBreifText(content, textLong )}	
 					</div>
 					
 
@@ -66,7 +76,7 @@ const ArticleCard = ({size , title,content,author,pending,approved }) => {
 								</div>
 								<div className="text-center"
 								    style={{fontSize:"22px"}}>
-									1k
+									{getLikesBreifValue(dislikes)}
 								</div>
 							</div>
 
@@ -75,7 +85,7 @@ const ArticleCard = ({size , title,content,author,pending,approved }) => {
 									<ThumbUpAltOutlinedIcon style={{fontSize:"22px", color:"#1960ff"}} />
 								</div>
 								<div style={{fontSize:"22px"}}>
-									200
+									{getLikesBreifValue(likes)}
 								</div>
 							</div>
 						</div>
@@ -95,10 +105,10 @@ const ArticleCard = ({size , title,content,author,pending,approved }) => {
 						
 						<div className="btn leading-6 text-gray-800 font-bold hover:text-gray-700" 
 						     style={{fontSize:"36px"}}>
-							Article Title
+							{title}
 						</div>
 						<div className="pl-1  text-xs font-bold text-gray-700">
-							<span>John Doe <EditOutlinedIcon style={{fontSize:"24px",lineHeight:"20px"}} /></span>
+							<span>{author} <EditOutlinedIcon style={{fontSize:"24px",lineHeight:"20px"}} /></span>
 						</div>
 						<div className="pl-1  text-xs text-gray-700" style={{fontSize:"18px"}}>
 							Mar-2-2010
