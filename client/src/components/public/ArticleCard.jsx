@@ -3,9 +3,13 @@ import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 	
 
+
+
+
+
 import articleImage from '../../assets/images/backgroundhero.jpg';
 
-const ArticleCard = ({size}) => {
+const ArticleCard = ({size , title,content,author,pending,approved }) => {
 
 	const textLong = 45;
 	const articleText = "this is the text about the article you stand at now , you can click the article title to view the entire details of this particular article." 
@@ -48,7 +52,7 @@ const ArticleCard = ({size}) => {
 					<div className="xs:mt-[4px]  md:mt-2 xs:pl-[10px] md:pl-2 
 					                xs:pr-2 xmd:pr-4 text-gray-600 xs:text-[12px] sm:text-[14px]" 
 	                >
-					{getBreifText(articleText , textLong )}	
+					{getBreifText(content`												` , textLong )}	
 					</div>
 					
 

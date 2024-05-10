@@ -1,7 +1,7 @@
-import {configureStore} from '@redux/toolkit';
-import articleReducer from '././ArticleSlice.js';
+import {configureStore} from "@reduxjs/toolkit";
+import articleReducer from './ArticleSlice.js';
 
-const store = configureStore({
+export const store = configureStore({
   reducer : {
     article: articleReducer
   }
