@@ -10,8 +10,8 @@ const initialState = {
 const articleSlice = createSlice({
 	name: 'article' ,
 	initialState ,
-
-	reducers : {
-		
-	}
-})
+	})
+	
+	export default articleSlice.reducer;
+	
+	
