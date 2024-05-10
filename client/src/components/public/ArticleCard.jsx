@@ -1,7 +1,7 @@
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-	
+// import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlinedIcon';	
 
 
 
@@ -71,7 +71,7 @@ const ArticleCard = ({size , title,content,author,pending,approved, likes, disli
 						<div className="flex flex-wrap mt-1 justify-center  text-gray-900 xmd:pr-3 text-[20px] ">
 							
 							<div className="xs:mr-2 xmd:mr-4 flex ">
-								<div className="mr-1 ">
+								<div className="flex flex-col justify-center mr-1 ">
 									<VisibilityOutlinedIcon style={{fontSize:"26px", color:"#ff6e60"}}  />
 								</div>
 								<div className="text-center"
@@ -81,7 +81,7 @@ const ArticleCard = ({size , title,content,author,pending,approved, likes, disli
 							</div>
 
 							<div className="flex ">
-								<div  className="basis-4/12 mr-1"> 
+								<div  className="basis-4/12 flex flex-col justify-center mr-1"> 
 									<ThumbUpAltOutlinedIcon style={{fontSize:"22px", color:"#1960ff"}} />
 								</div>
 								<div style={{fontSize:"22px"}}>

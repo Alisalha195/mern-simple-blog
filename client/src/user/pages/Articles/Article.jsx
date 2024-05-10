@@ -1,5 +1,7 @@
-import {useState , useEffect} from 'react'
+import {useState , useEffect} from 'react';
 import { useParams } from 'react-router';
+import {useDispatch,useSelector} from 'react-redux';
+import {getArticle} from  '../../../redux/ArticleSlice'
 import LoadingBox from '../../../hooks/useLoading'
 import Loading from '../../../components/public/Loading'
 
@@ -10,37 +12,47 @@ import WriterBrief from '../../../components/articles/WriterBrief'
 import ArticleUpperBox from '../../../components/articles/ArticleUpperBox'
 import ArticleText from '../../../components/articles/ArticleText'
 import Control from '../../../components/articles/Control'
-
 import UserProfileImage from '../../../components/user/UserProfileImage'
 import Tag from '../../../components/public/Tag'
 import ArticleCard from '../../../components/public/ArticleCard'
-
 import UserArticles from "../../../components/user/profile/UserArticles"
-
 import TagsBox from "../../../components/homepage/TagsBox"
 
 const Article = () => {
 
-	const [title, setTitle] = useState('')
+	const params = useParams();
+	const dispatch = useDispatch();
+	// const article ; 
 
-	const params = useParams()
+	// useEffect(()=>{
+	// 	const dispatcher = () => {
+	// 		dispatch(getArticle(params.id));
+	// 	}
+	// 	dispatcher();
+	// },[])
 
+	// const [title, setTitle] = useState('')
+
+	
+	const articles = useSelector((store)=> store.article.articles);
+
+	const article = articles.find((item)=> item.id == params.id)
 	const loadingProps = LoadingBox()
 	const loading = loadingProps.loading;
 
-	useEffect(()=>{
-		const getArticle = async()=> {
-			console.log(params.id)
-			const response = await fetch(`/api/articles/${params.id}`).then(
-				response =>  response.json()
-			).then(
-				data => setTitle(data.title)
-
-			)
-		}
-		getArticle()
-
-	},[]);
+// 	useEffect(()=>{
+// 		const getArticle = async()=> {
+// 			console.log(params.id)
+// 			const response = await fetch(`/api/articles/${params.id}`).then(
+// 				response =>  response.json()
+// 			).then(
+// 				data => setTitle(data.title)
+// 
+// 			)
+// 		}
+// 		getArticle()
+// 
+// 	},[]);
 	
 	return (
 		loading ? <Loading /> : 
@@ -57,7 +69,7 @@ const Article = () => {
 
 				
 				<div className="mt-3 p-2 xs:basis-full md:basis-10/12  lg:basis-8/12">
-					<ArticleText title={title}/>
+					<ArticleText title={article.content}/>
 					
 					<Control />
 
@@ -85,7 +97,7 @@ const Article = () => {
 					Recommended
 				</div>
 
-				< UserArticles />
+				{/* < UserArticles /> */}
 
 			</div>
 		</div>

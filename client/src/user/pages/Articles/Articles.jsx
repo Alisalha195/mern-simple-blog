@@ -4,10 +4,11 @@ import UserArticles from "../../../components/user/profile/UserArticles"
 
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 
-import {useSelector} from 'react-redux';
+import {useDispatch,useSelector} from 'react-redux';
 
 const Articles = () => {
-const articles = useSelector((store)=> store.article.articles);
+	
+	const articles = useSelector((store)=> store.article.articles);
 
 // console.log('ARTICLES : ', articles)
 	return (

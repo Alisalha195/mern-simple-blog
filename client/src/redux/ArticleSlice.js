@@ -4,15 +4,17 @@ import {createSlice} from "@reduxjs/toolkit";
 const initialState = {
 	articles : [
 		{
+			id: "6627b210139a7fea42c1f767",
 			title: "Article-1",
 			content : "Article-1 Content",
 			author : "Article-1 Author",
 			pending : true ,
 			approved: false,
-			likes: 300,
+			likes: 3400000,
 			dislikes:20
 	    } ,
 	    {
+	    	id: "6627b1fa139a7fea42c1f764",
 			title: "Article-2",
 			content : "Article-2 Content",
 			author : "Article-2 Author",
@@ -40,6 +42,15 @@ const initialState = {
 			likes: 215,
 		  dislikes: 40    
 	    } ,
+	    {
+			title: "Article-5",
+			content : "Article-5 Content",
+			author : "Article-5 Author",
+			pending : true ,
+			approved: false,
+			likes: 3400000,
+		  dislikes: 40    
+	    } ,
 	],
 	total : 0 ,
 	isLoading: true
@@ -48,8 +59,14 @@ const initialState = {
 const articleSlice = createSlice({
 	name: 'article' ,
 	initialState ,
-	})
+	reducers : {
+		getArticle: (state, action)=> {
+			state.articles.filter((item)=>(item.id == action.payload))
+		}
+	}
+});
 	
-	export default articleSlice.reducer;
+export const {getArticle} = articleSlice.actions;	
+export default articleSlice.reducer;
 	
 	
