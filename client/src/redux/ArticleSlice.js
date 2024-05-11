@@ -1,6 +1,7 @@
 
 import {createSlice} from "@reduxjs/toolkit";
 
+const url = "";
 const initialState = {
 	articles : [
 		{
@@ -53,9 +54,12 @@ const initialState = {
 	    } ,
 	],
 	total : 0 ,
-	isLoading: true
+	isLoading: false
 };
 
+export const getArticles = createAsyncThunk('article/getArticles', ()=>{
+  return fetch(url).then(res=>res.json().articles)
+});
 const articleSlice = createSlice({
 	name: 'article' ,
 	initialState ,
@@ -63,6 +67,19 @@ const articleSlice = createSlice({
 		getArticle: (state, action)=> {
 			state.articles.filter((item)=>(item.id == action.payload))
 		}
+	},
+	extraReducers: {
+	  [getArticles.pending] : (state)=>{
+	    state.isLoading = true;
+	    
+	  },
+	  [getArticles.fulfilled]: (state, action) => {
+	    state.isLoading = false;
+	    state.articles = action.payload;
+	  },
+	  [getArticles.rejected]: (state) => {
+	    state.isLoading = false;
+	  },
 	}
 });
 	

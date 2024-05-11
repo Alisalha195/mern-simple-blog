@@ -6,12 +6,25 @@ import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDown
 
 import {useDispatch,useSelector} from 'react-redux';
 
+import{getArticles} from '../../../redux/ArticleSlice'
+
 const Articles = () => {
 	
 	const articles = useSelector((store)=> store.article.articles);
+	
+	const isLoading = useSelector((store)=> store.article.isLoading);
+	
+	//const {articles , isLoading} = useSelector((store)=> store.article);
 
 // console.log('ARTICLES : ', articles)
+
+  useEffect(()=>{
+    dispatch(getArticles());
+  },[])
 	return (
+	  (isLoading) 
+	  ? <div className="text-[50px] text-center text-[#bbb]">Loading...</div>
+	  :
 		<div className="mb-[130px]">
 			
 			<ArticleFilterBox />
