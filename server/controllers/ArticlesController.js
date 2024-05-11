@@ -28,8 +28,9 @@ export const getArticle = async (req , res) => {
 export const createArticle = async (req , res) => {
 	
 	try {
-		const {title , content} = req.body
-		const article = await Article.create({title , content});
+		const {title , content, author, likes, dislikes} = req.body
+		
+		const article = await Article.create({title , content, author, likes, dislikes});
 		return res.status(200).json(article)
 	} catch(error) {
 		res.status(500).send(error.message)

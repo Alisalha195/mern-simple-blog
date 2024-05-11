@@ -1,3 +1,4 @@
+import {useEffect} from "react"
 import ArticleCard from "../../../components/public/ArticleCard"
 import ArticleFilterBox from "../../../components/articles/ArticleFilterBox"
 import UserArticles from "../../../components/user/profile/UserArticles"
@@ -10,6 +11,7 @@ import{getArticles} from '../../../redux/ArticleSlice'
 
 const Articles = () => {
 	
+	const dispatch = useDispatch();
 	const articles = useSelector((store)=> store.article.articles);
 	
 	const isLoading = useSelector((store)=> store.article.isLoading);
