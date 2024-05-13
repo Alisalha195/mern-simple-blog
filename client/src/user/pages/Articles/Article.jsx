@@ -1,7 +1,10 @@
 import {useState , useEffect} from 'react';
 import { useParams } from 'react-router';
 import {useDispatch,useSelector} from 'react-redux';
-import {getArticle} from  '../../../redux/ArticleSlice'
+import {getArticle } from  '../../../redux/ArticleSlice'
+
+import { getArticles} from  '../../../redux/ArticleSlice'
+
 import LoadingBox from '../../../hooks/useLoading'
 import Loading from '../../../components/public/Loading'
 
@@ -22,24 +25,23 @@ const Article = () => {
 
 	const params = useParams();
 	const dispatch = useDispatch();
-	// const article ; 
 
-	// useEffect(()=>{
-	// 	const dispatcher = () => {
-	// 		dispatch(getArticle(params.id));
-	// 	}
-	// 	dispatcher();
-	// },[])
+	const article = useSelector((store)=> store.article.article);
+	const isLoading = useSelector((store)=> store.article.isLoading);
 
-	// const [title, setTitle] = useState('')
+	// if(!isLoading)
+	// 	console.log("articles ; :",articles);
+	
+	
+	// let article = null;
+	// if(!isLoading) {
+		 
+	// }
+	// const loadingProps = LoadingBox()
+	// const loading = loadingProps.loading;
+
 
 	
-	const articles = useSelector((store)=> store.article.articles);
-
-	const article = articles.find((item)=> item.id == params.id)
-	const loadingProps = LoadingBox()
-	const loading = loadingProps.loading;
-
 // 	useEffect(()=>{
 // 		const getArticle = async()=> {
 // 			console.log(params.id)
@@ -53,9 +55,12 @@ const Article = () => {
 // 		getArticle()
 // 
 // 	},[]);
-	
+	useEffect(()=>{
+		dispatch(getArticle(params.id));
+
+	},[])
 	return (
-		loading ? <Loading /> : 
+		(isLoading) ? <Loading /> : 
 		<div className="mb-[120px]">
 			
 			< ArticleUpperBox />

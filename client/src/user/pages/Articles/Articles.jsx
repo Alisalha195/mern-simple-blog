@@ -18,14 +18,15 @@ const Articles = () => {
 	
 	//const {articles , isLoading} = useSelector((store)=> store.article);
 
-// console.log('ARTICLES : ', articles)
+	if(!isLoading)
+		console.log('ARTICLES : ', articles)
 
   useEffect(()=>{
     dispatch(getArticles());
   },[])
 	return (
 	  (isLoading) 
-	  ? <div className="text-[50px] text-center text-[#bbb]">Loading...</div>
+	  ? <div className="text-[50px] text-center text-[#777]">Loading.....</div>
 	  :
 		<div className="mb-[130px]">
 			
