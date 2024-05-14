@@ -1,16 +1,17 @@
 import React, {useState} from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import {useDispatch,useSelector} from 'react-redux';
+// import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import SignupWithAccounts from "../../components/user/auth/SignupWithAccounts"
+import {loginUserAsync} from "../../redux/UserSlice.js";
 
 
+const Login = ()=> {
 
-
-const defaultTheme = createTheme();
-
-const Login = ({user})=> {
+ const dispatch = useDispatch();
+ const user = useSelector(state => state.user.user)  
 
   const log = console.log;
   const navigate = useNavigate();  
@@ -27,7 +28,16 @@ const Login = ({user})=> {
     // log(formData)
   }
 
-  const handleLogin = async() => {
+  const handleLogin = () => {
+    console.log("dd")
+    dispatch(loginUserAsync(formData));
+    setTimeout(()=>{
+      console.log("user",user)
+    },4000);
+    
+  }
+
+  const handleLogin2 = async() => {
     
     try {
       setLoading(true)

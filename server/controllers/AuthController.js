@@ -21,6 +21,8 @@ export const signup = async (req, res, next) => {
 
 export const login = async (req, res, next) => {
   const { email, password } = req.body;
+  console.log("email : ",email)
+  console.log("pass : ",password)
   try {
     const validUser = await User.findOne({ email });
     if (!validUser) return next(errorHandler(404, 'User not found!'));
@@ -34,7 +36,8 @@ export const login = async (req, res, next) => {
       .status(200)
       .json(rest);
 
-    res.status(200).json("loged in ")
+    return res.status(200).json("loged in ")
+
       
   } catch (error) {
     next(error);
