@@ -10,8 +10,11 @@ import {loginUserAsync} from "../../redux/UserSlice.js";
 
 const Login = ()=> {
 
- const dispatch = useDispatch();
- const user = useSelector(state => state.user.user)  
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.user.currentUser) ;
+  const loginError = useSelector(state => state.user.error) ;
+  const isLoading = useSelector(state => state.user.isLoading) ;
+
 
   const log = console.log;
   const navigate = useNavigate();  
@@ -29,47 +32,23 @@ const Login = ()=> {
   }
 
   const handleLogin = () => {
-    console.log("dd")
+    console.log("proccessing...");
+
     dispatch(loginUserAsync(formData));
-    setTimeout(()=>{
-      console.log("user",user)
-    },4000);
-    
-  }
-
-  const handleLogin2 = async() => {
-    
-    try {
-      setLoading(true)
-      const res = await fetch("http://localhost:5000/api/auth/login" , {
-        method: "POST" ,
-        headers : {
-          "Content-Type" : "application/json"
-        },
-        body : JSON.stringify(formData)
-        
-      });
-      const data = await res.json();
-      log(data)
-      if(data.success === false) {
-        setLoading(false);
-        setError(data.message);
-         // navigate('/error');
-        return;
-      }
-      
-      setLoading(false);
-      setError(null);
-      navigate('/home');
-
-    } catch (error){
-      setLoading(false);
-      setError(error.message);
+    if(user) {
+      console.log("loged in ")
+      console.log(user)
+    } else {
+      console.log("not loged in ")
     }
+    // setTimeout(()=>{
+    //   console.log("user",user);
+    //   console.log('error',loginError)
+    // },5000);
     
   }
 
-
+  
   return (
    
     <div className="xs:mb-[120px] sm:mb-[20px]">
@@ -103,8 +82,7 @@ const Login = ()=> {
                   onChange = {handleChange} 
                           />
 
-                   {/* Error Box */}
-                  <div>{error && <p>{error}</p>}</div>
+                   
                 </div>
               </div>
 
@@ -121,8 +99,7 @@ const Login = ()=> {
                     onChange = {handleChange}  
                        />
 
-                  {/* Error Box */}
-                  <div>{error && <p>{error}</p>}</div>
+                 
                 </div>
               </div>
 
@@ -133,10 +110,12 @@ const Login = ()=> {
 
                 onClick = {handleLogin}
                 >
-                  log in
+                  {isLoading ?"Loading.." :"log in"}
                 </div>
 
               </div>
+              {/* Error Box */}
+                  <div>{loginError && <p className=" pt-[20px] text-[#aa0000]">{loginError}</p>}</div>
             </div>
           </div>
 

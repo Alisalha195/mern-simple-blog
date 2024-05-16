@@ -48,7 +48,37 @@ const Login = ({user})=> {
 //     localStorage.setItem("rememberUserLogedin", rememberMe)
 //   }
 
-  
+  const handleLogin2 = async() => {
+    
+    try {
+      setLoading(true)
+      const res = await fetch("http://localhost:5000/api/auth/login" , {
+        method: "POST" ,
+        headers : {
+          "Content-Type" : "application/json"
+        },
+        body : JSON.stringify(formData)
+        
+      });
+      const data = await res.json();
+      log(data)
+      if(data.success === false) {
+        setLoading(false);
+        setError(data.message);
+         // navigate('/error');
+        return;
+      }
+      
+      setLoading(false);
+      setError(null);
+      navigate('/home');
+
+    } catch (error){
+      setLoading(false);
+      setError(error.message);
+    }
+    
+  }
 
   return (
     
