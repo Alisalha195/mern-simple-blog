@@ -22,7 +22,7 @@ const Login = ()=> {
     if(error) 
       console.log("Error :",error);
     // console.log(isSuccess);
-    // console.log(currentUser)
+    console.log("isLoading", isLoading)
     if(isSuccess || currentUser)
       navigate("/");
 

@@ -19,7 +19,24 @@ export const signup = async (req, res, next) => {
   }
 };
 
-export const login = async (req, res, next) => {
+export const login = async() => {
+  const { email, password } = req.body;
+  const validUser = await User.findOne({email});
+  console.log("valid user is ", validUser)
+  const validPassword = bcryptjs.compareSync(password, validUser.password);
+  if(user && validPassword) {
+    res.json({
+      
+      name:user.name,
+      email:user.email
+    })
+  } else {
+    res.status(400);
+    return errorHandler(404, 'Wrong Credentials!')
+    // throw new Error("Invalid Crdentials !")
+  }
+}
+export const login2 = async (req, res, next) => {
   const { email, password } = req.body;
   // console.log("email : ",email)
   // console.log("pass : ",password)
@@ -30,7 +47,8 @@ export const login = async (req, res, next) => {
       // return next(errorHandler(404, 'User not found!'));
     const validPassword = bcryptjs.compareSync(password, validUser.password);
     if (!validPassword) 
-      return errorHandler(404, 'Wrong credentials!');
+      // return errorHandler(404, 'Wrong credentials!');
+    return new Error()
       // return next(errorHandler(401, 'Wrong credentials!'));
     
     // const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);

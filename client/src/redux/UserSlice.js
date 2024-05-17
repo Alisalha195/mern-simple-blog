@@ -12,12 +12,13 @@ const initialState = {
 export const loginUserAsync = createAsyncThunk('user/getUser', async (payload, thunkAPI)=>{
 	
 	try {
+		console.log("oh no")
 		const res = await fetch("http://localhost:5000/api/auth/login",{
 			method:"POST",
 			headers:{ 'Content-Type':'application/json'},
 			body: JSON.stringify({email:payload.email, password:payload.password}),
 		});
-
+		
 		const response = await res.json();
 		console.log("response is : ",response)
 		return response;
@@ -41,9 +42,9 @@ const UserSlice = createSlice({
 		}
 	},
 	extraReducers: (builder) => {
-		builder.addCase(loginUserAsync.pending , (state)=> {
+		builder.addCase(loginUserAsync.pending , (state,payload)=> {
 			state.isLoading = true;
-			console.log('Loading in slice')
+			console.log('Loading in slice',payload)
 		});
 
 		builder.addCase(loginUserAsync.fulfilled, (state, action)=>{
