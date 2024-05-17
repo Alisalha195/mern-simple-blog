@@ -23,7 +23,7 @@ const Homepage = () => {
 			
 			<HeroSection />
 			
-			<LatestArticles />
+			{/* <LatestArticles /> */}
 			<hr />
 			
 			<div className="mb-9" style={{width:"90%"}}>

@@ -1,27 +1,34 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-
+import Loading from "../../components/public/Loading"
 import {useDispatch,useSelector} from 'react-redux';
 // import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import SignupWithAccounts from "../../components/user/auth/SignupWithAccounts"
-import {loginUserAsync} from "../../redux/UserSlice.js";
+import {loginUserAsync, reset} from "../../redux/UserSlice.js";
 
 
 const Login = ()=> {
 
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const user = useSelector(state => state.user.currentUser) ;
-  const loginError = useSelector(state => state.user.error) ;
-  const isLoading = useSelector(state => state.user.isLoading) ;
 
+  const {currentUser, error, isLoading, isSuccess} = useSelector(state => state.user) ;
 
-  const log = console.log;
-  const navigate = useNavigate();  
-  
   const [formData , setFormData] = useState({});
-  const [loading , setLoading] = useState(false);
-  const [error , setError]= useState(null);
+
+  useEffect(()=> {
+
+    if(error) 
+      console.log("Error :",error);
+    // console.log(isSuccess);
+    // console.log(currentUser)
+    if(isSuccess || currentUser)
+      navigate("/");
+
+    dispatch(reset())
+
+  }, [dispatch, navigate, currentUser, error, isLoading])
 
   const handleChange = (e)=> {
     setFormData({
@@ -35,20 +42,13 @@ const Login = ()=> {
     console.log("proccessing...");
 
     dispatch(loginUserAsync(formData));
-    if(user) {
-      console.log("loged in ")
-      console.log(user)
-    } else {
-      console.log("not loged in ")
-    }
-    // setTimeout(()=>{
-    //   console.log("user",user);
-    //   console.log('error',loginError)
-    // },5000);
     
   }
 
-  
+  if(isLoading) {
+      return <Loading />
+  }
+
   return (
    
     <div className="xs:mb-[120px] sm:mb-[20px]">
@@ -115,7 +115,7 @@ const Login = ()=> {
 
               </div>
               {/* Error Box */}
-                  <div>{loginError && <p className=" pt-[20px] text-[#aa0000]">{loginError}</p>}</div>
+                  <div>{error && <p className=" pt-[20px] text-[#aa0000]">{error}</p>}</div>
             </div>
           </div>
 

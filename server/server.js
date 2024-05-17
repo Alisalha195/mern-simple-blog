@@ -29,23 +29,25 @@ try {
   console.log(error)
 }
 
+// auth routes
+app.use("/api/auth" , AuthRouter);
+
 // articles routes
 app.use("/api/articles", ArticleRouter); 
 
 // users routes
 app.use("/api/users", UserRouter); 
 
-// auth routes
-app.use("/api/auth" , AuthRouter);
+
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
   const message = err.message || 'Internal Server Error';
-  return res.status(statusCode).json({
-    success: false,
-    statusCode,
-    message,
-  });
+  // return res.status(statusCode).json({
+  //   success: false,
+  //   statusCode,
+  //   message,
+  // });
 })
 
 
