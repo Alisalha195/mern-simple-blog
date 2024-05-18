@@ -4,43 +4,78 @@ import { errorHandler } from '../utils/error.js';
 import jwt from 'jsonwebtoken';
 
 export const signup = async (req, res, next) => {
-  console.log("req.body",req.body)
+  // console.log("req.body",req.body)
   const { username, email, password } = req.body;
-  const hashedPassword = bcryptjs.hashSync(password, 10);
 
+  // if(!username  | !email | !password)
+  //   throw new Error("Invalid Crdentials !"); 
+
+  const hashedPassword = bcryptjs.hashSync(password, 10);
   try {
-    // const existingUser = await User.find({email:email});
-    
     const user = await User.create({ username, email, password: hashedPassword })
     
-    res.status(201).json('User created successfully!');
+    if(user) {
+      res.json({
+        id:user._id,
+        name:user.name,
+        email:user.email
+      })
+      console.log('RES is is is',res.json());
+      return res;
+    } else {
+
+      // console.log('RES is is',res.json());
+      res.status(400);
+      res.message = "something went wrong";
+      console.log('RES is is',res.message);
+      return res.json()
+
+      // throw new Error("Invalid Crdentials !");
+    }
+
+    // res.status(201).json('User created successfully!');
   } catch (error) {
-    next(error);
+    res.status(400);
+    res.message = "something went wrong";
+    console.log('RES is',res.message);
+    return res.json()
+    // throw new Error("Invalid Crdentials !");
+    // next(error);
   }
 };
 
-export const login = async() => {
+export const login = async(req, res, next) => {
+  // console.log("in login controller", req.body)
   const { email, password } = req.body;
+  // if(!email | !password)
+  //   throw new Error("Invalid Crdentials !"); 
+ 
   const validUser = await User.findOne({email});
-  console.log("valid user is ", validUser)
+  // console.log("valid user is ", validUser)
+  
   const validPassword = bcryptjs.compareSync(password, validUser.password);
-  if(user && validPassword) {
+  if(validUser && validPassword) {
     res.json({
-      
-      name:user.name,
-      email:user.email
+      id:validUser._id,
+      name:validUser.name,
+      email:validUser.email
     })
+    res.message = "User Loged in ";
+    console.log('RES is is',res.message);
+    return res;
   } else {
     res.status(400);
-    return errorHandler(404, 'Wrong Credentials!')
-    // throw new Error("Invalid Crdentials !")
+    res.message = "User Did Not Loged in ";
+    console.log('RES is ',res.message);
+    
+    return res.json()
+    // return errorHandler(404, 'Wrong Credentials!')
+    // return new Error("Invalid Crdentials !")
   }
 }
 export const login2 = async (req, res, next) => {
   const { email, password } = req.body;
-  // console.log("email : ",email)
-  // console.log("pass : ",password)
-  try {
+ 
     const validUser = await User.findOne({ email });
     if (!validUser) 
       return errorHandler(404, 'User not found!');
@@ -59,14 +94,7 @@ export const login2 = async (req, res, next) => {
       .json(rest);
     return res;
     // return res.status(200).json("loged in ")
-
-      
-  } catch (error) {
-    res.status(400);
-    console.log("Error ! ", error)
-    return new Error("Invalid credentials")
-    // next(error);
-  }
+ 
 };
 
 /*

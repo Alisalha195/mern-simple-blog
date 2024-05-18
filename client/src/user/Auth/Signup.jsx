@@ -1,16 +1,43 @@
-  import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
+import Loading from "../../components/public/Loading";
+import LoadingBox from "../../hooks/useLoading"
+import {useDispatch,useSelector} from 'react-redux';
 
 import SignupWithAccounts from "../../components/user/auth/SignupWithAccounts"
+import {signupUserAsync, reset} from "../../redux/UserSlice.js";
 
 const SignUp = ()=>  {
   
-  const log = console.log;
-  const navigate = useNavigate();  
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const {currentUser, error,isLoading, isSuccess} = useSelector(state => state.user) ;
+
+  const[errorMessage, setErrorMessage] = useState(""); 
   
   const [formData , setFormData] = useState({});
-  const [loading , setLoading] = useState(false);
-  const [error , setError]= useState(null);
+
+  const loadingProps = LoadingBox();
+  const loading = loadingProps.loading; 
+  const setLoading = loadingProps.setLoading;
+
+  useEffect(()=> {
+
+    if(error) {
+      setErrorMessage(error.message);
+    }
+
+    if(currentUser)
+      navigate("/");
+
+    setTimeout(()=> {
+      dispatch(reset())
+    }, 1500)
+    
+
+  }, [dispatch, navigate, currentUser, error, isLoading])
+
   
   const handleChange = (e)=> {
     setFormData({
@@ -20,38 +47,49 @@ const SignUp = ()=>  {
     // log(formData)
   }
 
-  const handleSignup= async() => {
-    
-    try {
-      setLoading(true)
-      const res = await fetch("http://localhost:5000/api/auth/signup" , {
-        method: "POST" ,
-        headers : {
-          "Content-Type" : "application/json"
-        },
-        body : JSON.stringify(formData)
-        
-      });
-      const data = await res.json();
-      log(data)
-      if(data.success === false) {
-        setLoading(false);
-        setError(data.message);
-         // navigate('/error');
-        return;
-      }
-      
-      setLoading(false);
-      setError(null);
-      navigate('/login');
+  const handleSignup = () => {
+    // console.log("proccessing...");
 
-    } catch (error){
-      setLoading(false);
-      setError(error.message);
-    }
+    dispatch(signupUserAsync(formData));
+    // setLoading(true);
     
   }
 
+//   const handleSignup2= async() => {
+//     
+//     try {
+//       setLoading(true)
+//       const res = await fetch("http://localhost:5000/api/auth/signup" , {
+//         method: "POST" ,
+//         headers : {
+//           "Content-Type" : "application/json"
+//         },
+//         body : JSON.stringify(formData)
+//         
+//       });
+//       const data = await res.json();
+//       log(data)
+//       if(data.success === false) {
+//         setLoading(false);
+//         setError(data.message);
+//          // navigate('/error');
+//         return;
+//       }
+//       
+//       setLoading(false);
+//       setError(null);
+//       navigate('/login');
+// 
+//     } catch (error){
+//       setLoading(false);
+//       setError(error.message);
+//     }
+//   
+//   }
+
+  if(loading) {
+      return <Loading />
+  }
 
   return (
   
@@ -79,15 +117,14 @@ const SignUp = ()=>  {
                   username
                 </div>
                 <div className="">
-                <input className=" pl-2 py-1 border-t-gray-900 focus:text-gray-900 text-gray-600 lg:[width:90%] xs:[width:100%] text-[24px] [border:1px_solid_#aaa] [outline:none] [border-radius:7px]" 
+                <input className=" pl-2 py-1 border-t-gray-900 focus:text-gray-900 text-gray-600 lg:[width:90%] xs:[width:100%] text-[24px] [border:1px_solid_#aaa] [outline:none] [border-radius:7px]"
+                  required 
                   type="text" 
                   id="username"
                   onChange = {handleChange}
                   
                           />
 
-                  {/* Error Box */}
-                  <div>{error && <p>{error}</p>}</div>
                 </div>
               </div>
 
@@ -98,14 +135,13 @@ const SignUp = ()=>  {
                 </div>
                 <div className="">
                 <input className=" pl-2 py-1 border-t-gray-900 focus:text-gray-900 text-gray-600 lg:[width:90%] xs:[width:100%] text-[24px] [border:1px_solid_#aaa] [outline:none] [border-radius:7px]" 
+                  required
                   type="email" 
                   id="email"
                   onChange = {handleChange}
 
                           />
 
-                  {/* Error Box */}
-                  <div>{error && <p>{error}</p>}</div>
                 </div>
               </div>
 
@@ -116,13 +152,12 @@ const SignUp = ()=>  {
                 </div>
                 <div className="basis-8/12">
                   <input className=" pl-2 py-1 border-t-gray-900 focus:text-gray-900 text-gray-600 lg:[width:90%] xs:[width:100%] text-[24px] [border:1px_solid_#aaa] [outline:none] [border-radius:7px]" 
+                  required
                   type="password"
                   id="password"
                   onChange = {handleChange} 
                        />
 
-                 {/* Error Box */}
-                  <div>{error && <p>{error}</p>}</div>
                 </div>
               </div>
 
@@ -132,10 +167,15 @@ const SignUp = ()=>  {
                 <div className="btn [width:100%] [border-radius:7px] text-center hover:bg-blue-700 bg-blue-800 text-white xs:text-[28px] sm:text-[32px] md:text-[36px] xs:py-[2px]" 
                   onClick = {handleSignup}
                 >
-                  sign up
+                {isLoading ?"Loading.." :"sign up"}
+                  
                 </div>
 
               </div>
+
+              {/* Error Box */}
+              <div>{errorMessage ? <p className=" pt-[20px] text-[#aa0000]">{errorMessage}</p> : <p></p>}</div>
+              
             </div>
           </div>
 

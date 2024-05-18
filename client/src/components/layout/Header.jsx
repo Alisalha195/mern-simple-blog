@@ -2,6 +2,7 @@
 import {useState} from 'react'
 import {useNavigate} from 'react-router-dom' 
 import {Navigate} from 'react-router-dom'
+import {useDispatch,useSelector} from 'react-redux';
 // import {  signOut  } from 'firebase/auth';
 // import { auth } from '../../firebase/firebase';
 
@@ -15,10 +16,13 @@ import HeaderDropDownList from "./HeaderDropDownList"
 
 const Header = () => {
 
+  const dispatch = useDispatch();
+
   const [openMenu, setOpenMenu] = useState(false)
   
+  const {currentUser, error,isLoading, isSuccess} = useSelector(state => state.user) ;
 
-
+  
   const navigate = useNavigate()
   
   const navigateTo = (link) => {
@@ -56,12 +60,9 @@ const Header = () => {
   const handleMouseOver = () => {
       if(!openMenu)
         setOpenMenu(true)
-
-      // console.log(openMenu)
   }
 
   const handleMenuclick = () => {
-    
     if(openMenu)
       setOpenMenu(false)
     else
@@ -98,26 +99,31 @@ const Header = () => {
 
         <div className="flex flex-col justify-center basis-3/12 leading-7">
 
-          {/* log in buttons */}
-          <div className={logedin ? "hidden ": "flex flex-row [max-height:70%]" }>
-
-            <span className="flex flex-col  justify-center btn xmd:px-[2px] lg:py-1 lg:px-1  xmd:mr-1 xmd:text-[22px] text-white xl:text-[26px] 
-                           [border-radius:5px] [border:1px_solid_#fff]"
-                
-                onClick={()=>navigate("/login")}
-            >
-              Log in
-            </span>
-
-            <span className="flex flex-col justify-center flex-nowrap btn xmd:px-[2px] lg:py-1 lg:px-1 bg-gray-300 xl:text-[26px] xmd:text-[22px] text-gray-700 font-bold [border-radius:5px] 
-                            [border:1px_solid_#aaa]"
-                  
-                  onClick={()=>navigate("/signup")}
-            >
-              Sign up
-            </span>
-          </div>
           
+          { currentUser 
+            ? <div className={currentUser ? "flex flex-row" : "hidden"}>
+                <span>p</span>
+              </div> 
+            :
+            <div className={logedin ? "hidden ": "flex flex-row [max-height:70%]" }>
+
+              <span className="flex flex-col  justify-center btn xmd:px-[2px] lg:py-1 lg:px-1  xmd:mr-1 xmd:text-[22px] text-white xl:text-[26px] 
+                             [border-radius:5px] [border:1px_solid_#fff]"
+                  
+                  onClick={()=>navigate("/login")}
+              >
+                Log in
+              </span>
+
+              <span className="flex flex-col justify-center flex-nowrap btn xmd:px-[2px] lg:py-1 lg:px-1 bg-gray-300 xl:text-[26px] xmd:text-[22px] text-gray-700 font-bold [border-radius:5px] 
+                              [border:1px_solid_#aaa]"
+                    
+                    onClick={()=>navigate("/signup")}
+              >
+                Sign up
+              </span>
+            </div>
+          }
           {/* user icon button */}
           <div className={logedin ? "flex flex-row" : "hidden"}>
             <span>p</span>
@@ -144,7 +150,8 @@ const Header = () => {
         < HeaderDropDownList 
               openMenu = {openMenu}
               setOpenMenu = {setOpenMenu}
-              logedin={logedin}
+              logedin={currentUser?true:false}
+              currentUser={currentUser}
               headerList={headerList}
         />
       </div>

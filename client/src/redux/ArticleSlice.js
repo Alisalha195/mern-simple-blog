@@ -8,10 +8,17 @@ const initialState = {
 	articles : [],
 	article: '',
 	total : 0 ,
-	isLoading: false
+	isLoading: false,
+	error:''
 };
 
-export const getArticles = createAsyncThunk('article/getArticles', ()=>{
+export const getArticles = createAsyncThunk('article/getArticles', (payload)=>{
+
+	try {
+		
+	}catch{
+
+	}
   return fetch(allArticlesUrl).then(res=>res.json())
 });
 
@@ -27,30 +34,25 @@ const articleSlice = createSlice({
 			state.articles.filter((item)=>(item.id == action.payload))
 		}
 	},
-	// extraReducers: {
-	//   [getArticles.pending] : (state)=>{
-	//     state.isLoading = true;
-	//     
-	//   },
-	//   [getArticles.fulfilled]: (state, action) => {
-	//     state.isLoading = false;
-	//     state.articles = action.payload;
-	//   },
-	//   [getArticles.rejected]: (state) => {
-	//     state.isLoading = false;
-	//   },
-	// }
 
 	extraReducers: (builder) => {
 		builder.addCase(getArticles.pending , (state)=> {
-			// state.isLoading = true;
+			state.isLoading = true;
 		});
 
 		builder.addCase(getArticles.fulfilled, (state, action)=>{
 			
 			// console.log("action.payload",action.payload)
 		    state.articles = action.payload;
-		    // state.isLoading = false;
+		    state.isLoading = false;
+		});
+
+		builder.addCase(getArticles.rejected, (state, action)=>{
+			
+			// console.log("action.payload",action.payload)
+		    state.error = action.payload;
+		    state.articles =
+		    state.isLoading = false;
 		});
 
 		// .....................................

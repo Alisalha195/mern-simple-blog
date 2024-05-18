@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import Loading from "../../components/public/Loading"
+import Loading from "../../components/public/Loading";
+import LoadingBox from "../../hooks/useLoading"
 import {useDispatch,useSelector} from 'react-redux';
 // import { createTheme, ThemeProvider } from '@mui/material/styles';
 
@@ -13,20 +14,29 @@ const Login = ()=> {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const {currentUser, error, isLoading, isSuccess} = useSelector(state => state.user) ;
+  const {currentUser, error,isLoading, isSuccess} = useSelector(state => state.user) ;
+
+  const[errorMessage, setErrorMessage] = useState("");
 
   const [formData , setFormData] = useState({});
 
+  const loadingProps = LoadingBox();
+  const loading = loadingProps.loading; 
+  const setLoading = loadingProps.setLoading;
+  
   useEffect(()=> {
 
-    if(error) 
-      console.log("Error :",error);
-    // console.log(isSuccess);
-    console.log("isLoading", isLoading)
-    if(isSuccess || currentUser)
+    if(error) {
+      setErrorMessage(error.message);
+    }
+
+    if(currentUser)
       navigate("/");
 
-    dispatch(reset())
+    setTimeout(()=> {
+      dispatch(reset())
+    }, 1500)
+    
 
   }, [dispatch, navigate, currentUser, error, isLoading])
 
@@ -39,13 +49,14 @@ const Login = ()=> {
   }
 
   const handleLogin = () => {
-    console.log("proccessing...");
-
+    // console.log("proccessing...");
+    console.log("formData",formData)
     dispatch(loginUserAsync(formData));
+    // setLoading(true);
     
   }
 
-  if(isLoading) {
+  if(loading) {
       return <Loading />
   }
 
@@ -76,7 +87,7 @@ const Login = ()=> {
                 </div>
                 <div className="">
                 <input className=" pl-2 py-1 border-t-gray-900 focus:text-gray-900 text-gray-600 lg:[width:90%] xs:[width:100%] text-[24px] [border:1px_solid_#aaa] [outline:none] [border-radius:7px]" 
-
+                  required
                   type="email" 
                   id="email"
                   onChange = {handleChange} 
@@ -93,7 +104,7 @@ const Login = ()=> {
                 </div>
                 <div className="basis-8/12">
                   <input className=" pl-2 py-1 border-t-gray-900 focus:text-gray-900 text-gray-600 lg:[width:90%] xs:[width:100%] text-[24px] [border:1px_solid_#aaa] [outline:none] [border-radius:7px]" 
-
+                    required
                     type="password"
                     id="password"
                     onChange = {handleChange}  
@@ -114,8 +125,10 @@ const Login = ()=> {
                 </div>
 
               </div>
+
               {/* Error Box */}
-                  <div>{error && <p className=" pt-[20px] text-[#aa0000]">{error}</p>}</div>
+              <div>{errorMessage ? <p className=" pt-[20px] text-[#aa0000]">{errorMessage}</p> : <p></p>}</div>
+
             </div>
           </div>
 
