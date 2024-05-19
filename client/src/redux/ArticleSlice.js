@@ -15,9 +15,9 @@ const initialState = {
 export const getArticles = createAsyncThunk('article/getArticles', (payload)=>{
 
 	try {
-		
-	}catch{
-
+		const res = fetch(allArticlesUrl)
+	}catch(err){
+    return 
 	}
   return fetch(allArticlesUrl).then(res=>res.json())
 });
