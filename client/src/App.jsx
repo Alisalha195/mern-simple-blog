@@ -1,6 +1,7 @@
 import './App.css'
 import {useState, useEffect, Suspense,lazy} from 'react';
-import {Navigate, Routes , Route} from 'react-router-dom'
+import {useNavigate ,Navigate, Routes , Route} from 'react-router-dom'
+import {useDispatch,useSelector} from 'react-redux';
 // import { auth} from './firebase/firebase';
 // import { getAuth, onAuthStateChanged } from "firebase/auth";
 
@@ -27,9 +28,13 @@ import DeleteArticle from './user/pages/Articles/DeleteArticle'
 function App() {
   
   // const {authUser} = true
-  
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const {currentUser, isSuccess} = useSelector(state => state.user) ;
+
   const[isLoading, setIsLoading] = useState(true) ;
-  const[backendData, setBackendData] = useState([""]) ;
+  // const[backendData, setBackendData] = useState([""]) ;
 
   useEffect(()=>{
 
@@ -79,7 +84,7 @@ function App() {
           <Route path="/articles/edit" element={<EditArticle />} />
           <Route path="/articles/delete" element={<DeleteArticle />} />
 
-          <Route path="/profile/4" element={<Profile />} />
+          <Route path="/profile/" element={currentUser ? <Profile /> : <Navigate to='/login' />} />
 
           <Route path="/about" element={<About />} />
           {/* <Route path="/home" element={authUser ? <HomePage /> : <Navigate to='/login' /> }/> */}

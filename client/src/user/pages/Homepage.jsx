@@ -22,9 +22,9 @@ const Homepage = () => {
 	const {currentUser, error, isLoading, isSuccess} = useSelector(state => state.user) ;
 
 	useEffect(()=>{
-		// if(!currentUser) {
-		// 	navigate("/login")
-		// }
+		if(!currentUser) {
+			navigate("/login")
+		}
 		
 	},[]);
 

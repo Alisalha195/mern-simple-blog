@@ -4,6 +4,7 @@ import express from "express";
 import {
   getArticles ,
   getArticle ,
+  getUserArticles,
   createArticle ,
   updateArticle ,
   deleteArticle
@@ -18,8 +19,11 @@ articleRouter.get("/", getArticles)
 // post a new article
 articleRouter.post("/", createArticle)
 
-// get article using id 
+// get article using id (article id)
 articleRouter.get("/:id", getArticle)
+
+// get articles of user using id (user id)
+articleRouter.post("/user", getArticle)
 
 // update an article using id
 articleRouter.put("/update/:id", updateArticle)
