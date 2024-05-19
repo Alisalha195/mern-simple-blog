@@ -3,14 +3,18 @@ import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 // import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlinedIcon';	
 
-
+import {useNavigate ,Navigate, Routes , Route} from 'react-router-dom'
 
 
 
 import articleImage from '../../assets/images/backgroundhero.jpg';
 
-const ArticleCard = ({size , title,content,author,pending,approved, likes, dislikes }) => {
+const ArticleCard = ({size ,id, title,content,author,pending,approved, likes, dislikes }) => {
 
+    
+	const navigate = useNavigate();
+	const articleUrl = "http://localhost:3000/article"
+    // console.log('id',id)
 	const textLong = 45;
 	const articleText = "this is the text about the article you stand at now , you can click the article title to view the entire details of this particular article." 
 
@@ -43,7 +47,7 @@ const ArticleCard = ({size , title,content,author,pending,approved, likes, disli
 							
 							<div className="btn :leading-6 text-gray-800 font-bold hover:text-gray-700 [overflow:hidden]
 							     xs:text-[23px] sm:text-[28px] xmd:text-[34px]" 
-							     
+							     onClick={()=>navigate(`${id}`)}
 						     >
 								{title}
 							</div>

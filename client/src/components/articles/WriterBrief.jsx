@@ -1,7 +1,7 @@
 
 import UserProfileImage from '../user/UserProfileImage'
 
-const WriterBrief = () => {
+const WriterBrief = ({author}) => {
 
 	const textLong = 140;
 	const breifInfo = "senior software engineer at Google , 3 years experience in web development and design , father of two children and loved husband"
@@ -29,7 +29,7 @@ const WriterBrief = () => {
 							</div>
 						</div>
 						<div className="flex flex-col  justify-center xs:text-[24px] md:text-[26px] lg:text-[30px] xs:ml-1 md:mr-2 md:ml-2	 text-gray-700  btn font-bold">
-							John doe
+							{author ? author :"John doe"}
 						</div>
 					</div>
 

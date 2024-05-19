@@ -17,6 +17,7 @@ const UserArticles = ({articles}) => {
 					{ articles ?
 						articles.map((article, index)=> (
 							<ArticleCard  key = {index}
+							            id={article._id}
 							            size={"small"}
 									    title={article.title}	
 									    content={article.content}

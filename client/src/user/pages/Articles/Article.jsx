@@ -1,9 +1,9 @@
 import {useState , useEffect} from 'react';
 import { useParams } from 'react-router';
 import {useDispatch,useSelector} from 'react-redux';
-import {getArticle } from  '../../../redux/ArticleSlice'
+// import {getArticle } from  '../../../redux/ArticleSlice'
 
-import { getArticles} from  '../../../redux/ArticleSlice'
+// import { getArticles} from  '../../../redux/ArticleSlice'
 
 import LoadingBox from '../../../hooks/useLoading'
 import Loading from '../../../components/public/Loading'
@@ -21,14 +21,22 @@ import ArticleCard from '../../../components/public/ArticleCard'
 import UserArticles from "../../../components/user/profile/UserArticles"
 import TagsBox from "../../../components/homepage/TagsBox"
 
+
 const Article = () => {
 
+    const [article,setArticle]= useState('')
+
 	const params = useParams();
-	const dispatch = useDispatch();
+	const loadingProps = LoadingBox();
+	const loading = loadingProps.loading;
+	// const dispatch = useDispatch();
 
-	const article = useSelector((store)=> store.article.article);
-	const isLoading = useSelector((store)=> store.article.isLoading);
+	// const article = useSelector((store)=> store.article.article);
+	// const isLoading = useSelector((store)=> store.article.isLoading);
 
+	// useEffect(()=>{
+	// 	setArticle(getArticle(params.id))
+	// },[params])
 	// if(!isLoading)
 	// 	console.log("articles ; :",articles);
 	
@@ -42,28 +50,33 @@ const Article = () => {
 
 
 	
-// 	useEffect(()=>{
-// 		const getArticle = async()=> {
-// 			console.log(params.id)
-// 			const response = await fetch(`/api/articles/${params.id}`).then(
-// 				response =>  response.json()
-// 			).then(
-// 				data => setTitle(data.title)
-// 
-// 			)
-// 		}
-// 		getArticle()
-// 
-// 	},[]);
 	useEffect(()=>{
-		dispatch(getArticle(params.id));
+		const getArticle = async()=> {
+			console.log(params.id)
+			const response = await fetch(`/api/articles/${params.id}`).then(
+				response =>  response.json()
+			).then(
+				data => setArticle(data)
 
-	},[])
+			)
+		}
+		getArticle()
+        console.log('the article is',article)
+	},[]);
+
+// 	useEffect(()=>{
+// 		console.log('id',params.id)
+// 		dispatch(getArticle(params.id));
+// 
+// 	},[])
 	return (
-		(isLoading) ? <Loading /> : 
+		(loading) ? <Loading /> : 
 		<div className="mb-[120px]">
 			
-			< ArticleUpperBox />
+			< ArticleUpperBox 
+					title={article.title} 
+					author={article.author}
+			/>
 			
 			
 			<div className="flex flex-row  mt-2">
@@ -76,9 +89,12 @@ const Article = () => {
 				<div className="mt-3 p-2 xs:basis-full md:basis-10/12  lg:basis-8/12">
 					<ArticleText title={article.content}/>
 					
-					<Control />
+					<Control 
+						likes={article.likes}
+						dislikes={article.dislikes}
+					/>
 
-					<WriterBrief />
+					<WriterBrief author={article.author}/>
 					
 					{/* Tags */}
 					<TagsBox inBottom={false}/>

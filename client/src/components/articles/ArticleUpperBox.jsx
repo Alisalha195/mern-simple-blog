@@ -3,7 +3,7 @@ import Image from '../../assets/images/backgroundhero.jpg';
 import UserProfileImage from '../user/UserProfileImage'
 
 
-const ArticleUpperBox = () => {
+const ArticleUpperBox = ({title,author}) => {
 
 	return (
 		<div className="flex flex-row mt-[80px] text-center justify-around">
@@ -17,7 +17,9 @@ const ArticleUpperBox = () => {
 						<h1 className="flex pt-3 text-gray-900 tracking-tight 
 						          [max-width:100%] [font-weight:700] xs:text-[40px] sm:text-[46px] md:text-[50px] lg:text-[54px]"
 					    >
-							How to write your first article with amazing elements 
+					    { title ? title :
+							"How to write your first article with amazing elements" 
+					    }
 						</h1>
 					</div>
 
@@ -39,7 +41,10 @@ const ArticleUpperBox = () => {
 						<div className="ml-2 flex flex-col justify-center"> 
 							<div className="text-gray-800  xs:leading-3 md:leading-4 tracking-tight [font-weight:600] xs:text-[24px] md:text-[25px] lg:text-[33px] text-left"
 							  >
-								John Doe
+							  {
+							  	author ? author :"John Doe"
+							  }
+								
 							</div>
 							<div className="text-gray-600 [font-weight:500]  xs:text-[20px] md:text-[22px] lg:text-[25px]"
 							 >

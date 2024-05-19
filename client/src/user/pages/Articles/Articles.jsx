@@ -12,7 +12,7 @@ import{getArticles} from '../../../redux/ArticleSlice'
 const Articles = () => {
 	
 	const dispatch = useDispatch();
-	const articles = useSelector((store)=> store.article.articles);
+	const articles = useSelector((store)=> store.article.allArticles);
 	
 	const isLoading = useSelector((store)=> store.article.isLoading);
 	
@@ -23,7 +23,7 @@ const Articles = () => {
 
   useEffect(()=>{
     dispatch(getArticles());
-  },[])
+  },[dispatch])
 	return (
 	  (isLoading) 
 	  ? <div className="text-[50px] text-center text-[#777]">Loading.....</div>

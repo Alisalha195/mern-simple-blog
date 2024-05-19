@@ -47,7 +47,7 @@ const Profile = () => {
       	console.log('error from slice is :',error)
       else
       	console.log('no error from slice')
-	}, [dispatch, navigate, currentUser, error, isLoading])
+	}, [dispatch, navigate])
 
 	return (
 			<div className="xs:mb-[140px] sm:mb-[40px]">

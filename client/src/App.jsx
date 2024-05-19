@@ -33,42 +33,33 @@ function App() {
 
   const {currentUser, isSuccess} = useSelector(state => state.user) ;
 
-  const[isLoading, setIsLoading] = useState(true) ;
+  // const[isLoading, setIsLoading] = useState(true) ;
   // const[backendData, setBackendData] = useState([""]) ;
 
-  useEffect(()=>{
+//   useEffect(()=>{
+// 
+//     // const fetchedData = fetch("/api");
+//     // const responseData = response.json();
+//     // const dataArray = res 
+//     const getData = async () => {
+//       await fetch("/api/articles/").then(
+//         response =>  response.json()
+//       ).then(
+//         data => setBackendData(data)
+//         // data => console.log(data)
+//       )
+//     }
+// 
+//     getData()
+//   },[])
 
-    // const fetchedData = fetch("/api");
-    // const responseData = response.json();
-    // const dataArray = res 
-    const getData = async () => {
-      await fetch("/api/articles/").then(
-        response =>  response.json()
-      ).then(
-        data => setBackendData(data)
-        // data => console.log(data)
-      )
-    }
-
-    getData()
-  },[])
-
-  const authUser = false
-  const testing = false
-  // console.log("backendData : " , backendData)
 
   return (
     <div className="app ">
       
         <Header />
 
-        {(testing) ? 
-
-        <div>{backendData.map((article , index) => (
-           <p key={index}>{article.title}</p>
-           ))}
-        </div>
-        : 
+        
         <Routes>  
 
           {/* <Route path="/" element={authUser ? <HomePage /> : <Navigate to='/login' /> }/> */}
@@ -78,7 +69,7 @@ function App() {
           <Route path="/signup" element={<Signup /> }/>
 
           <Route path="/articles" element={<Articles />} />
-          <Route path="/article/:id" element={<Article />} />
+          <Route path="/articles/:id" element={<Article />} />
           
           <Route path="/articles/add" element={<AddArticle />} />
           <Route path="/articles/edit" element={<EditArticle />} />
@@ -96,7 +87,7 @@ function App() {
           {/* <Route path="/user/:id" element={<User /> }/> */}
         </Routes>
 
-        }
+        
         <Footer />
       
     </div>

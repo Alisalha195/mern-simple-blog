@@ -3,7 +3,7 @@ import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
 import ThumbDownOutlinedIcon from '@mui/icons-material/ThumbDownOutlined';
 
-const Control = () => {
+const Control = ({likes,dislikes}) => {
 
 	const getPeriodFrom = (date) => {
 		if(date < 2024) 
@@ -42,7 +42,10 @@ const Control = () => {
 
 						<span className="text-gray-600 xs:text-[22px] sm:text-[24px] md:text-[27px]"
 						 >
-							200
+						    {
+						    	likes ? likes : "0"
+						    }
+							
 						</span>
 					</div>
 
@@ -68,7 +71,9 @@ const Control = () => {
 
 						<span className="text-gray-600 xs:text-[22px] sm:text-[24px] md:text-[27px]"
 						 >
-							200
+							{
+						    	dislikes ? dislikes : "0"
+						    }
 						</span>
 					</div>
 				</div>

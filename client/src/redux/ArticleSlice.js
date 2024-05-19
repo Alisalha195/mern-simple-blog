@@ -6,9 +6,10 @@ const articleUrl = "http://localhost:5000/api/articles/:id";
 const userArticlesUrl = "http://localhost:5000/api/articles/user";
 
 const initialState = {
+	allArticles: null,
 	articles : null,
-	article: '',
-	total : 0 ,
+	article: null,
+	// total : 0 ,
 	isLoading: false,
 	error:''
 };
@@ -44,18 +45,20 @@ export const getUserArticles = createAsyncThunk('articles/getUserArticles', asyn
   
 });
 
-export const getArticles = createAsyncThunk('articles/getUserArticles', async(payload)=>{
+export const getArticles = createAsyncThunk('articles/getAllArticles', async(payload)=>{
 
 	try {
-		const res = await fetch(userArticlesUrl,{
-			method:"POST",
-			headers:{ 'Content-Type':'application/json'},
-			body: JSON.stringify({userid:payload})
-		});
+		const res = await fetch(allArticlesUrl);
 		
 		const response = await res.json();
+		console.log('...articles',response)
+		return response;
 	}catch(err){
-    return "Error User Not Found";
+    const error = {
+			message : "Error ,something went wrong"
+		}
+		// console.log('errrrro')
+		return thunkAPI.rejectWithValue(error);
 	}
   
 });
@@ -82,7 +85,7 @@ const articleSlice = createSlice({
 			
 			// console.log("action.payload",action.payload)
 		    state.articles = action.payload; 
-		    state.total = state.articles.length
+		    // state.total = state.articles.length
 		    state.isLoading = false;
 		});
 
@@ -94,6 +97,26 @@ const articleSlice = createSlice({
 		    state.isLoading = false;
 		});
 
+		// .....................................
+			builder.addCase(getArticles.pending , (state)=> {
+				state.isLoading = true;
+			});
+
+			builder.addCase(getArticles.fulfilled, (state, action)=>{
+				
+				// console.log("action.payload",action.payload)
+			    state.allArticles = action.payload; 
+			    
+			    state.isLoading = false;
+			});
+
+			builder.addCase(getArticles.rejected, (state, action)=>{
+				
+				// console.log("action.payload",action.payload)
+			    state.error = action.payload;
+			    state.allArticles = null
+			    state.isLoading = false;
+			});
 		// .....................................
 
 		builder.addCase(getArticle.pending , (state)=> {
