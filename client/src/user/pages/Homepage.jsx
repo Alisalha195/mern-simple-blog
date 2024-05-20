@@ -26,7 +26,7 @@ const Homepage = () => {
 			navigate("/login")
 		}
 		
-	},[]);
+	},[currentUser]);
 
 	if(loading) {
 		return <Loading />

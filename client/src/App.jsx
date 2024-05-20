@@ -12,8 +12,9 @@ import Footer from "./components/layout/Footer"
 import Homepage from './user/pages/Homepage'
 import Login from './user/Auth/Login'
 import Signup from './user/Auth/Signup'
-import Profile from './user/pages/Profile'
+import Profile from './user/pages/Profile'  
 import About from './user/pages/About'
+import Dashboard from './user/pages/Dashboard'
 
 import Articles from './user/pages/Articles/Articles'
 import Article from './user/pages/Articles/Article'
@@ -79,7 +80,9 @@ function App() {
 
           <Route path="/about" element={<About />} />
           {/* <Route path="/home" element={authUser ? <HomePage /> : <Navigate to='/login' /> }/> */}
-          {/* <Route path="/admin" element={<AdminDashboard /> }/> */}
+            
+           
+           <Route path="/dashboard" element={currentUser ? <Dashboard /> : <Navigate to='/login' />} />
 
           {/* <Route path="/login" element={authUser ?<Navigate to='/' /> :<Login /> }/> */}
            
