@@ -17,6 +17,7 @@ const initialState = {
 export const getUserArticles = createAsyncThunk('articles/getUserArticles', async(payload)=>{
 
 	try {
+		// console.log('payload is',payload)
 		const res = await fetch(userArticlesUrl,{
 			method:"POST",
 			headers:{ 'Content-Type':'application/json'},
@@ -24,7 +25,7 @@ export const getUserArticles = createAsyncThunk('articles/getUserArticles', asyn
 		});
 		
 		const response = await res.json();
-
+    console.log('response',response)
 		if(!response) {
 			const error = {
 				message : "Error User Not Found"

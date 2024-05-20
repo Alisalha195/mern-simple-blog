@@ -45,7 +45,7 @@ export const getUserArticles = async (req , res) => {
 export const createArticle = async (req , res) => {
 	
 	try {
-		const {title , content, author,authorId, likes, dislikes} = req.body
+		const {title , content ,author,authorId, likes, dislikes} = req.body
 		
 		const article = await Article.create({title , content, author,authorId, likes, dislikes});
 		return res.status(200).json(article)

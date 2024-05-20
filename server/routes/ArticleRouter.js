@@ -23,7 +23,7 @@ articleRouter.post("/", createArticle)
 articleRouter.get("/:id", getArticle)
 
 // get articles of user using id (user id)
-articleRouter.post("/user", getArticle)
+articleRouter.post("/user", getUserArticles)
 
 // update an article using id
 articleRouter.put("/update/:id", updateArticle)

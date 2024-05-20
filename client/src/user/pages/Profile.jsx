@@ -34,10 +34,11 @@ const Profile = () => {
 	    }
 
 	    // setTimeout(()=> {
-	    //   dispatch(reset())
+	    //   dispatch(reset() )  
 	    // }, 1500)
 
-	  dispatch(getUserArticles(currentUser.id))
+	  // dispatch(getUserArticles(currentUser.id))
+	  dispatch(getUserArticles("6633a4a789ec7fafdb2d6136"))
 
 	  if(!articles)
 	  	console.log('This User Has No Articles ! ',error)
