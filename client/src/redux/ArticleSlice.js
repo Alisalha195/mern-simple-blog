@@ -26,7 +26,7 @@ export const getUserArticles = createAsyncThunk('articles/getUserArticles', asyn
 		
 		const response = await res.json();
     console.log('response',response)
-		if(!response) {
+		if(!response || response.length == 0) {
 			const error = {
 				message : "Error User Not Found"
 			}
@@ -58,7 +58,7 @@ export const getArticles = createAsyncThunk('articles/getAllArticles', async(pay
     const error = {
 			message : "Error ,something went wrong"
 		}
-		// console.log('errrrro')
+		console.log('errrrro')
 		return thunkAPI.rejectWithValue(error);
 	}
   

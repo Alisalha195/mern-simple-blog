@@ -1,6 +1,6 @@
 
 
-const TypingBox = ({title , setTitle}) => {
+const TypingBox = ({title , setTitle,content , setContent}) => {
 
 	return (
 		<div className="flex flex-col">
@@ -10,11 +10,21 @@ const TypingBox = ({title , setTitle}) => {
 			{/* </div> */}
 
 			<div className="lg:[width:100%] [height:700px]" >
-				<textarea placeholder="Title" wrap="off" 
+				<div className="flex flex-col [width:100%] mb-2">
+				    <span className="xs:text-[26px] sm:text-[30px] lg:text-[36px] text-[#444]">title</span>
+					<input className="pl-2 py-1 border-t-gray-900 focus:text-gray-900 text-gray-600 [width:100%] text-[24px] [border:1px_solid_#aaa] [outline:none] [border-radius:7px]"
+						placeholder="Title"
+						type="text"
+						value={title}
+		                onChange={(e)=>setTitle(e.target.value)}
+					/>
+				</div>
+				<span className="xs:text-[26px] sm:text-[30px] lg:text-[36px] text-[#444]">content</span>
+				<textarea placeholder="text" wrap="off" 
 				    className="xs:p-2 lg:p-3 xs:text-[26px] lg:text-[31px] text-gray-600 [outline:none] [resize:none]
 				               [border:1px_solid_#ddd] [width:100%] [height:100%] " 
-	                value={title}
-	                onChange={(e)=>setTitle(e.target.value)}
+	                value={content}
+	                onChange={(e)=>setContent(e.target.value)}
 				>
 				</textarea>
 			</div>	

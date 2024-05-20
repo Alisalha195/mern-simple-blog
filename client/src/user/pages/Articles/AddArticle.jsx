@@ -9,6 +9,7 @@ import TypingBox from "../../../components/articles/add/TypingBox"
 const AddArticle = () => {
 
 	const [title , setTitle] = useState("");
+	const [content , setContent] = useState("");
 
 	const handlePublishClick = async() => {
 		const articleTitle = {title}
@@ -43,7 +44,8 @@ const AddArticle = () => {
 
 				{/* left */}
 			    <div className="xs:px-2 md:px-3 md:basis-11/12  lg:basis-9/12 ">
-			    	<TypingBox title={title} setTitle={setTitle} />
+			    	<TypingBox title={title} setTitle={setTitle} content={content}
+			    	setContent={setContent} />
 			    </div>
 				
 				{/* right */}

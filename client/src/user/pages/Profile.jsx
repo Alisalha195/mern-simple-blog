@@ -18,7 +18,7 @@ const Profile = () => {
 	const dispatch = useDispatch();
 
 	const {currentUser, isSuccess} = useSelector(state => state.user) ;
-	const {articles, error,isLoading, total} = useSelector(state => state.article);
+	const {articles, error,isLoading} = useSelector(state => state.article);
 	
 	const loadingProps = LoadingBox();
 	const loading = loadingProps.loading; 

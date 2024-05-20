@@ -32,9 +32,9 @@ export const getUserArticles = async (req , res) => {
 	
 	try {
 		const {userid} = req.body;
-		console.log('user id in controller :',userid)
+		// console.log('user id in controller :',userid)
 		const articles = await Article.find({authorId:userid});
-		console.log('articles are returned')
+		// console.log('articles are returned')
 		return res.status(200).json(articles)
 	} catch(error) {
 		console.log('articles are not returned')
