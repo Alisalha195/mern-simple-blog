@@ -1,6 +1,6 @@
 
 
-const TypingBox = ({title , setTitle,content , setContent}) => {
+const TypingBox = ({title , setTitle,content , setContent }) => {
 
 	return (
 		<div className=" mb-[180px]">

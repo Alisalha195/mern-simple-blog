@@ -1,5 +1,8 @@
-import {useState} from 'react'
-
+import {useState, useEffect} from 'react'
+import {useNavigate} from 'react-router-dom' 
+import {useDispatch,useSelector} from 'react-redux';
+import Loading from "../../../components/public/Loading";
+import LoadingBox from "../../../hooks/useLoading"
 
 import { FiEdit3 } from "react-icons/fi";
 
@@ -11,24 +14,74 @@ const AddArticle = () => {
 	const [title , setTitle] = useState("");
 	const [content , setContent] = useState("");
 
+	const [error , setError] = useState("");
+	const [showError , setShowError] = useState(false);
+
+	const navigate = useNavigate();
+	const dispatch = useDispatch();
+	const loadingProps = LoadingBox();
+	const loading = loadingProps.loading;
+	
+	const{currentUser}=useSelector(state=>state.user);
+	const {articles, isLoading} = useSelector(state => state.article);
+
+	useEffect(()=>{
+		
+		if(!currentUser)
+			navigate("/login")
+
+	},[currentUser]);
+
+	useEffect(()=>{
+
+		if(error && showError) {
+			setTimeout(()=>{
+				setShowError(false)
+			},2500);
+		} 
+
+	},[error,showError])
+
 	const handlePublishClick = async() => {
-		// const articleTitle = {title}
-		const articleFormData = {title,content}
+		if(!title || !content){
+			setError("title or content must not be empty");
+			setShowError(true)
+			
+			return;
+		}
+
+		const articleFormData = {title,content,authorId:currentUser.id,author:currentUser.username}
 		console.log("Fonm in add article is :",articleFormData);
 
-		const response = await fetch("/api/articles" , {
-			method: "POST" ,
-			body: JSON.stringify(articleFormData) ,
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		})
-		const json = response.json()
+		try {
+			const response = await fetch("/api/articles" , {
+				method: "POST" ,
+				body: JSON.stringify(articleFormData) ,
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			})
+			const json = response.json()
+		} catch(error) {
+			setError(error)
+		}
 	}
 
+	if(loading){
+		return <Loading />
+	}
 	return (
-		<div>
+		<div className="[position:relative]">
 
+			{/* Error Box */}
+			{
+				showError && 
+				<div className="[position:absolute] [top:-15px] [left:300px] bg-[#f75200] [width:50%] p-1 rounded text-white">
+					<div className="text-center">
+						{error} 
+					</div>
+				</div>
+			}
 		    {/* upper box */}
 			<div className=" flex  mt-4 mb-4">
 
@@ -53,7 +106,7 @@ const AddArticle = () => {
 				
 				{/* right */}
 			    <div className="md:basis-1/12  lg:basis-3/12">
-			    	<SideBar handlePublishClick={handlePublishClick} />
+			    	<SideBar handlePublishClick={handlePublishClick} disabled={showError} />
 			    </div>
 
 				

@@ -14,7 +14,7 @@ const ArticleSchema = new mongoose.Schema({
   author: {
     type : String,
     required: true,
-    default : "Global Author"
+    // default : "Global Author"
   },
   authorId: {
     type : String,

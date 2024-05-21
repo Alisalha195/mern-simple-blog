@@ -17,7 +17,7 @@ export const signup = async (req, res, next) => {
     if(user) {
       res.json({
         id:user._id,
-        name:user.name,
+        username:user.username,
         email:user.email
       })
       console.log('RES is is is',res.json());
@@ -57,7 +57,7 @@ export const login = async(req, res, next) => {
   if(validUser && validPassword) {
     res.json({
       id:validUser._id,
-      name:validUser.name,
+      username:validUser.username,
       email:validUser.email
     })
     res.message = "User Loged in ";
