@@ -9,7 +9,7 @@ const ArticleSchema = new mongoose.Schema({
   content: {
     type: String,
     required: false,
-    default : "Default Content"
+    // default : "No Content"
   },
   author: {
     type : String,

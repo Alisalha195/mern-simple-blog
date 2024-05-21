@@ -12,10 +12,13 @@ const AddArticle = () => {
 	const [content , setContent] = useState("");
 
 	const handlePublishClick = async() => {
-		const articleTitle = {title}
+		// const articleTitle = {title}
+		const articleFormData = {title,content}
+		console.log("Fonm in add article is :",articleFormData);
+
 		const response = await fetch("/api/articles" , {
 			method: "POST" ,
-			body: JSON.stringify(articleTitle) ,
+			body: JSON.stringify(articleFormData) ,
 			headers: {
 				'Content-Type': 'application/json'
 			}
