@@ -61,7 +61,10 @@ const AddArticle = () => {
 					'Content-Type': 'application/json'
 				}
 			})
-			const json = response.json()
+			const res = response.json()
+            if(response.ok) {
+            	navigate("/dashboard")
+            }
 		} catch(error) {
 			setError(error)
 		}
@@ -76,7 +79,7 @@ const AddArticle = () => {
 			{/* Error Box */}
 			{
 				showError && 
-				<div className="[position:absolute] [top:-15px] [left:300px] bg-[#f75200] [width:50%] p-1 rounded text-white">
+				<div className="[position:absolute] [bottom:15px] [left:300px] bg-[#e92424] [width:50%] p-1 rounded text-white">
 					<div className="text-center">
 						{error} 
 					</div>

@@ -6,8 +6,8 @@ const HeaderDropDownList = ({openMenu, setOpenMenu , logedin,currentUser , heade
 
 	  const navigate = useNavigate()
 
-		console.log('currentUser in header : ',currentUser)
-		console.log('LOGED ? ',logedin)
+		// console.log('currentUser in header : ',currentUser)
+		// console.log('LOGED ? ',logedin)
 	  const handleMouseOut = () => {
       if(openMenu)
 	      setOpenMenu(false)

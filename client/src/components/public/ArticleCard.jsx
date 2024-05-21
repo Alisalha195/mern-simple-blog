@@ -18,6 +18,9 @@ const ArticleCard = ({size ,id, title,content,author,pending,approved, likes, di
 	const textLong = 45;
 	const articleText = "this is the text about the article you stand at now , you can click the article title to view the entire details of this particular article." 
 
+	const navigateTo = (link)=> {
+		navigate(`/articles/${id}`)
+	} 
 	const getBreifText = (text , cutPoint) => {
 		return (`${text.substring(0,cutPoint)}...`);
 	} ;
@@ -35,7 +38,7 @@ const ArticleCard = ({size ,id, title,content,author,pending,approved, likes, di
 		
 		(size == "small")  
 		?   <div className="flex justify-center">
-				<div className="xs:pb-2 xmd:pb-3 shadow-md hover:shadow-gray-500  border-2 border-gray-500 xs:[border-radius:6px] md:[border-radius:10px] [overflow:hidden] xs:[width:200px]
+				<div className="xs:pb-1 xmd:pb-2 shadow-md hover:shadow-gray-500  border-2 border-gray-500 xs:[border-radius:6px] md:[border-radius:10px] [overflow:hidden] xs:[width:200px]
 				    sm:[width:300px] xmd:[width:350px] "
 					 
 			    >
@@ -47,7 +50,7 @@ const ArticleCard = ({size ,id, title,content,author,pending,approved, likes, di
 							
 							<div className="btn :leading-6 text-gray-800 font-bold hover:text-gray-700 [overflow:hidden]
 							     xs:text-[23px] sm:text-[28px] xmd:text-[34px]" 
-							     onClick={()=>navigate(`${id}`)}
+							     onClick={()=>navigateTo(id)}
 						     >
 								{title}
 							</div>
@@ -94,6 +97,16 @@ const ArticleCard = ({size ,id, title,content,author,pending,approved, likes, di
 							</div>
 						</div>
 						
+					</div>
+					<div className="flex flex-row xs:text-[20px] md:text-[22px] pl-2 mt-1">
+						<div className="btn flex flex-col justify-start text-[#025921] mr-2 px-[4px]"
+							onClick={()=>navigate(`/articles/edit/${id}`)}
+						>
+							edit
+						</div>
+						<div className="btn flex flex-col justify-center  text-[#ee2e11]  px-[4px]">
+							delete
+						</div>
 					</div>
 				</div>
 			</div>
