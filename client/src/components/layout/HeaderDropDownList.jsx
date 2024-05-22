@@ -1,8 +1,9 @@
 
 import {useEffect} from 'react'
 import {useNavigate} from 'react-router-dom' 
+import UserProfileImage from '../user/UserProfileImage'
 
-const HeaderDropDownList = ({openMenu, setOpenMenu , logedin,currentUser , headerList}) => {
+const HeaderDropDownList = ({openMenu, setOpenMenu , logedin,currentUser , headerList, handleLogout}) => {
 
 	  const navigate = useNavigate()
 
@@ -12,6 +13,10 @@ const HeaderDropDownList = ({openMenu, setOpenMenu , logedin,currentUser , heade
       if(openMenu)
 	      setOpenMenu(false)
 	  }
+
+	  const getShortUsername = (username) => {
+	  	return `${username.slice(0,6)}...`
+	  } 
 
 	useEffect(()=>{
 		if(currentUser)
@@ -30,9 +35,22 @@ const HeaderDropDownList = ({openMenu, setOpenMenu , logedin,currentUser , heade
             {
               currentUser 
                 ? 
-                    <div className={logedin ? "flex flex-row" : "hidden"}>
-                      <span>p</span>
+                    <div className="[border-bottom:1px_solid_#ccc] mb-2">
+                    	<div className={logedin ? "btn flex flex-row justify-center" : "hidden"}>
+	                      < UserProfileImage size="xs" rounded={true} bordered={true}/>
+	                      <span className="text-[#444] text-[26px] ml-1 font-bold">
+	                      	{getShortUsername (currentUser.username)}
+	                      </span>
+	                    </div>
+	                    <div className=' text-[#444] hover:text-[#666] my-1'>
+	                    	<span className='btn px-1'
+															onClick={handleLogout}
+	                    	>
+		                    	logout
+	                    	</span>
+	                    </div>
                     </div>
+
 
 			    :   <div className=" flex flex-col pb-1 [border-bottom:1px_solid_#fff]">
 								<span className="mb-1 btn text-gray-700 font-bold [border-radius:5px] hover:pl-[5px] transition-* duration-150"

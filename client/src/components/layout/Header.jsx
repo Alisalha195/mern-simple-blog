@@ -5,9 +5,10 @@ import {Navigate} from 'react-router-dom'
 import {useDispatch,useSelector} from 'react-redux';
 // import {  signOut  } from 'firebase/auth';
 // import { auth } from '../../firebase/firebase';
+import {logoutAsync} from "../../redux/UserSlice.js";
 
 import { TiThMenu } from "react-icons/ti";
-
+import UserProfileImage from '../user/UserProfileImage'
 //-----------------------------------------------------------------------
 
 import Logo from "../public/Logo"
@@ -69,6 +70,10 @@ const Header = () => {
       setOpenMenu(true)
     
   }
+
+  const handleLogout = ()=> {
+    dispatch(logoutAsync())
+  }
   // const userID =  auth.currentUser?.uid 
 
 
@@ -101,9 +106,22 @@ const Header = () => {
 
           
           { currentUser 
-            ? <div className={currentUser ? "flex flex-row" : "hidden"}>
-                <span>p</span>
-              </div> 
+            ? 
+                <div className={currentUser ? " flex flex-row justify-end mr-2" : "hidden"}>
+                  <div className=' text-[#fff] hover:text-[#b3b3b3]'>
+                    <span className='btn px-1 text-[26px]'
+                          onClick={handleLogout}
+                    >
+                      logout
+                    </span>
+                  </div>
+                  <div className="btn px-1"
+                      onClick={()=>navigate("/profile")}
+                  >
+                    < UserProfileImage size="xs" rounded={true} bordered={true}/>
+                  </div>
+                </div> 
+              
             :
             <div className={logedin ? "hidden ": "flex flex-row [max-height:70%]" }>
 
@@ -124,11 +142,6 @@ const Header = () => {
               </span>
             </div>
           }
-          {/* user icon button */}
-          <div className={logedin ? "flex flex-row" : "hidden"}>
-            <span>p</span>
-          </div>
-          {/* <span>icon</span> */}
         </div>
       </div>
 
@@ -144,7 +157,9 @@ const Header = () => {
 
         >
           <TiThMenu />
+
         </span>
+
 
         {/* Drop Down List */}   
         < HeaderDropDownList 
@@ -153,6 +168,7 @@ const Header = () => {
               logedin={currentUser?true:false}
               currentUser={currentUser}
               headerList={headerList}
+              handleLogout={handleLogout}
         />
       </div>
     </div>

@@ -1,6 +1,6 @@
 import Image from '../../assets/images/backgroundhero.jpg';
 
-const UserProfileImage = ({size , rounded}) => {
+const UserProfileImage = ({size , rounded, bordered}) => {
 
 	
 	const getSize = (size) => {
@@ -29,8 +29,8 @@ const UserProfileImage = ({size , rounded}) => {
 
 	return (
 		<div className="flex ">
-			<div className="bg-gray-900" 
-			      style={{borderRadius:isRounded(rounded), width:getSize(size) , height:getSize(size)}}>
+			<div className={bordered ?"bg-gray-900 [border:1px_solid_#0f0]" : "bg-gray-900"} 
+			      style={{borderRadius:isRounded(rounded), width:getSize(size) , height:getSize(size) }}>
 				<img src={Image}
 				style={{width:"100%" , height:"100%" ,borderRadius:isRounded(rounded) }}/>
 			</div>
