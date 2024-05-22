@@ -8,7 +8,7 @@ const userArticlesUrl = "http://localhost:5000/api/articles/user";
 const initialState = {
 	allArticles: null,
 	articles : null,
-	article: null,
+	currentArticle: null,
 	// total : 0 ,
 	isLoading: false,
 	error:''
@@ -25,14 +25,14 @@ export const getUserArticles = createAsyncThunk('articles/getUserArticles', asyn
 		});
 		
 		const response = await res.json();
-    console.log('response',response)
+    // console.log('response',response)
 		if(!response || response.length == 0) {
 			const error = {
 				message : "Error User Not Found"
 			}
 			return thunkAPI.rejectWithValue(error);
 		}
-		console.log('errrrro',response)
+		// console.log('errrrro',response)
     return response
 	}catch(err){
 
@@ -64,10 +64,18 @@ export const getArticles = createAsyncThunk('articles/getAllArticles', async(pay
   
 });
 
-export const getArticle = createAsyncThunk('article/getArticle', (uid)=>{
+export const getArticle = createAsyncThunk('article/getArticle', async(articleId)=>{
   
-  return fetch(`http://localhost:5000/api/articles/${uid}`).then(res=>res.json())
+ try {
+		const res = await fetch(`${articleUrl}/${articleId}`);
+		// console.log('response in ')
+ }catch(error) {
+
+ }
 });
+
+
+
 const articleSlice = createSlice({
 	name: 'article' ,
 	initialState ,

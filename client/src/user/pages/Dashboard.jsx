@@ -27,7 +27,7 @@ const Dashboard = () => {
       
     dispatch(getUserArticles(currentUser.id))
       
-      console.log("Articles in dashborad :",articles)
+      // console.log("Articles in dashborad :",articles)
   },[currentUser])
   
   const navigateTo = (link) => {

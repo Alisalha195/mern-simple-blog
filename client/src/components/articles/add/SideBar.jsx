@@ -1,7 +1,7 @@
 
 import { IoMdAddCircleOutline } from "react-icons/io";
 
-const SideBar = ({handlePublishClick,disabled}) => {
+const SideBar = ({handlePublishClick,disabled, handleEditClick, editing}) => {
 	return (
 		<div className=" flex flex-col justify-evenly py-2 xs:px-2 md:px-3 [height:100%] xs:mb-[100px] xs:mt-[14px] lg:mt-[0]">
 			
@@ -24,9 +24,9 @@ const SideBar = ({handlePublishClick,disabled}) => {
 
 				    :"btn xs:py-[2px] xs:px-[8px] md:py-[4px] md:px-2 xs:text-[23px] md:text-[26px] text-gray-200 bg-gray-700 [border-radius:7px]"}
 
-				         onClick={handlePublishClick}
+				         onClick={editing ? handleEditClick : handlePublishClick}
 
-						 disabled={disabled}
+						 disabled={disabled ? disabled  :false}
 
 				>
 					publish
