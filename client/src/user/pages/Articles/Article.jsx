@@ -16,8 +16,8 @@ import ArticleUpperBox from '../../../components/articles/ArticleUpperBox'
 import ArticleText from '../../../components/articles/ArticleText'
 import Control from '../../../components/articles/Control'
 import UserProfileImage from '../../../components/user/UserProfileImage'
-import Tag from '../../../components/public/Tag'
-import ArticleCard from '../../../components/public/ArticleCard'
+// import Tag from '../../../components/public/Tag'
+// import ArticleCard from '../../../components/public/ArticleCard'
 import UserArticles from "../../../components/user/profile/UserArticles"
 import TagsBox from "../../../components/homepage/TagsBox"
 

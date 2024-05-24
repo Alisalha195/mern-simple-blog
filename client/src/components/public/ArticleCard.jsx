@@ -1,22 +1,33 @@
-import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
-import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-// import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlinedIcon';	
+import {useEffect} from 'react'
 
 import {useNavigate ,Navigate, Routes , Route} from 'react-router-dom'
-
-
+import {useDispatch,useSelector} from 'react-redux';
 
 import articleImage from '../../assets/images/backgroundhero.jpg';
+import useDeleteBox from '../../hooks/useDeleteBox';
+import DeleteBox from '../articles/delete/DeleteBox';
 
-const ArticleCard = ({size ,id, title,content,author,pending,approved, likes, dislikes }) => {
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
+import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';	
 
-    
+
+
+
+const ArticleCard = ({size ,id, title,content,author,authorId,pending,approved, likes, dislikes }) => {
+
+    const {currentUser} = useSelector(state => state.user) ;
+
 	const navigate = useNavigate();
 	const articleUrl = "http://localhost:3000/article"
-    // console.log('id',id)
-	const textLong = 45;
-	const articleText = "this is the text about the article you stand at now , you can click the article title to view the entire details of this particular article." 
+    
+    const DeleteBoxProps = useDeleteBox()
+
+	const openDeleteBox = DeleteBoxProps.open;
+	const handleOpenDeleteBox = DeleteBoxProps.handleOpenDeleteBox
+
+	const textLong = 15;
+	// const articleText = "this is the text about the article you stand at now , you can click the article title to view the entire details of this particular article." 
 
 	const navigateTo = (link)=> {
 		navigate(`/articles/${id}`)
@@ -25,7 +36,7 @@ const ArticleCard = ({size ,id, title,content,author,pending,approved, likes, di
 		return (`${text.substring(0,cutPoint)}...`);
 	} ;
 	const getLikesBreifValue = (value)=> {
-	  if((value > 0) && (value <= 999)) {
+	  if((value >= 0) && (value <= 999)) {
 	    return value;
 	  } 
 	  if((value > 999) && (value <= 999999) ) {
@@ -34,10 +45,16 @@ const ArticleCard = ({size ,id, title,content,author,pending,approved, likes, di
 	    return (`${value/1000000}M`);
 	  }
 	};
+
+	
+	// useEffect(()=>{
+	// 	console.log('auth user is :',currentUser.id);
+	// 	console.log('authorId is :',authorId);
+	// },[])
 	return (
 		
 		(size == "small")  
-		?   <div className="flex justify-center">
+		?   <div className={openDeleteBox ?"no-doc-scroll flex justify-center" : " flex justify-center"}>
 				<div className="xs:pb-1 xmd:pb-2 shadow-md hover:shadow-gray-500  border-2 border-gray-500 xs:[border-radius:6px] md:[border-radius:10px] [overflow:hidden] xs:[width:200px]
 				    sm:[width:300px] xmd:[width:350px] "
 					 
@@ -52,11 +69,11 @@ const ArticleCard = ({size ,id, title,content,author,pending,approved, likes, di
 							     xs:text-[23px] sm:text-[28px] xmd:text-[34px]" 
 							     onClick={()=>navigateTo(id)}
 						     >
-								{title}
+								{getBreifText(title, textLong ) }
 							</div>
 							<div className=" flex flex-row xs:pl-[5px] xmd:pl-[8px] xs:text-[18px] sm:text-[22px] xmd:text-[24px] lg:text-[25px] font-bold text-gray-700">
 								<span>
-									{author}
+									{author &&getBreifText(author, textLong ) }
 								</span>
 								
 							</div>
@@ -69,7 +86,10 @@ const ArticleCard = ({size ,id, title,content,author,pending,approved, likes, di
 					<div className="xs:mt-[4px]  md:mt-2 xs:pl-[10px] md:pl-2 
 					                xs:pr-2 xmd:pr-4 text-gray-600 xs:text-[12px] sm:text-[14px]" 
 	                >
-					{getBreifText(content, textLong )}	
+					{
+						content ? getBreifText(content, textLong ) : "No Content"
+						
+					}	
 					</div>
 					
 
@@ -98,17 +118,24 @@ const ArticleCard = ({size ,id, title,content,author,pending,approved, likes, di
 						</div>
 						
 					</div>
-					<div className="flex flex-row xs:text-[20px] md:text-[22px] pl-2 mt-1">
-						<div className="btn flex flex-col justify-start text-[#025921] mr-2 px-[4px]"
-							onClick={()=>navigate(`/articles/edit/${id}`)}
-						>
-							edit
+					{
+						(currentUser.id == authorId) && 
+						<div className="flex flex-row xs:text-[20px] md:text-[22px] pl-2 mt-1">
+							<div className="btn flex flex-col justify-start text-[#025921] mr-2 px-[4px]"
+								onClick={()=>navigate(`/articles/edit/${id}`)}
+							>
+								edit
+							</div>
+							<div className="btn flex flex-col justify-center  text-[#ee2e11]  px-[4px]"
+							
+								onClick={()=>handleOpenDeleteBox('open')}
+							>
+								delete
+							</div>
 						</div>
-						<div className="btn flex flex-col justify-center  text-[#ee2e11]  px-[4px]">
-							delete
-						</div>
-					</div>
+					}
 				</div>
+				<DeleteBox title={title} open={openDeleteBox} handleOpenDeleteBox={handleOpenDeleteBox}/>
 			</div>
 
 		:

@@ -6,6 +6,8 @@ import UserArticles from "../../../components/user/profile/UserArticles"
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 
 import {useDispatch,useSelector} from 'react-redux';
+import Loading from "../../../components/public/Loading";
+import LoadingBox from "../../../hooks/useLoading"
 
 import{getArticles} from '../../../redux/ArticleSlice'
 
@@ -16,6 +18,9 @@ const Articles = () => {
 	
 	const isLoading = useSelector((store)=> store.article.isLoading);
 	
+	const loadingProps = LoadingBox();
+	const loading = loadingProps.loading;
+	
 	//const {articles , isLoading} = useSelector((store)=> store.article);
 
 	if(!isLoading)
@@ -25,7 +30,7 @@ const Articles = () => {
     dispatch(getArticles());
   },[dispatch])
 	return (
-	  (isLoading) 
+	  (loading) 
 	  ? <div className="text-[50px] text-center text-[#777]">Loading.....</div>
 	  :
 		<div className="mb-[130px]">
