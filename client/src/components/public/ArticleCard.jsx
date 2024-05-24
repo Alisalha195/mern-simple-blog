@@ -1,4 +1,4 @@
-import {useEffect} from 'react'
+import {useEffect, useState} from 'react'
 
 import {useNavigate ,Navigate, Routes , Route} from 'react-router-dom'
 import {useDispatch,useSelector} from 'react-redux';
@@ -18,6 +18,7 @@ const ArticleCard = ({size ,id, title,content,author,authorId,pending,approved, 
 
     const {currentUser} = useSelector(state => state.user) ;
 
+	const [cardWidth, setCardWidth] = useState(0)
 	const navigate = useNavigate();
 	const articleUrl = "http://localhost:3000/article"
     
@@ -27,6 +28,7 @@ const ArticleCard = ({size ,id, title,content,author,authorId,pending,approved, 
 	const handleOpenDeleteBox = DeleteBoxProps.handleOpenDeleteBox
 
 	const textLong = 15;
+	let titleBoxWidth="";
 	// const articleText = "this is the text about the article you stand at now , you can click the article title to view the entire details of this particular article." 
 
 	const navigateTo = (link)=> {
@@ -46,11 +48,21 @@ const ArticleCard = ({size ,id, title,content,author,authorId,pending,approved, 
 	  }
 	};
 
+	const getCardWidth = () =>{
+		titleBoxHeight = document.getElementById("titleBox").offsetWidth;
+		console.log(titleBoxHeight);
+	}
 	
-	// useEffect(()=>{
-	// 	console.log('auth user is :',currentUser.id);
-	// 	console.log('authorId is :',authorId);
-	// },[])
+// 	useEffect(()=>{
+// 		// setTimeout(()=>{
+// 		// 	titleBoxHeight = document.getElementsByClassName("titleBox")
+// 		//  console.log("titleBoxHeight : ",titleBoxHeight[0].firstChild)
+// 		// },1000);
+// 
+// 		
+// 		// console.log('auth user is :',currentUser.id);
+// 		// console.log('authorId is :',authorId);
+// 	},[titleBoxHeight])
 	return (
 		
 		(size == "small")  
@@ -65,8 +77,10 @@ const ArticleCard = ({size ,id, title,content,author,authorId,pending,approved, 
 					<div className="flex flex-column justify-between pl-1  pt-1 ">
 						<div className="basis-12/12" >
 							
-							<div className="btn :leading-6 text-gray-800 font-bold hover:text-gray-700 [overflow:hidden]
-							     xs:text-[23px] sm:text-[28px] xmd:text-[34px]" 
+							<div className="titleBox btn :leading-6 text-gray-800 font-bold hover:text-gray-700 [overflow:hidden]
+							     xs:text-[23px] sm:text-[28px] xmd:text-[34px] [max-height:52px]"
+
+							     id="titleBox" 
 							     onClick={()=>navigateTo(id)}
 						     >
 								{getBreifText(title, textLong ) }
@@ -135,7 +149,7 @@ const ArticleCard = ({size ,id, title,content,author,authorId,pending,approved, 
 						</div>
 					}
 				</div>
-				<DeleteBox title={title} open={openDeleteBox} handleOpenDeleteBox={handleOpenDeleteBox}/>
+				<DeleteBox articleId={id} title={title} open={openDeleteBox} handleOpenDeleteBox={handleOpenDeleteBox}/>
 			</div>
 
 		:

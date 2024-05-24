@@ -96,8 +96,10 @@ const EditArticle = () => {
 				}
 			})
 			const res = response.json()
+
+			// navigate back
             if(response.ok) {
-            	navigate("/dashboard")
+            	navigate(-1)
             }
 		} catch(error) {
 			setError(error)

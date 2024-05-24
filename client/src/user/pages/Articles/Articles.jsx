@@ -23,8 +23,8 @@ const Articles = () => {
 	
 	//const {articles , isLoading} = useSelector((store)=> store.article);
 
-	if(!isLoading)
-		console.log('ARTICLES : ', articles)
+	// if(!isLoading)
+	// 	console.log('ARTICLES : ', articles)
 
   useEffect(()=>{
     dispatch(getArticles());

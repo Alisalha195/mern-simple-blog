@@ -5,24 +5,45 @@ import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 
 import { IoMdClose } from "react-icons/io";
 
-const DeleteBox = ({title ,open , handleOpenDeleteBox}) => {  
+const DeleteBox = ({articleId ,title ,open , handleOpenDeleteBox}) => {  
 	
-	const [searchText , setSearchText]  = useState("")
+	const [waiting , setWaiting]  = useState(false)
 
-	useEffect(()=> {
-		document.getElementById("#serachInput").focus()
-	},[open])
+	const deleteArticleUrl = "http://localhost:5000/api/articles/delete"
+	// useEffect(()=> {
+	// 	document.getElementById("#serachInput").focus()
+	// },[open])
 
-	const handleCloseSearchBox = () => {
-		handleOpenDeleteBox("close");
-		setSearchText("")
-		
-	}
+	// const handleCloseDeleteBox = () => {
+	// 	handleOpenDeleteBox("close");
+	// 	setSearchText("")
+	// 	
+	// }
 
 	const getBreifText = (text , cutPoint) => {
 		return (`${text.substring(0,cutPoint)}...`);
 	} ;
 
+	const handleDeleteClick = async() => {
+		console.log('clicked!',articleId)
+
+		try {
+			setWaiting(true);
+			// const res = await fetch(`${deleteArticleUrl}/${articleId}`);
+			const res = await fetch(`${deleteArticleUrl}/${articleId}`,{
+				method:"DELETE"
+				
+			});
+			const response = await res.json()
+			console.log('response in delete',response)
+			
+			handleOpenDeleteBox();
+			setWaiting(false)
+		}catch(error) {
+			setWaiting(false)
+			console.log("error :");
+		}
+	}
 	return (
  
 		<div className={open ? "  flex flex-row justify-center  bg-[#1e343d]/[.89]  [height:100vh] [width:100vw]   [position:fixed] [top:0] [left:0]" : "hidden"}
@@ -35,15 +56,22 @@ const DeleteBox = ({title ,open , handleOpenDeleteBox}) => {
 	     	>
 			<div className="flex flex-col  mt-7 mb-6   justify-center">
 					<div className="flex flex-row justify-center mb-[30px] text-[#999] text-[35px] font-bold ">
-						{getBreifText(title)}
+						{title && getBreifText(title)}
 					</div>
 					<span className="flex flex-row justify-center text-white">
 						are you sure ?
 					</span>
 					<div className="flex flex-row justify-center text-white mt-4">
-						<span className="btn [border:1px_solid_#ccc] [border-radius:8px] py-[2px] px-[10px] bg-[#962b07]">
+
+						<button className={waiting ? "btn [border:1px_solid_#ccc] [border-radius:8px] py-[2px] px-[10px] bg-[#ffffff]" 
+
+						    :"btn [border:1px_solid_#ccc] [border-radius:8px] py-[2px] px-[10px] bg-[#962b07]"}
+							onClick={handleDeleteClick}
+							disabled={waiting ? waiting  :false}
+						>
 							delete
-						</span>
+						</button>
+
 					</div>
 
 					

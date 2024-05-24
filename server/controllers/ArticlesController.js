@@ -68,13 +68,15 @@ export const updateArticle = async (req , res) => {
 }
 
 export const deleteArticle = async (req , res) => {
-	
+	console.log('delete in controller')
 	try {
 		const {id} = req.params;
 		const article = await Article.findByIdAndDelete(id);
 		return res.status(200).json(article)
 	} catch (error) {
-		res.status(500).send(error.message)
+		res.status(500)
+		res.json({error})
+		return res;
 	}
 
 }
