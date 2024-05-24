@@ -21,9 +21,11 @@ export const getArticle = async (req , res) => {
 	try {
 		const {id} = req.params
 		const article = await Article.findById(id);
-		return res.status(200).json(article)
+		console.log('Article is',article)
+		return res.json(article)
 	} catch(error) {
-		res.status(500).send(error.message)
+		console.log('ERROR IN DATABASE')
+		return res.status(500).json({status:500});
 	}
 }
 

@@ -2,24 +2,18 @@
 
 import {useEffect , useState} from 'react'
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
+import {useDispatch,useSelector} from 'react-redux';
 
+import { setShowActionSuccessMsg} from "../../../redux/ArticleSlice.js";
 import { IoMdClose } from "react-icons/io";
 
 const DeleteBox = ({articleId ,title ,open , handleOpenDeleteBox}) => {  
 	
+	const dispatch = useDispatch()
 	const [waiting , setWaiting]  = useState(false)
 
 	const deleteArticleUrl = "http://localhost:5000/api/articles/delete"
-	// useEffect(()=> {
-	// 	document.getElementById("#serachInput").focus()
-	// },[open])
-
-	// const handleCloseDeleteBox = () => {
-	// 	handleOpenDeleteBox("close");
-	// 	setSearchText("")
-	// 	
-	// }
-
+	
 	const getBreifText = (text , cutPoint) => {
 		return (`${text.substring(0,cutPoint)}...`);
 	} ;
@@ -29,7 +23,6 @@ const DeleteBox = ({articleId ,title ,open , handleOpenDeleteBox}) => {
 
 		try {
 			setWaiting(true);
-			// const res = await fetch(`${deleteArticleUrl}/${articleId}`);
 			const res = await fetch(`${deleteArticleUrl}/${articleId}`,{
 				method:"DELETE"
 				
@@ -38,6 +31,7 @@ const DeleteBox = ({articleId ,title ,open , handleOpenDeleteBox}) => {
 			console.log('response in delete',response)
 			
 			handleOpenDeleteBox();
+			dispatch(setShowActionSuccessMsg(true));
 			setWaiting(false)
 		}catch(error) {
 			setWaiting(false)
@@ -63,7 +57,7 @@ const DeleteBox = ({articleId ,title ,open , handleOpenDeleteBox}) => {
 					</span>
 					<div className="flex flex-row justify-center text-white mt-4">
 
-						<button className={waiting ? "btn [border:1px_solid_#ccc] [border-radius:8px] py-[2px] px-[10px] bg-[#ffffff]" 
+						<button className={waiting ? "btn [border:1px_solid_#ccc] [border-radius:8px] py-[2px] px-[10px] bg-[#e97b7b]" 
 
 						    :"btn [border:1px_solid_#ccc] [border-radius:8px] py-[2px] px-[10px] bg-[#962b07]"}
 							onClick={handleDeleteClick}
@@ -74,8 +68,6 @@ const DeleteBox = ({articleId ,title ,open , handleOpenDeleteBox}) => {
 
 					</div>
 
-					
-				
 			</div>
 
 			<div className=" btn text-white [position:fixed]  xs:[top:15px]  md:[top:20px] text-[40px] xs:text-[30px] "

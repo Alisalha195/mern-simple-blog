@@ -2,17 +2,21 @@
 import {useState , useEffect} from 'react';
 import {useParams} from 'react-router-dom' 
 import {useNavigate} from 'react-router-dom' 
-
+import {useDispatch,useSelector} from 'react-redux';
 import { FiEdit3 } from "react-icons/fi";
 
 import SideBar from "../../../components/articles/add/SideBar" 
 import TypingBox from "../../../components/articles/add/TypingBox" 
 
 import Loading from "../../../components/public/Loading";
-import LoadingBox from "../../../hooks/useLoading"
+import LoadingBox from "../../../hooks/useLoading";
+
+import { setShowActionSuccessMsg} from "../../../redux/ArticleSlice.js";
 
 const EditArticle = () => {
     
+	const dispatch = useDispatch();
+
     const [editedArticle, setEditedArticle] = useState({})
 
     const [error , setError] = useState("");
@@ -27,7 +31,7 @@ const EditArticle = () => {
 	
 
     const handleChangeEditedArticle = (e)=>{
-    	// console.log('editedArticle',editedArticle)
+    	
 		setEditedArticle({
 			...editedArticle,
 			[e.target.id] : e.target.value
@@ -37,9 +41,7 @@ const EditArticle = () => {
 		if(!params.id){
 			navigate("/dashboard")
 		}
-		// console.log('id :',params.id)
 		getArticle(params.id)
-		// console.log('state is :',editedArticle)
 	},[]);
 
 	useEffect(()=>{
@@ -68,7 +70,7 @@ const EditArticle = () => {
 			const error = {
 				message : "Error User Not Found"
 			}
-			console.log('errrrro')
+			console.log(error.message)
 	    
 		}
 	}
@@ -97,9 +99,11 @@ const EditArticle = () => {
 			})
 			const res = response.json()
 
-			// navigate back
+			// navigate back or to dashboard
             if(response.ok) {
-            	navigate(-1)
+            	dispatch(setShowActionSuccessMsg(true));
+            	navigate("/dashboard");
+            	// navigate(-1)
             }
 		} catch(error) {
 			setError(error)

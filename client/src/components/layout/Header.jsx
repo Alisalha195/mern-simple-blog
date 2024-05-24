@@ -73,6 +73,7 @@ const Header = () => {
 
   const handleLogout = ()=> {
     dispatch(logoutAsync())
+    navigate("/")
   }
   // const userID =  auth.currentUser?.uid 
 

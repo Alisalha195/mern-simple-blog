@@ -31,7 +31,7 @@ const Login = ()=> {
     }
 
     if(currentUser)
-      navigate("/");
+      navigate("/dashboard");
 
     setTimeout(()=> {
       dispatch(reset())

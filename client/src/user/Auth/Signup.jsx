@@ -29,7 +29,7 @@ const SignUp = ()=>  {
     }
 
     if(currentUser)
-      navigate("/");
+      navigate("/dashboard");
 
     setTimeout(()=> {
       dispatch(reset())

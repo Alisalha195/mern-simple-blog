@@ -1,4 +1,5 @@
 import {useState , useEffect} from 'react';
+import {useNavigate} from 'react-router-dom'
 import { useParams } from 'react-router';
 import {useDispatch,useSelector} from 'react-redux';
 // import {getArticle } from  '../../../redux/ArticleSlice'
@@ -19,19 +20,23 @@ import UserProfileImage from '../../../components/user/UserProfileImage'
 // import Tag from '../../../components/public/Tag'
 // import ArticleCard from '../../../components/public/ArticleCard'
 import UserArticles from "../../../components/user/profile/UserArticles"
-import TagsBox from "../../../components/homepage/TagsBox"
+import TagsBox from "../../../components/homepage/TagsBox";
+
+import {getArticle} from "../../../redux/ArticleSlice.js";
 
 
 const Article = () => {
 
-    const [article,setArticle]= useState('')
+	const dispatch = useDispatch();
+	const navigate = useNavigate()
+    // const [article,setArticle]= useState('')
 
 	const params = useParams();
 	const loadingProps = LoadingBox();
 	const loading = loadingProps.loading;
-	// const dispatch = useDispatch();
+	
 
-	// const article = useSelector((store)=> store.article.article);
+	const {article} = useSelector(store=> store.article);
 	// const isLoading = useSelector((store)=> store.article.isLoading);
 
 	// useEffect(()=>{
@@ -50,25 +55,31 @@ const Article = () => {
 
 
 	
-	useEffect(()=>{
-		const getArticle = async()=> {
-			console.log(params.id)
-			const response = await fetch(`/api/articles/${params.id}`).then(
-				response =>  response.json()
-			).then(
-				data => setArticle(data)
-
-			)
-		}
-		getArticle()
-        console.log('the article is',article)
-	},[]);
-
 // 	useEffect(()=>{
-// 		console.log('id',params.id)
-// 		dispatch(getArticle(params.id));
+// 		const getArticle = async()=> {
+// 			console.log(params.id)
+// 			const response = await fetch(`/api/articles/${params.id}`).then(
+// 				response =>  response.json()
+// 			).then(
+// 				data => setArticle(data)
 // 
-// 	},[])
+// 			)
+// 		}
+// 		getArticle()
+//         console.log('the article is',article)
+// 	},[]);
+
+	useEffect(()=>{
+		// console.log('id',params.id)
+		dispatch(getArticle(params.id));
+		// setTimeout(()=>{
+		// 	console.log(article)
+		// },2000)
+		// if(!article)
+		// 	navigate(-1)
+	},[])
+
+
 	return (
 		(loading) ? <Loading /> : 
 		<div className="mb-[120px]">

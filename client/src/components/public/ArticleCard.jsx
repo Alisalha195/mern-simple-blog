@@ -8,14 +8,17 @@ import useDeleteBox from '../../hooks/useDeleteBox';
 import DeleteBox from '../articles/delete/DeleteBox';
 
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
+import  {FaRegThumbsDown}  from "react-icons/fa6";
 import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';	
 
+import { setActionType } from "../../redux/ArticleSlice.js";
 
 
 
 const ArticleCard = ({size ,id, title,content,author,authorId,pending,approved, likes, dislikes }) => {
 
+	const dispatch = useDispatch()
     const {currentUser} = useSelector(state => state.user) ;
 
 	const [cardWidth, setCardWidth] = useState(0)
@@ -113,7 +116,7 @@ const ArticleCard = ({size ,id, title,content,author,authorId,pending,approved, 
 							
 							<div className="xs:mr-2 xmd:mr-4 flex ">
 								<div className="flex flex-col justify-center mr-1 ">
-									<VisibilityOutlinedIcon style={{fontSize:"26px", color:"#ff6e60"}}  />
+									<FaRegThumbsDown style={{fontSize:"22px", color:"#ff6e60"}}  />
 								</div>
 								<div className="text-center"
 								    style={{fontSize:"22px"}}>
@@ -133,16 +136,17 @@ const ArticleCard = ({size ,id, title,content,author,authorId,pending,approved, 
 						
 					</div>
 					{
+						(currentUser) &&
 						(currentUser.id == authorId) && 
 						<div className="flex flex-row xs:text-[20px] md:text-[22px] pl-2 mt-1">
 							<div className="btn flex flex-col justify-start text-[#025921] mr-2 px-[4px]"
-								onClick={()=>navigate(`/articles/edit/${id}`)}
+								onClick={()=>{navigate(`/articles/edit/${id}`); dispatch(setActionType("edit"));}}
 							>
 								edit
 							</div>
 							<div className="btn flex flex-col justify-center  text-[#ee2e11]  px-[4px]"
 							
-								onClick={()=>handleOpenDeleteBox('open')}
+								onClick={()=>{handleOpenDeleteBox('open');dispatch(setActionType("delete"));}}
 							>
 								delete
 							</div>

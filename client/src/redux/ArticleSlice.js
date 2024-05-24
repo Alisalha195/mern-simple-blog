@@ -2,19 +2,22 @@
 import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
 
 const allArticlesUrl = "http://localhost:5000/api/articles";
-const articleUrl = "http://localhost:5000/api/articles/:id";
+const articleUrl = "http://localhost:5000/api/articles";
 const userArticlesUrl = "http://localhost:5000/api/articles/user";
 
 const initialState = {
 	allArticles: null,
 	articles : null,
+	article:null,
+	actionType:null,
+	showActionSuccessMsg:false,
 	currentArticle: null,
 	// total : 0 ,
 	isLoading: false,
 	error:''
 };
 
-export const getUserArticles = createAsyncThunk('articles/getUserArticles', async(payload)=>{
+export const getUserArticles = createAsyncThunk('articles/getUserArticles', async(payload,thunkAPI)=>{
 
 	try {
 		// console.log('payload is',payload)
@@ -46,7 +49,7 @@ export const getUserArticles = createAsyncThunk('articles/getUserArticles', asyn
   
 });
 
-export const getArticles = createAsyncThunk('articles/getAllArticles', async(payload)=>{
+export const getArticles = createAsyncThunk('articles/getAllArticles', async(payload,thunkAPI)=>{
 
 	try {
 		const res = await fetch(allArticlesUrl);
@@ -64,17 +67,24 @@ export const getArticles = createAsyncThunk('articles/getAllArticles', async(pay
   
 });
 
-export const getArticle = createAsyncThunk('article/getArticle', async(articleId)=>{
+export const getArticle = createAsyncThunk('articles/getArticle', async(articleId,thunkAPI)=>{
   
- try {
-		const res = await fetch(`${articleUrl}/${articleId}`);
-		// console.log('response in ')
- }catch(error) {
+	 try {
+			const res = await fetch(`${articleUrl}/${articleId}`);
+			const response = await res.json();
+			// console.log('response in slice is: ',response)
 
- }
+			if(response.status == 500)
+				return thunkAPI.rejectWithValue("error");
+			return response;
+	 }catch(err) {
+		const error = {
+				message : "Error ,something went wrong"
+			}
+		console.log("error.message")
+		return thunkAPI.rejectWithValue(err);
+	 }
 });
-
-
 
 
 
@@ -82,9 +92,18 @@ const articleSlice = createSlice({
 	name: 'article' ,
 	initialState ,
 	reducers : {
-		getArticle_v: (state, action)=> {
-			state.articles.filter((item)=>(item.id == action.payload))
-		}
+		getActionType: (state) => {
+			return (state.actionType ? state.actionType : "empty");  
+		},
+		setActionType: (state, action) => { 
+			state.actionType = action.payload;
+		},
+		getShowActionSuccessMsg: (state) => {
+			return state.showActionSuccessMsg ; 
+		},
+		setShowActionSuccessMsg: (state, action) => { 
+			state.showActionSuccessMsg = action.payload;
+		},
 	},
 
 	extraReducers: (builder) => {
@@ -137,15 +156,24 @@ const articleSlice = createSlice({
 		builder.addCase(getArticle.fulfilled, (state, action)=>{
 			
 			// console.log("action.payload",action.payload)
+			console.log('Fulfilled in getArticle')
 		    state.article = action.payload;
 		    state.isLoading = false;
+		});
+		builder.addCase(getArticle.rejected,(state,action)=>{
+			console.log('Rejected in getArticle')
+			state.isLoading = false;
+			 state.article = null
 		});
 
 
 	}
 });
 	
-export const {getArticle_v} = articleSlice.actions;	
+export const {getArticle_v, getActionType , setActionType,
+       getShowActionSuccessMsg , setShowActionSuccessMsg
+
+	} = articleSlice.actions;	
 export default articleSlice.reducer;
 	
 	
