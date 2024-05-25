@@ -5,7 +5,7 @@ import {Navigate} from 'react-router-dom'
 import {useDispatch,useSelector} from 'react-redux';
 // import {  signOut  } from 'firebase/auth';
 // import { auth } from '../../firebase/firebase';
-import {logoutAsync} from "../../redux/UserSlice.js";
+import {logoutAsync} from "../../redux/AuthSlice.js";
 
 import { TiThMenu } from "react-icons/ti";
 import UserProfileImage from '../user/UserProfileImage'
@@ -21,7 +21,7 @@ const Header = () => {
 
   const [openMenu, setOpenMenu] = useState(false)
   
-  const {currentUser, error,isLoading, isSuccess} = useSelector(state => state.user) ;
+  const {currentUser, error,isLoading, isSuccess} = useSelector(state => state.auth) ;
 
   
   const navigate = useNavigate()

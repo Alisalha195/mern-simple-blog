@@ -8,7 +8,7 @@ import LatestArticles from "../../components/homepage/LatestArticles"
 import ArticleSearchBox from "../../components/homepage/ArticleSearchBox"
 import TagsBox from "../../components/homepage/TagsBox"
 import {useDispatch,useSelector} from 'react-redux';
-import {logoutAsync, reset} from "../../redux/UserSlice.js";
+import {logoutAsync, reset} from "../../redux/AuthSlice.js";
 import Loading from "../../components/public/Loading";
 import LoadingBox from "../../hooks/useLoading"
 
@@ -19,7 +19,7 @@ const Homepage = () => {
 
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	const {currentUser, error, isLoading, isSuccess} = useSelector(state => state.user) ;
+	const {currentUser, error, isLoading, isSuccess} = useSelector(state => state.auth) ;
 
 	useEffect(()=>{
 		if(!currentUser) {

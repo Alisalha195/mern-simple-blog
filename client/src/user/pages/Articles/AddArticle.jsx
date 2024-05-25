@@ -24,7 +24,7 @@ const AddArticle = () => {
 	const loadingProps = LoadingBox();
 	const loading = loadingProps.loading;
 	
-	const{currentUser}=useSelector(state=>state.user);
+	const{currentUser}=useSelector(state=>state.auth);
 	const {articles, isLoading} = useSelector(state => state.article);
 
 	useEffect(()=>{

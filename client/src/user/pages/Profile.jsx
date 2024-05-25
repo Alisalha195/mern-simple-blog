@@ -5,7 +5,7 @@ import { NavLink, useNavigate ,useParams} from 'react-router-dom';
 import Loading from "../../components/public/Loading";
 import LoadingBox from "../../hooks/useLoading"
 import {useDispatch,useSelector} from 'react-redux';
-import {loginUserAsync, reset} from "../../redux/UserSlice.js";
+import {loginUserAsync, reset} from "../../redux/AuthSlice.js";
 import {getUserArticles} from "../../redux/ArticleSlice.js";
 
 import AboutBox from "../../components/user/profile/AboutBox"
@@ -18,7 +18,7 @@ const Profile = () => {
 	const dispatch = useDispatch();
   const params = useParams();
   
-	const {currentUser, isSuccess} = useSelector(state => state.user) ;
+	const {currentUser, isSuccess} = useSelector(state => state.auth) ;
 	const {articles, error,isLoading} = useSelector(state => state.article);
 	
 	const loadingProps = LoadingBox();

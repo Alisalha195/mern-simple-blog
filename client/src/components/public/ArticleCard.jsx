@@ -19,7 +19,7 @@ import { setActionType } from "../../redux/ArticleSlice.js";
 const ArticleCard = ({size ,id, title,content,author,authorId,pending,approved, likes, dislikes }) => {
 
 	const dispatch = useDispatch()
-    const {currentUser} = useSelector(state => state.user) ;
+    const {currentUser} = useSelector(state => state.auth) ;
 
 	const [cardWidth, setCardWidth] = useState(0)
 	const navigate = useNavigate();

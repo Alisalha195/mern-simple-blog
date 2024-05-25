@@ -20,7 +20,7 @@ const Dashboard = () => {
   const [successMsg , setSuccessMsg] = useState("");
 	const [showSuccessMsg , setShowSuccessMsg] = useState(false);
   
-  const{currentUser,error}=useSelector(state=>state.user);
+  const{currentUser,error}=useSelector(state=>state.auth);
   const {articles, isLoading, actionType,showActionSuccessMsg} = useSelector(state => state.article);
   
   useEffect(()=>{
