@@ -5,14 +5,14 @@ import LoadingBox from "../../hooks/useLoading"
 import {useDispatch,useSelector} from 'react-redux';
 
 import SignupWithAccounts from "../../components/user/auth/SignupWithAccounts"
-import {signupUserAsync, reset} from "../../redux/UserSlice.js";
+import {signupUserAsync, reset} from "../../redux/AuthSlice.js";
 
 const SignUp = ()=>  {
   
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const {currentUser, error,isLoading, isSuccess} = useSelector(state => state.user) ;
+  const {currentUser, error,isLoading, isSuccess} = useSelector(state => state.auth) ;
 
   const[errorMessage, setErrorMessage] = useState(""); 
   

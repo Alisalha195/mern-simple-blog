@@ -6,7 +6,7 @@ import {useDispatch,useSelector} from 'react-redux';
 // import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import SignupWithAccounts from "../../components/user/auth/SignupWithAccounts"
-import {loginUserAsync, reset} from "../../redux/UserSlice.js";
+import {loginUserAsync, reset} from "../../redux/AuthSlice.js";
 
 
 const Login = ()=> {
@@ -14,7 +14,7 @@ const Login = ()=> {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const {currentUser, error,isLoading, isSuccess} = useSelector(state => state.user) ;
+  const {currentUser, error,isLoading, isSuccess} = useSelector(state => state.auth) ;
 
   const[errorMessage, setErrorMessage] = useState("");
 

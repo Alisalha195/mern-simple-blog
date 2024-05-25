@@ -1,7 +1,7 @@
 
 // import UserProfileImage from "../../components/user/UserProfileImage"
 import React, {useState, useEffect} from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate ,useParams} from 'react-router-dom';
 import Loading from "../../components/public/Loading";
 import LoadingBox from "../../hooks/useLoading"
 import {useDispatch,useSelector} from 'react-redux';
@@ -16,7 +16,8 @@ const Profile = () => {
 
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
-
+  const params = useParams();
+  
 	const {currentUser, isSuccess} = useSelector(state => state.user) ;
 	const {articles, error,isLoading} = useSelector(state => state.article);
 	
@@ -25,20 +26,23 @@ const Profile = () => {
 	const setLoading = loadingProps.setLoading;
 
 	useEffect(()=> {
+	  
+	    if(!params.id)
+	      navigate("/notfound");
 
-	    if(	!currentUser.id) {
+	    //if(	!currentUser.id) {
 
-	      navigate("/login2");
-	    }else {
-	    	console.log('user id in profile :',currentUser.id)
-	    }
+	     // navigate("/login2");
+	    //}else {
+	    	//[console.l]og('user id in profile :',currentUser.id)
+	    //}
 
 	    // setTimeout(()=> {
 	    //   dispatch(reset() )  
 	    // }, 1500)
 
 	  // dispatch(getUserArticles(currentUser.id))
-	  dispatch(getUserArticles(currentUser.id))
+	  dispatch(getUserArticles(params.id))
 
 	  if(!articles)
 	  	console.log('This User Has No Articles ! ',error)

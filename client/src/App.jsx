@@ -76,7 +76,10 @@ function App() {
           <Route path="/articles/edit/:id" element={<EditArticle />} />
           <Route path="/articles/delete/:id" element={<DeleteArticle />} />
 
-          <Route path="/profile/" element={currentUser ? <Profile /> : <Navigate to='/login' />} />
+          {/*
+          <Route path="/profile/:id" element={currentUser ? <Profile /> : <Navigate to='/login' />} />
+          */}
+          <Route path="/profile/:id" element={ <Profile /> } />
 
           <Route path="/about" element={<About />} />
           {/* <Route path="/home" element={authUser ? <HomePage /> : <Navigate to='/login' /> }/> */}
