@@ -60,7 +60,7 @@ const Dashboard = () => {
   }
   
 	return (
-	  <div className="[position:relative]">
+	  <div className="">
 
 		  {/* Success Box */}
 			{

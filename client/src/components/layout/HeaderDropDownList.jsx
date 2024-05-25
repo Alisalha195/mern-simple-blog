@@ -27,22 +27,33 @@ const HeaderDropDownList = ({openMenu, setOpenMenu , logedin,currentUser , heade
 	
 	return (
 		<div className={openMenu ? 
-                                   "flex [min-width:200px]  py-1 px-2 [border-radius:6px] [position:absolute] [top:40px] bg-[#efefef] [border:2px_solid_#aaa]" 
+                                   "flex [min-width:200px]  py-1 px-2 [border-radius:6px] [position:absolute] [top:40px] bg-[#efefef] [border:2px_solid_#aaa] [z-index:1000]" 
                                  : "hidden"}
             onMouseLeave={handleMouseOut}  
         >
-          <div className="flex flex-col	 flex-nowrap">
+          <div className="flex flex-col	 flex-nowrap " >
             {
               currentUser 
                 ? 
-                    <div className="[border-bottom:1px_solid_#ccc] mb-2">
-                    	<div className={logedin ? "btn flex flex-row justify-center" : "hidden"}>
+                    <div className={logedin ? "  [border-bottom:1px_solid_#ccc] pb-2" : "hidden"}>
+                    	<div className={logedin ? "btn flex flex-row justify-center" : "hidden"}
+												onClick={()=>{setOpenMenu(false); navigate("/profile")}}
+                    	>
 	                      < UserProfileImage size="xs" rounded={true} bordered={true}/>
 	                      <span className="text-[#444] text-[26px] ml-1 font-bold">
 	                      	{getShortUsername (currentUser.username)}
 	                      </span>
 	                    </div>
-	                    <div className=' text-[#444] hover:text-[#666] my-1'>
+	                    <div className="mt-2 flex flex-row justify-center">
+	                    	<div className='flex flex-col justify-center'>
+		                      <span className='btn flex flex-col [max-height:90%] justify-center px-1 py-1 bg-[#3db7ff] hover:bg-[#68c7ff] [border-radius:9px] text-[#222] text-[24px] '
+		                            onClick={()=>navigate("/dashboard")}
+			                    >
+			                      dashboard
+			                    </span>
+		                    </div>
+	                    </div>
+	                    <div className=' text-[#444] hover:text-[#666] py-1'>
 	                    	<span className='btn px-1'
 															onClick={handleLogout}
 	                    	>
@@ -54,12 +65,12 @@ const HeaderDropDownList = ({openMenu, setOpenMenu , logedin,currentUser , heade
 
 			    :   <div className=" flex flex-col pb-1 [border-bottom:1px_solid_#fff]">
 								<span className="mb-1 btn text-gray-700 font-bold [border-radius:5px] hover:pl-[5px] transition-* duration-150"
-									onClick={()=>navigate("/signup")}
+									onClick={()=>{setOpenMenu(false); navigate("/signup");}}
 								>
 									Sign up
 								</span>
 								<span className="mb-1 btn text-gray-700 font-bold [border-radius:5px] hover:pl-[5px] transition-* duration-150"
-									onClick={()=>navigate("/login")}
+									onClick={()=>{setOpenMenu(false);navigate("/login")}}
 								>
 									Log in
 								</span>

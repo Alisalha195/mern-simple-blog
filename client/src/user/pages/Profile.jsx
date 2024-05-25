@@ -38,7 +38,7 @@ const Profile = () => {
 	    // }, 1500)
 
 	  // dispatch(getUserArticles(currentUser.id))
-	  dispatch(getUserArticles("6633a4a789ec7fafdb2d6136"))
+	  dispatch(getUserArticles(currentUser.id))
 
 	  if(!articles)
 	  	console.log('This User Has No Articles ! ',error)

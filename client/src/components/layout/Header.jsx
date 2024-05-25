@@ -59,6 +59,7 @@ const Header = () => {
   ]
 
   const handleMouseOver = () => {
+
       if(!openMenu)
         setOpenMenu(true)
   }
@@ -73,6 +74,7 @@ const Header = () => {
 
   const handleLogout = ()=> {
     dispatch(logoutAsync())
+    setOpenMenu(false)
     navigate("/")
   }
   // const userID =  auth.currentUser?.uid 
@@ -109,13 +111,21 @@ const Header = () => {
           { currentUser 
             ? 
                 <div className={currentUser ? " flex flex-row justify-end mr-2" : "hidden"}>
-                  <div className=' text-[#fff] hover:text-[#b3b3b3]'>
-                    <span className='btn px-1 text-[26px]'
+                  <div className='flex flex-row '>
+                    <div className='flex flex-col justify-center'>
+                      <span className='btn flex flex-col [max-height:80%] justify-center px-1 bg-[#3db7ff] hover:bg-[#68c7ff] [border-radius:9px] text-[#222] text-[22px] '
+                            onClick={()=>navigate("/dashboard")}
+                    >
+                      dashboard
+                    </span>
+                    </div>
+                    <span className='btn flex flex-col justify-center  px-1 text-[18px] py-[0] text-[#fff] hover:text-[#b3b3b3]'
                           onClick={handleLogout}
                     >
                       logout
                     </span>
                   </div>
+
                   <div className="btn px-1"
                       onClick={()=>navigate("/profile")}
                   >
