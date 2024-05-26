@@ -1,24 +1,35 @@
 import User from '../models/user.js';
+import Auth from '../models/auth.js';
+
 import bcryptjs from 'bcryptjs';
 import { errorHandler } from '../utils/error.js';
 import jwt from 'jsonwebtoken';
 
 export const signup = async (req, res, next) => {
-  // console.log("req.body",req.body)
-  const { username, email, password } = req.body;
-
+  
+  const { firstname, lastname, username, email, password } = req.body;
+  console.log("req.body",firstname, lastname, username, email, password)
   // if(!username  | !email | !password)
   //   throw new Error("Invalid Crdentials !"); 
 
   const hashedPassword = bcryptjs.hashSync(password, 10);
   try {
-    const user = await User.create({ username, email, password: hashedPassword })
+    // console.log("dfsdfsdf")
+    const user = await User.create({ firstname, lastname });
+    console.log("user : ",user);
+
+    const authUser = await Auth.create({ username, email, password: hashedPassword, userID: user._id })
+    console.log("in try");
+    console.log("authusr : ",authUser);
     
-    if(user) {
+
+    if(authUser && user) {
       res.json({
-        id:user._id,
-        username:user.username,
-        email:user.email
+        id:authUser._id,
+        username:authUser.username,
+        email:authUser.email,
+        firstName: user.firstName, 
+        lastName: user.lastName
       })
       console.log('RES is is is',res.json());
       return res;
@@ -45,12 +56,12 @@ export const signup = async (req, res, next) => {
 };
 
 export const login = async(req, res, next) => {
-  // console.log("in login controller", req.body)
+  console.log("in login controller", req.body)
   const { email, password } = req.body;
   // if(!email | !password)
   //   throw new Error("Invalid Crdentials !"); 
  
-  const validUser = await User.findOne({email});
+  const validUser = await Auth.findOne({email});
   // console.log("valid user is ", validUser)
   
   const validPassword = bcryptjs.compareSync(password, validUser.password);
@@ -73,7 +84,7 @@ export const login = async(req, res, next) => {
     // return new Error("Invalid Crdentials !")
   }
 }
-export const login2 = async (req, res, next) => {
+export const loginBackup = async (req, res, next) => {
   const { email, password } = req.body;
  
     const validUser = await User.findOne({ email });
@@ -97,68 +108,3 @@ export const login2 = async (req, res, next) => {
  
 };
 
-/*
-export const signin = async (req, res, next) => {
-  const { email, password } = req.body;
-  try {
-    const validUser = await User.findOne({ email });
-    if (!validUser) return next(errorHandler(404, 'User not found!'));
-    const validPassword = bcryptjs.compareSync(password, validUser.password);
-    if (!validPassword) return next(errorHandler(401, 'Wrong credentials!'));
-    const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
-    const { password: pass, ...rest } = validUser._doc;
-    res
-      .cookie('access_token', token, { httpOnly: true })
-      .status(200)
-      .json(rest);
-  } catch (error) {
-    next(error);
-  }
-};
-
-export const google = async (req, res, next) => {
-  try {
-    const user = await User.findOne({ email: req.body.email });
-    if (user) {
-      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-      const { password: pass, ...rest } = user._doc;
-      res
-        .cookie('access_token', token, { httpOnly: true })
-        .status(200)
-        .json(rest);
-    } else {
-      const generatedPassword =
-        Math.random().toString(36).slice(-8) +
-        Math.random().toString(36).slice(-8);
-      const hashedPassword = bcryptjs.hashSync(generatedPassword, 10);
-      const newUser = new User({
-        username:
-          req.body.name.split(' ').join('').toLowerCase() +
-          Math.random().toString(36).slice(-4),
-        email: req.body.email,
-        password: hashedPassword,
-        avatar: req.body.photo,
-      });
-      await newUser.save();
-      const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
-      const { password: pass, ...rest } = newUser._doc;
-      res
-        .cookie('access_token', token, { httpOnly: true })
-        .status(200)
-        .json(rest);
-    }
-  } catch (error) {
-    next(error);
-  }
-};
-
-export const signOut = async (req, res, next) => {
-  try {
-    res.clearCookie('access_token');
-    res.status(200).json('User has been logged out!');
-  } catch (error) {
-    next(error);
-  }
-};
-
-*/

@@ -5,8 +5,10 @@ import { NavLink, useNavigate ,useParams} from 'react-router-dom';
 import Loading from "../../components/public/Loading";
 import LoadingBox from "../../hooks/useLoading"
 import {useDispatch,useSelector} from 'react-redux';
+
 import {loginUserAsync, reset} from "../../redux/AuthSlice.js";
 import {getUserArticles} from "../../redux/ArticleSlice.js";
+import {getUser} from "../../redux/UserSlice.js";
 
 import AboutBox from "../../components/user/profile/AboutBox"
 import UserArticles from "../../components/user/profile/UserArticles"
@@ -16,32 +18,27 @@ const Profile = () => {
 
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
-  const params = useParams();
+    const params = useParams();
   
 	const {currentUser, isSuccess} = useSelector(state => state.auth) ;
-	const {articles, error,isLoading} = useSelector(state => state.article);
+	const {articles, error ,isLoading} = useSelector(state => state.article);
+	const {user} = useSelector(state => state.user) ;
 	
 	const loadingProps = LoadingBox();
 	const loading = loadingProps.loading; 
 	const setLoading = loadingProps.setLoading;
 
-	useEffect(()=> {
-	  
-	    if(!params.id)
+	useEffect(()=>{
+		if(!params.id)
 	      navigate("/notfound");
 
-	    //if(	!currentUser.id) {
+		dispatch(getUser(params.id))
 
-	     // navigate("/login2");
-	    //}else {
-	    	//[console.l]og('user id in profile :',currentUser.id)
-	    //}
+		console.log('user in profile is :',user)
+	},[navigate,dispatch]);
 
-	    // setTimeout(()=> {
-	    //   dispatch(reset() )  
-	    // }, 1500)
-
-	  // dispatch(getUserArticles(currentUser.id))
+	useEffect(()=> {
+	  
 	  dispatch(getUserArticles(params.id))
 
 	  if(!articles)
@@ -52,8 +49,11 @@ const Profile = () => {
       	console.log('error from slice is :',error)
       else
       	console.log('no error from slice')
-	}, [dispatch, navigate])
+	}, [dispatch, ])
 
+	if(loading){
+		return <Loading />
+	}
 	return (
 			<div className="xs:mb-[140px] sm:mb-[40px]">
 				<AboutBox />
@@ -62,7 +62,7 @@ const Profile = () => {
 					<div className="xmd:basis-5/12 lg:basis-4/12 xl:basis-3/12 pl-1 border-b-4 border-b-gray-300 font-bold text-gray-700 "
 						 
 					>
-						{currentUser.username}`s Articles
+						{user ? `${user.username}\`s Articles` : "No User" }
 					</div>
 				</div>
 

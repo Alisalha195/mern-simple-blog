@@ -1,3 +1,6 @@
+
+// userid : 66340bd85f860a4ff0cddf20
+
 import './App.css'
 import {useState, useEffect, Suspense,lazy} from 'react';
 import {useNavigate ,Navigate, Routes , Route} from 'react-router-dom'
@@ -20,7 +23,7 @@ import Articles from './user/pages/Articles/Articles'
 import Article from './user/pages/Articles/Article'
 import AddArticle from './user/pages/Articles/AddArticle'
 import EditArticle from './user/pages/Articles/EditArticle'
-import DeleteArticle from './user/pages/Articles/DeleteArticle'
+// import DeleteArticle from './user/pages/Articles/DeleteArticle'
 
 
 
@@ -32,7 +35,7 @@ function App() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const {currentUser, isSuccess} = useSelector(state => state.user) ;
+  const {currentUser, isSuccess} = useSelector(state => state.auth) ;
 
   // const[isLoading, setIsLoading] = useState(true) ;
   // const[backendData, setBackendData] = useState([""]) ;
@@ -74,7 +77,7 @@ function App() {
           
           <Route path="/articles/add" element={<AddArticle />} />
           <Route path="/articles/edit/:id" element={<EditArticle />} />
-          <Route path="/articles/delete/:id" element={<DeleteArticle />} />
+          {/* <Route path="/articles/delete/:id" element={<DeleteArticle />} /> */}
 
           {/*
           <Route path="/profile/:id" element={currentUser ? <Profile /> : <Navigate to='/login' />} />
@@ -84,7 +87,8 @@ function App() {
           <Route path="/about" element={<About />} />
           {/* <Route path="/home" element={authUser ? <HomePage /> : <Navigate to='/login' /> }/> */}
             
-           
+           {/* <Route path="/dashboard" element={<Dashboard /> } /> */}
+
            <Route path="/dashboard" element={currentUser ? <Dashboard /> : <Navigate to='/login' />} />
 
           {/* <Route path="/login" element={authUser ?<Navigate to='/' /> :<Login /> }/> */}

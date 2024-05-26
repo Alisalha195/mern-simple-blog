@@ -21,14 +21,17 @@ const Dashboard = () => {
 	const [showSuccessMsg , setShowSuccessMsg] = useState(false);
   
   const{currentUser,error}=useSelector(state=>state.auth);
+  // console.log("auth in dash is :",currentUser)
   const {articles, isLoading, actionType,showActionSuccessMsg} = useSelector(state => state.article);
   
   useEffect(()=>{
+  	// console.log('Auth is dash is :',currentUser)
     if(!currentUser)
       navigate("/login")
       
     dispatch(getUserArticles(currentUser.id))
-  },[currentUser])
+  },[currentUser,error,dispatch,navigate])
+  // currentUser,error,dispatch,navigate
   
   useEffect(()=>{
 

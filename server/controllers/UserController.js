@@ -21,7 +21,9 @@ export const getUser = async (req , res) => {
 		const user = await User.findById(id);
 		return res.status(200).json(user)
 	} catch(error) {
-		res.status(500).send(error.message)
+		res.status(500)
+		res.json(error)
+		return res;
 	}
 }
 

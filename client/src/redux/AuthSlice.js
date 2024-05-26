@@ -10,18 +10,18 @@ const initialState = {
 	error:null
 };
 
-export const signupUserAsync = createAsyncThunk('user/signupUser', async (payload, thunkAPI)=>{
+export const signupUserAsync = createAsyncThunk('auth/signupUser', async (payload, thunkAPI)=>{
 	
 	try {
-		
+		console.log('payload :',payload)
 		const res = await fetch("http://localhost:5000/api/auth/signup",{
 			method:"POST",
 			headers:{ 'Content-Type':'application/json'},
-			body: JSON.stringify({username:payload.username,email:payload.email, password:payload.password})
+			body: JSON.stringify({username:payload.username,email:payload.email, password:payload.password, firstname:payload.firstname, lastname:payload.lastname})
 		});
 		
 		const response = await res.json();
-		// console.log("response is : ",response);
+		console.log("response is : ",response);
 		localStorage.setItem('currentUser',JSON.stringify(response));
 		return response;
 		
@@ -36,8 +36,8 @@ export const signupUserAsync = createAsyncThunk('user/signupUser', async (payloa
 
 });
 
-export const loginUserAsync = createAsyncThunk('user/loginUser', async (payload, thunkAPI)=>{
-	
+export const loginUserAsync = createAsyncThunk('auth/loginUser', async (payload, thunkAPI)=>{
+	console.log('LOGING in')
 	try {
 		console.log("starting fetch")
 		const res = await fetch("http://localhost:5000/api/auth/login",{
@@ -62,7 +62,8 @@ export const loginUserAsync = createAsyncThunk('user/loginUser', async (payload,
 
 });
 
-export const logoutAsync = createAsyncThunk('user/logout', async(payload)=>{
+export const logoutAsync = createAsyncThunk('auth/logout', async(payload)=>{
+	console.log('LOGING out')
 	localStorage.removeItem('currentUser')
 })
 

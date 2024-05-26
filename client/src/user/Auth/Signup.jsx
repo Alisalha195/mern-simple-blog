@@ -49,7 +49,7 @@ const SignUp = ()=>  {
 
   const handleSignup = () => {
     // console.log("proccessing...");
-
+    console.log('Form data ; ',formData)
     dispatch(signupUserAsync(formData));
     // setLoading(true);
     
@@ -110,6 +110,41 @@ const SignUp = ()=>  {
           <div className="  lg:basis-8/12 xs:basis-full justify-center">
             
             <div className="flex flex-col  xs:px-4 lg:px-3 pt-2  " >
+
+              {/* fullname lg:flex-col xs:flex-row */}
+              <div className="flex md:flex-row xs:flex-col  justify-between lg:[width:90%] xs:[width:100%]">
+                <div className="flex flex-col xs:[width:100%] md:[max-width:45%]">
+                  <div className=" xs:text-[24px] sm:text-[28px] lg:text-[30px] leading-7 text-gray-700">
+                    first name
+                  </div>
+                  <div className="">
+                    <input className=" pl-2 py-1 border-t-gray-900 focus:text-gray-900 text-gray-600 [width:100%] text-[24px] [border:1px_solid_#aaa] [outline:none] [border-radius:7px]"
+                      required 
+                      type="text" 
+                      id="firstname"
+                      onChange = {handleChange}
+                      
+                              />
+
+                  </div>
+                </div>
+
+                <div className="flex flex-col xs:[width:100%] md:[max-width:45%]">
+                  <div className=" xs:text-[24px] sm:text-[28px] lg:text-[30px] leading-7 text-gray-700">
+                    last name
+                  </div>
+                  <div className="">
+                    <input className=" pl-2 py-1 border-t-gray-900 focus:text-gray-900 text-gray-600 lg:[width:100%] xs:[width:100%] text-[24px] [border:1px_solid_#aaa] [outline:none] [border-radius:7px]"
+                      required 
+                      type="text" 
+                      id="lastname"
+                      onChange = {handleChange}
+                      
+                              />
+
+                  </div>
+                </div>
+              </div>
 
               {/* username */}
               <div className="flex flex-col">

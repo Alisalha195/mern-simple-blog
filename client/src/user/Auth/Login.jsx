@@ -27,18 +27,21 @@ const Login = ()=> {
   useEffect(()=> {
 
     if(error) {
+      console.log("error err");
       setErrorMessage(error.message);
     }
 
-    if(currentUser)
+    if(currentUser ){
+      // console.log('Auth is :',currentUser)
       navigate("/dashboard");
+    }
 
     setTimeout(()=> {
       dispatch(reset())
-    }, 1500)
+    }, 2500)
     
 
-  }, [dispatch, navigate, currentUser, error, isLoading])
+  }, [ currentUser, error, isLoading])
 
   const handleChange = (e)=> {
     setFormData({
