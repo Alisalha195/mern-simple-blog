@@ -2,6 +2,7 @@
 
 import mongoose from "mongoose";
 import User from "../models/user.js"
+import bcryptjs from 'bcryptjs';
 
 
 export const getUsers = async (req , res) => {
@@ -38,15 +39,23 @@ export const createUser = async (req , res) => {
 	}
 }
 
-export const updateUser = async (req , res) => {
-	
+export const editUser = async (req , res) => { 
+
 	try {
 		const {id} = req.params
-		const {username , email, password} = req.body
-		const user = await User.findByIdAndUpdate(id,{username , email, password});
+		const {firstname,lastname, username,age , password, jobTitle ,breifInfo} = req.body;
+
+		console.log("req.params",req.params);
+		console.log("req.body",req.body);
+
+		const hashedPassword = bcryptjs.hashSync(password, 10);
+		// if(firstname)
+		const user = await User.findByIdAndUpdate(id,{firstname,lastname, username,age , password: hashedPassword, jobTitle ,breifInfo});
+
+		console.log("json(user) is",user)
 		return res.status(200).json(user)
 	} catch(error) {
-		res.status(500).send(error.message)
+		return res.status(500).json(error)
 	}
 }
 

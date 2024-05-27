@@ -12,7 +12,7 @@ import  {FaRegThumbsDown}  from "react-icons/fa6";
 import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';	
 
-import { setActionType } from "../../redux/ArticleSlice.js";
+import { setActionType } from "../../redux/SuccessMsgSlice.js";
 
 
 

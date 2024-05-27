@@ -6,7 +6,7 @@ import {
   getUsers ,
   getUser ,
   createUser ,
-  updateUser ,
+  editUser ,
   deleteUser
 } from "../controllers/UserController.js"
 
@@ -23,7 +23,7 @@ router.post("/", createUser)
 router.get("/:id", getUser)
 
 // update an article using id
-router.put("/update/:id", updateUser)
+router.put("/update/:id", editUser)
 
 // delete an article using id
 router.delete("/delete/:id", deleteUser)

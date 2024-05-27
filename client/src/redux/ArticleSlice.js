@@ -9,8 +9,6 @@ const initialState = {
 	allArticles: null,
 	articles : null,
 	article:null,
-	actionType:null,
-	showActionSuccessMsg:false,
 	currentArticle: null,
 	// total : 0 ,
 	isLoading: false,
@@ -28,7 +26,7 @@ export const getUserArticles = createAsyncThunk('articles/getUserArticles', asyn
 		});
 		
 		const response = await res.json();
-    console.log('response',response)
+        console.log('response',response)
 		if(!response || response.length == 0) {
 			const error = {
 				message : "Error User Not Found"
@@ -92,18 +90,6 @@ const articleSlice = createSlice({
 	name: 'article' ,
 	initialState ,
 	reducers : {
-		getActionType: (state) => {
-			return (state.actionType ? state.actionType : "empty");  
-		},
-		setActionType: (state, action) => { 
-			state.actionType = action.payload;
-		},
-		getShowActionSuccessMsg: (state) => {
-			return state.showActionSuccessMsg ; 
-		},
-		setShowActionSuccessMsg: (state, action) => { 
-			state.showActionSuccessMsg = action.payload;
-		},
 	},
 
 	extraReducers: (builder) => {
@@ -170,10 +156,10 @@ const articleSlice = createSlice({
 	}
 });
 	
-export const {getArticle_v, getActionType , setActionType,
-       getShowActionSuccessMsg , setShowActionSuccessMsg
-
-	} = articleSlice.actions;	
+// export const {getArticle_v, getActionType , setActionType,
+//        getShowActionSuccessMsg , setShowActionSuccessMsg
+// 
+// 	} = articleSlice.actions;	
 export default articleSlice.reducer;
 	
 	

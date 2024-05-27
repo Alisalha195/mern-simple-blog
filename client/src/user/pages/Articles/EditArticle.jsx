@@ -11,7 +11,7 @@ import TypingBox from "../../../components/articles/add/TypingBox"
 import Loading from "../../../components/public/Loading";
 import LoadingBox from "../../../hooks/useLoading";
 
-import { setShowActionSuccessMsg} from "../../../redux/ArticleSlice.js";
+import { setShowActionSuccessMsg} from "../../../redux/SuccessMsgSlice.js";
 
 const EditArticle = () => {
     
@@ -102,7 +102,7 @@ const EditArticle = () => {
 			// navigate back or to dashboard
             if(response.ok) {
             	dispatch(setShowActionSuccessMsg(true));
-            	navigate("/dashboard");
+            	navigate(-1);
             	// navigate(-1)
             }
 		} catch(error) {

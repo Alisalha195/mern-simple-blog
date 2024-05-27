@@ -9,7 +9,7 @@ import { FiEdit3 } from "react-icons/fi";
 import SideBar from "../../../components/articles/add/SideBar" 
 import TypingBox from "../../../components/articles/add/TypingBox" 
 
-import { setShowActionSuccessMsg} from "../../../redux/ArticleSlice.js";
+import { setShowActionSuccessMsg} from "../../../redux/SuccessMsgSlice.js";
 
 const AddArticle = () => {
 
@@ -66,7 +66,7 @@ const AddArticle = () => {
 			const res = response.json()
             if(response.ok) {
 				dispatch(setShowActionSuccessMsg(true));
-            	navigate("/dashboard")
+            	navigate(-1)
             }
 		} catch(error) {
 			setError(error)

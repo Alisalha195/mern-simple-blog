@@ -6,7 +6,8 @@ import {Navigate} from 'react-router-dom'
 import {useDispatch,useSelector} from 'react-redux';
 import Loading from "../../components/public/Loading";
 import LoadingBox from "../../hooks/useLoading"
-import {getUserArticles , setActionType, setShowActionSuccessMsg} from "../../redux/ArticleSlice.js";
+import {getUserArticles } from "../../redux/ArticleSlice.js";
+import {setActionType, setShowActionSuccessMsg} from "../../redux/SuccessMsgSlice.js";
 
 import UserArticles from "../../components/user/profile/UserArticles";
 
@@ -18,11 +19,13 @@ const Dashboard = () => {
   const loading = loadingProps.loading;
 
   const [successMsg , setSuccessMsg] = useState("");
-	const [showSuccessMsg , setShowSuccessMsg] = useState(false);
+	const [showSuccessMsg , setShowSuccessMsg] = useState(false); 
   
   const{currentUser,error}=useSelector(state=>state.auth);
   // console.log("auth in dash is :",currentUser)
-  const {articles, isLoading, actionType,showActionSuccessMsg} = useSelector(state => state.article);
+  const {articles, isLoading } = useSelector(state => state.article);
+
+  const{actionType,showActionSuccessMsg}=useSelector(state=>state.successMsg);
   
   useEffect(()=>{
   	// console.log('Auth is dash is :',currentUser)
@@ -30,7 +33,7 @@ const Dashboard = () => {
       navigate("/login")
       
     dispatch(getUserArticles(currentUser.id))
-  },[currentUser,error,dispatch,navigate])
+  },[currentUser,error,dispatch,navigate, successMsg, showActionSuccessMsg])
   // currentUser,error,dispatch,navigate
   
   useEffect(()=>{

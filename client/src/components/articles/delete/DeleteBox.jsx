@@ -4,7 +4,7 @@ import {useEffect , useState} from 'react'
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import {useDispatch,useSelector} from 'react-redux';
 
-import { setShowActionSuccessMsg} from "../../../redux/ArticleSlice.js";
+import { setShowActionSuccessMsg} from "../../../redux/SuccessMsgSlice.js";
 import { IoMdClose } from "react-icons/io";
 
 const DeleteBox = ({articleId ,title ,open , handleOpenDeleteBox}) => {  
@@ -30,9 +30,14 @@ const DeleteBox = ({articleId ,title ,open , handleOpenDeleteBox}) => {
 			const response = await res.json()
 			console.log('response in delete',response)
 			
-			handleOpenDeleteBox();
+			// handleOpenDeleteBox();
 			dispatch(setShowActionSuccessMsg(true));
-			setWaiting(false)
+			// handleOpenDeleteBox();
+			setTimeout(()=>{
+				handleOpenDeleteBox();
+				setWaiting(false);
+			},1500);
+
 		}catch(error) {
 			setWaiting(false)
 			console.log("error :");
@@ -63,7 +68,7 @@ const DeleteBox = ({articleId ,title ,open , handleOpenDeleteBox}) => {
 							onClick={handleDeleteClick}
 							disabled={waiting ? waiting  :false}
 						>
-							delete
+							{waiting ? "deleting.."  : "delete"}
 						</button>
 
 					</div>

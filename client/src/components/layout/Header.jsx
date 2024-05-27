@@ -127,7 +127,7 @@ const Header = () => {
                   </div>
 
                   <div className="btn px-1"
-                      onClick={()=>navigate("/profile")}
+                      onClick={()=>navigate(`/profile/${currentUser.id}`)}
                   >
                     < UserProfileImage size="xs" rounded={true} bordered={true}/>
                   </div>
