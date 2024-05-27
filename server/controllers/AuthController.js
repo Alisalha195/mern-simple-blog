@@ -1,5 +1,5 @@
 import User from '../models/user.js';
-import Auth from '../models/auth.js';
+// import Auth from '../models/auth.js';
 
 import bcryptjs from 'bcryptjs';
 import { errorHandler } from '../utils/error.js';
@@ -8,28 +8,29 @@ import jwt from 'jsonwebtoken';
 export const signup = async (req, res, next) => {
   
   const { firstname, lastname, username, email, password } = req.body;
-  console.log("req.body",firstname, lastname, username, email, password)
+  // console.log("req.body",firstname, lastname, username, email, password)
   // if(!username  | !email | !password)
   //   throw new Error("Invalid Crdentials !"); 
 
   const hashedPassword = bcryptjs.hashSync(password, 10);
   try {
     // console.log("dfsdfsdf")
-    const user = await User.create({ firstname, lastname });
-    console.log("user : ",user);
+    // const user = await User.create({ firstname, lastname });
+    // console.log("user : ",user);
 
-    const authUser = await Auth.create({ username, email, password: hashedPassword, userID: user._id })
-    console.log("in try");
-    console.log("authusr : ",authUser);
+    const authUser = await User.create({ username, email, password: hashedPassword, firstname, lastname })
+    // console.log("in try");
+    
     
 
-    if(authUser && user) {
+    if(authUser ) {
+      // console.log("authusr : ",authUser);
       res.json({
         id:authUser._id,
         username:authUser.username,
         email:authUser.email,
-        firstName: user.firstName, 
-        lastName: user.lastName
+        firstname: authUser.firstname,
+        lastname : authUser.lastname
       })
       console.log('RES is is is',res.json());
       return res;
@@ -52,7 +53,7 @@ export const signup = async (req, res, next) => {
     return res.json()
     // throw new Error("Invalid Crdentials !");
     // next(error);
-  }
+  } 
 };
 
 export const login = async(req, res, next) => {
@@ -61,7 +62,7 @@ export const login = async(req, res, next) => {
   // if(!email | !password)
   //   throw new Error("Invalid Crdentials !"); 
  
-  const validUser = await Auth.findOne({email});
+  const validUser = await User.findOne({email});
   // console.log("valid user is ", validUser)
   
   const validPassword = bcryptjs.compareSync(password, validUser.password);
@@ -69,7 +70,9 @@ export const login = async(req, res, next) => {
     res.json({
       id:validUser._id,
       username:validUser.username,
-      email:validUser.email
+      email:validUser.email,
+      firstname: validUser.firstname,
+      lastname: validUser.lastname
     })
     res.message = "User Loged in ";
     console.log('RES is is',res.message);

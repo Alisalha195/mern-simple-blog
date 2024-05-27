@@ -1,7 +1,7 @@
 
 import UserProfileImage from "../..//user/UserProfileImage"
 
-const AboutBox = () => {
+const AboutBox = ({currentUser, user}) => {
 
 	const breifInfo = "senior software engineer at Google , 3 years experience in web development and design , father of two children and loved husband"
 
@@ -34,24 +34,33 @@ const AboutBox = () => {
 				                md:text-left tracking-tight
 								xs:text-[40px] sm:text-[50px] md:text-[54px] lg:text-[65px]
 				  ">
-					John Doe
+					{user ? `${user.firstname} ${user.lastname}` : "User"}
 				</div>
 
 				<div className="pl-2 xs:mt-2 sm:mt-4 text-gray-700 xs:text-center md:text-left">
 					<div className=" tracking-tight xs:text-[24px] sm:text-[27px] md:text-[30px] ">
-						Software Engineer 
-						<span className="text-xs ml-2 xs:hidden md:inline">27y</span>
+					{user ? user.jobTitle : ""}
+						Software Engineer
+						<span className="text-xs ml-2 xs:hidden md:inline">
+						{user ? `${user.age}y` : ""}
+						
+						</span>
 					</div>
 					<div className="text-sm text-gray-600 tracking-tight xs:text-[21px] sm:text-[23px] md:text-[25px]">
-						john@gmail.com
+						{user ?user.email : ""}
 					</div>
 					<div className="xs:text-justify md:text-left xs:text-[26px] sm:text-[27px] 
 					               md:text-[32px] mt-2  tracking-tight xs:px-4 sm:px-5 md:pl-1 md:pr-6">
-						  {breifInfo}
+						  {user ? user.breifInfo : breifInfo}
 					</div>
 					<div className="text-sm  tracking-tight">
 						
 					</div>
+				</div>
+				<div className="flex flex-row justify-end">
+					<button className="btn flex flex-col xs:justify-center px-2  [border:1px_solid_#888] xs:text-[22px] xm:text-[24px] lg:text-[28px] text-[#fff] bg-[#00872b] [border-radius:8px]">
+						edit
+					</button>
 				</div>
 			</div>
 		</div>	

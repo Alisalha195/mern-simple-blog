@@ -117,7 +117,7 @@ const AuthSlice = createSlice({
 		});
 		builder.addCase(signupUserAsync.rejected , (state, action)=> {
 			console.log('Rejected in slice')
-			
+			console.log('STATE is ',initialState)
 			state.isSuccess = false;
 			state.error = action.payload;
 			state.currentUser = null;

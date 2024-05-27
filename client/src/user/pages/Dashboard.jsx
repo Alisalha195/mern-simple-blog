@@ -78,7 +78,7 @@ const Dashboard = () => {
 
 	  	<div className="mt-3 flex flex-row justify-center">
 		  	<div className="text-[#444] xs:text-[36px] sm:text-[40px] lg:text-[46px] font-bold">
-		  		Dashboard
+		  		{currentUser ? `${currentUser.firstname} Dashboard` : "Dashboard"}
 		  	</div>
 	  	</div>
 

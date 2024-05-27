@@ -57,7 +57,7 @@ const userSlice = createSlice({
 		});
 
 		builder.addCase(getUser.rejected, (state, action)=>{
-			
+			console.log('STATE is ',initialState)
 			// console.log("action.payload",action.payload)
 		    state.error = action.payload;
 		    state.user = null

@@ -56,13 +56,13 @@ const Profile = () => {
 	}
 	return (
 			<div className="xs:mb-[140px] sm:mb-[40px]">
-				<AboutBox />
+				<AboutBox currentUser={currentUser} user={user} />
 
 				<div className="flex xs:justify-center md:justify-start ml-3 mt-6 mb-7 xs:text-[28px] sm:text-[32px] md:text-[36px]">
 					<div className="xmd:basis-5/12 lg:basis-4/12 xl:basis-3/12 pl-1 border-b-4 border-b-gray-300 font-bold text-gray-700 "
 						 
 					>
-						{user ? `${user.username}\`s Articles` : "No User" }
+						{user ? `${user.firstname}\`s Articles` : "No User" }
 					</div>
 				</div>
 
