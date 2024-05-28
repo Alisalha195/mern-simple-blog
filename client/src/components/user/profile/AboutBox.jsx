@@ -50,10 +50,10 @@ const AboutBox = ({currentUser, user}) => {
 
 				<div className="pl-2 xs:mt-2 sm:mt-4 text-gray-700 xs:text-center md:text-left">
 					<div className=" tracking-tight xs:text-[24px] sm:text-[27px] md:text-[30px] ">
-					{user ? user.jobTitle : ""}
+					{user ? user.jobTitle ? user.jobTitle  : "" : ""}
 						
 						<span className="text-xs ml-2 xs:hidden md:inline">
-						{user ? `${user.age}y` : ""}
+						{user ? user.age ? `${user.age}y` : "" : ""}
 						
 						</span>
 					</div>
