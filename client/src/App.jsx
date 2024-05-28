@@ -12,17 +12,17 @@ import {useDispatch,useSelector} from 'react-redux';
 import Header from "./components/layout/Header"
 import Footer from "./components/layout/Footer"
 
-import Homepage from './user/pages/Homepage'
-import Login from './user/Auth/Login'
-import Signup from './user/Auth/Signup'
-import Profile from './user/pages/Profile'  
-import About from './user/pages/About'
-import Dashboard from './user/pages/Dashboard'
+import Homepage from './pages/user/Homepage'
+import Login from './pages/Auth/Login'
+import Signup from './pages/Auth/Signup'
+import Profile from './pages/user/Profile'  
+import About from './pages/user/About'
+import Dashboard from './pages/user/Dashboard'
 
-import Articles from './user/pages/Articles/Articles'
-import Article from './user/pages/Articles/Article'
-import AddArticle from './user/pages/Articles/AddArticle'
-import EditArticle from './user/pages/Articles/EditArticle'
+import Articles from './pages/user/Articles/Articles'
+import Article from './pages/user/Articles/Article'
+import AddArticle from './pages/user/Articles/AddArticle'
+import EditArticle from './pages/user/Articles/EditArticle'
 // import DeleteArticle from './user/pages/Articles/DeleteArticle'
 
 
