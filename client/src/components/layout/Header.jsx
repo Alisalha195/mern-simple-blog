@@ -114,7 +114,7 @@ const Header = () => {
                   <div className='flex flex-row '>
                     <div className='flex flex-col justify-center'>
                       <span className='btn flex flex-col [max-height:80%] justify-center px-1 bg-[#3db7ff] hover:bg-[#68c7ff] [border-radius:9px] text-[#222] text-[22px] '
-                            onClick={()=>navigate("/dashboard")}
+                            onClick={()=>{currentUser.isAdmin ?navigate("/admin") :navigate("/dashboard")}}
                     >
                       dashboard
                     </span>

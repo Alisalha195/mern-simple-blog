@@ -9,7 +9,8 @@ import {useDispatch,useSelector} from 'react-redux';
 // import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 // import useBownerDashboardContext from "./context/BownerDashboardContext"
-import  from "./admin/pages/AdminDashboard"
+import AdminDashboard from "./admin/pages/AdminDashboard"
+
 import Header from "./components/layout/Header"
 import Footer from "./components/layout/Footer"
 
@@ -60,14 +61,25 @@ function App() {
 
 
   return (
-    <div className="app ">
+    <div className="app ">  
       
         <Header />
 
         
         <Routes>  
 
-          {/* <Route path="/" element={authUser ? <HomePage /> : <Navigate to='/login' /> }/> */}
+          <Route path="/admin" element={currentUser 
+                                ? 
+                                    currentUser.isAdmin 
+                                    ?
+                                        <AdminDashboard />
+                                    :
+                                        <Navigate to='/dashboard' />
+                                :
+                                    <Navigate to='/login' />
+                              } 
+          />
+          
 
           <Route path="/" element={<Homepage />} />
           <Route path="/login" element={<Login /> }/>
@@ -92,14 +104,12 @@ function App() {
 
            <Route path="/dashboard" element={currentUser ? <Dashboard /> : <Navigate to='/login' />} />
 
-          {/* <Route path="/login" element={authUser ?<Navigate to='/' /> :<Login /> }/> */}
-           
           
-          {/* <Route path="/user/:id" element={<User /> }/> */}
         </Routes>
 
         
         <Footer />
+    
       
     </div>
   )

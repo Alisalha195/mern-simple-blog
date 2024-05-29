@@ -32,8 +32,11 @@ const Login = ()=> {
     }
 
     if(currentUser ){
+      if(currentUser.isAdmin)
+        navigate("/admin");
+      else
       // console.log('Auth is :',currentUser)
-      navigate("/dashboard");
+        navigate("/dashboard");
     }
 
     setTimeout(()=> {

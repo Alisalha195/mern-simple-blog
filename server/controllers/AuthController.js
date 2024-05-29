@@ -63,8 +63,9 @@ export const login = async(req, res, next) => {
   //   throw new Error("Invalid Crdentials !"); 
  
   const validUser = await User.findOne({email});
-  // console.log("valid user is ", validUser)
+  console.log("valid user is ", validUser)
   
+  const isAdmin = validUser.isAdmin ? true : false
   const validPassword = bcryptjs.compareSync(password, validUser.password);
   if(validUser && validPassword) {
     res.json({
@@ -72,7 +73,8 @@ export const login = async(req, res, next) => {
       username:validUser.username,
       email:validUser.email,
       firstname: validUser.firstname,
-      lastname: validUser.lastname
+      lastname: validUser.lastname,
+      isAdmin: isAdmin
     })
     res.message = "User Loged in ";
     console.log('RES is is',res.message);

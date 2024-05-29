@@ -52,6 +52,11 @@ import mongoose from "mongoose";
       type : String,
       required: false
     },
+    isAdmin : {
+      type: Boolean,
+      required: true,
+      default: false
+    },
     
     breifInfo: {
       type : String,

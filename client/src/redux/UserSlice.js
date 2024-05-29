@@ -5,10 +5,41 @@ const getUserUrl = "http://localhost:5000/api/users";
 const editUserUrl = "http://localhost:5000/api/users/update"
 
 const initialState = {
+	users:null,
 	user: null,
+	isAdmin:null,
 	isLoading: false,
 	error:''
 };
+
+export const getAllUsers = createAsyncThunk('user/getUsers', async(payload,thunkAPI)=>{
+
+	try {
+		// console.log('payload is',payload)
+		const res = await fetch(getUserUrl);
+		
+		const response = await res.json();
+        console.log('response',response);
+
+		if(!response || response.length == 0) {
+			const error = {
+				message : "Error Faild to get Users"
+			}
+			return thunkAPI.rejectWithValue(error);
+		}
+		// console.log('errrrro',response)
+    return response
+	}catch(err){
+
+		const error = {
+			message : "Error Faild to get Users"
+		}
+		// console.log('errrrro')
+		return thunkAPI.rejectWithValue(error);
+    
+	}
+  
+});
 
 export const getUser = createAsyncThunk('user/getUser', async(payload,thunkAPI)=>{
 
@@ -76,7 +107,29 @@ const userSlice = createSlice({
 	initialState ,
 	reducers : {},
 	extraReducers: (builder) => {
+		
+		// --- get all users ----
+		builder.addCase(getAllUsers.pending , (state)=> {
+			state.isLoading = true;
+		});
 
+		builder.addCase(getAllUsers.fulfilled, (state, action)=>{
+			
+			// console.log("action.payload",action.payload)
+		    state.users = action.payload; 
+		    // state.total = state.articles.length
+		    state.isLoading = false;
+		});
+
+		builder.addCase(getAllUsers.rejected, (state, action)=>{
+			console.log('STATE is ',initialState)
+			// console.log("action.payload",action.payload)
+		    state.error = action.payload;
+		    state.users = null
+		    state.isLoading = false;
+		});
+
+		// --- get user ----
 		builder.addCase(getUser.pending , (state)=> {
 			state.isLoading = true;
 		});

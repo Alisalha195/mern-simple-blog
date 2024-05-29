@@ -8,7 +8,8 @@ import bcryptjs from 'bcryptjs';
 export const getUsers = async (req , res) => {
 	
 	try {
-		const users = await User.find({});
+		const users = await User.find({isAdmin : false});
+		console.log("users is controller : ",users);
 		return res.status(200).json(users)
 	} catch(error) {
 		res.status(500).send(error.message)
