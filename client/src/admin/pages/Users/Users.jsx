@@ -15,16 +15,11 @@ import UserCard from "../../components/users/UserCard";
 
 const Users = ({users}) => {
 
-	console.log('users in Users :',users);
+	console.log('users in Users :',users);  
 	return (
-		<div className="p-2"> 
+		<div className={(users.length > 1) ? "p-5 xs:mb-[100px] sm:mb-[30px]  [max-height:100vh] [overflow-y:scroll]"  : "p-4 "}> 
 
-		    <div className="flex flex-row ml-4 mb-4 text-[#555]">
-		    	<span className="[border-bottom:2px_solid_#666] pr-3">
-		    		Users
-		    	</span>
-		    	<span className="text-[#999]">search</span>
-		    </div>
+		    
 			{
 				users ?  
 					<div className="">
