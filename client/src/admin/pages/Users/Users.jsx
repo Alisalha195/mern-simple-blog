@@ -23,10 +23,11 @@ const Users = ({users}) => {
 		    	<span className="[border-bottom:2px_solid_#666] pr-3">
 		    		Users
 		    	</span>
+		    	<span className="text-[#999]">search</span>
 		    </div>
 			{
 				users ?  
-					<div className="[border:1px_solid_#888]">
+					<div className="">
 						{ users.map(user => (<UserCard key={user._id} user={user} /> ))}
 					</div>
 				:
