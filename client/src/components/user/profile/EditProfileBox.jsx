@@ -9,7 +9,7 @@ import { updateUser} from "../../../redux/UserSlice.js";
 
 import { IoMdClose } from "react-icons/io";
 
-const EditProfileBox = ({user,openEditBox ,setOpenEditBox}) => {  
+const EditProfileBox = ({admin ,user,openEditBox ,setOpenEditBox}) => {  
 	
 	const dispatch = useDispatch()
 	const [waiting , setWaiting]  = useState(false);
@@ -66,7 +66,7 @@ const EditProfileBox = ({user,openEditBox ,setOpenEditBox}) => {
 
 	return (
  
-		<div className={openEditBox ? "  flex flex-row justify-center  bg-[#1e343d]/[.89]  [height:100vh] [width:100vw]   [position:fixed] [top:0] [left:0]" : "hidden"}
+		<div className={openEditBox ? "  flex flex-row justify-center  bg-[#1e343d]/[.89]  [height:100vh] [width:100vw]   [position:fixed] [top:0] [left:0] [z-index:200] " : "hidden"}
 
 		>
 
@@ -88,7 +88,7 @@ const EditProfileBox = ({user,openEditBox ,setOpenEditBox}) => {
 						    <input className=" pl-2 py-1 border-t-gray-900 focus:text-gray-900 text-gray-600 [width:100%] text-[24px] [border:1px_solid_#aaa] [outline:none] [border-radius:7px]"
 						      required 
 						      type="text" 
-						      id="firstname"
+						      id={openEditBox ? "firstname" :`firstname-${user._id}`}
 						      value={formData.firstname }
 						      onChange = {handleChange}
 						      
@@ -104,8 +104,8 @@ const EditProfileBox = ({user,openEditBox ,setOpenEditBox}) => {
 						  <div className="">
 						    <input className=" pl-2 py-1 border-t-gray-900 focus:text-gray-900 text-gray-600 lg:[width:100%] xs:[width:100%] text-[24px] [border:1px_solid_#aaa] [outline:none] [border-radius:7px]"
 						      required 
-						      type="text" 
-						      id="lastname"
+						      type="text"
+						      id={openEditBox ? "lastname" :`lastname-${user._id}`}
 						      value={formData.lastname }
 						      onChange = {handleChange}
 						      
@@ -121,7 +121,7 @@ const EditProfileBox = ({user,openEditBox ,setOpenEditBox}) => {
 						    <input className=" pl-2 py-1 border-t-gray-900 focus:text-gray-900 text-gray-600 lg:[width:100%] xs:[width:100%] text-[24px] [border:1px_solid_#aaa] [outline:none] [border-radius:7px]"
 						      required 
 						      type="number" 
-						      id="age"
+						      id={openEditBox ? "age" :`age-${user._id}`}
 						      value={formData.age }
 						      onChange = {handleChange}
 						      
@@ -140,7 +140,7 @@ const EditProfileBox = ({user,openEditBox ,setOpenEditBox}) => {
 						    <input className=" pl-2 py-1 border-t-gray-900 focus:text-gray-900 text-gray-600  xs:[width:100%] text-[24px] [border:1px_solid_#aaa] [outline:none] [border-radius:7px]"
 						      required 
 						      type="text" 
-						      id="username"
+						      id={openEditBox ? "username" :`username-${user._id}`}
 						      value={formData.username}
 						      onChange = {handleChange}
 						      
@@ -158,7 +158,7 @@ const EditProfileBox = ({user,openEditBox ,setOpenEditBox}) => {
 						  <input className=" pl-2 py-1 border-t-gray-900 focus:text-gray-900 text-gray-600  xs:[width:100%] text-[24px] [border:1px_solid_#aaa] [outline:none] [border-radius:7px]" 
 						  required
 						  type="password"
-						  id="password"
+						  id={openEditBox ? "password" :`password-${user._id}`}
 						  onChange = {handleChange} 
 						       />
 
@@ -173,7 +173,7 @@ const EditProfileBox = ({user,openEditBox ,setOpenEditBox}) => {
 						  <input className=" pl-2 py-1 border-t-gray-900 focus:text-gray-900 text-gray-600  xs:[width:100%] text-[24px] [border:1px_solid_#aaa] [outline:none] [border-radius:7px]" 
 						  required
 						  type="text"
-						  id="jobTitle"
+						  id={openEditBox ? "jobTitle" :`jobTitle-${user._id}`}
 						  value={formData.jobTitle}
 						  onChange = {handleChange} 
 						       />
@@ -186,7 +186,8 @@ const EditProfileBox = ({user,openEditBox ,setOpenEditBox}) => {
 						<div className="  leading-7 text-gray-100 xs:text-[24px] sm:text-[28px] lg:text-[30px] ">
 						  breif information
 						</div>
-						<textarea placeholder="text" wrap="off" id="breifInfo"
+						<textarea placeholder="text" wrap="off" 
+						id={openEditBox ? "breifInfo" :`breifInfo-${user._id}`}
 					    className="xs:p-2 lg:p-3 xs:text-[26px] lg:text-[31px] text-gray-600 [outline:none] [resize:none]
 					               [border:1px_solid_#ddd] [width:100%] [height:100%] " 
 		                value={formData.breifInfo}

@@ -105,7 +105,11 @@ export const updateUser = createAsyncThunk('user/updateUser',async(payload,thunk
 const userSlice = createSlice({
 	name: 'user' ,
 	initialState ,
-	reducers : {},
+	reducers : {
+		setUsers : (state,action) => {
+			state.users = action.payload;
+		}
+	},
 	extraReducers: (builder) => {
 		
 		// --- get all users ----
@@ -173,4 +177,5 @@ const userSlice = createSlice({
 	}
 });
 
+export const {setUsers} = userSlice.actions
 export default userSlice.reducer;

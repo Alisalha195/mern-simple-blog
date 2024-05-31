@@ -9,6 +9,7 @@ import useDeleteBox from '../../../hooks/useDeleteBox';
 import DeleteUserBox from './DeleteUserBox';
 
 import UserProfileImage from "../../../components/user/UserProfileImage"
+import EditProfileBox from "../../../components/user/profile/EditProfileBox"
 
 import { setActionType } from "../../../redux/SuccessMsgSlice.js";
 
@@ -23,16 +24,17 @@ import { setActionType } from "../../../redux/SuccessMsgSlice.js";
 const UserCard = ({user}) => {
 
 	const navigate = useNavigate();
-	const dispatch = useDispatch()
+	const dispatch = useDispatch();
+
+	const [openEditBox, setOpenEditBox] = useState(false);
     // const {currentUser} = useSelector(state => state.auth) ;
 
 	const DeleteBoxProps = useDeleteBox()
-
 	const openDeleteBox = DeleteBoxProps.open;
 	const handleOpenDeleteBox = DeleteBoxProps.handleOpenDeleteBox
 	
 	return (
-		<div className={openDeleteBox ? "no-doc-scroll bg-[#eee] mb-4 [border-bottom:1px_solid_#bbb] [border-left:1px_solid_#ccc]" : "bg-[#eee] mb-4 [border-bottom:1px_solid_#bbb] [border-left:1px_solid_#ccc]"}> 
+		<div className={openDeleteBox || openEditBox ? "no-doc-scroll bg-[#eee] mb-4 [border-bottom:1px_solid_#bbb] [border-left:1px_solid_#ccc]" : "bg-[#eee] mb-4 [border-bottom:1px_solid_#bbb] [border-left:1px_solid_#ccc]"}> 
 
 			 <div className="flex xs:flex-col sm:flex-row ">
 			 
@@ -60,7 +62,11 @@ const UserCard = ({user}) => {
 		      {/*...Control Buttons....*/}
 		      <div className="py-2 flex xs:flex-row sm:flex-col  xs:basis-4/12 sm:basis-3/12 justify-center xs:text-[22px] sm:text-[25px] md:text-[28px]">
 		          <div className="flex xs:flex-col sm:flex-row  justify-center mr-[18px] ">
-		            <span className="btn px-[8px] sm:py-[2px] [border:1px_solid_#444] [border-radius:6px] bg-[#009830] hover:bg-[#0b6f13] text-white">
+		            <span className="btn px-[8px] sm:py-[2px] [border:1px_solid_#444] [border-radius:6px] bg-[#009830] hover:bg-[#0b6f13] text-white"
+						
+						onClick={()=>{setOpenEditBox(true); dispatch(setActionType("edit"));}}
+
+		            >
 		              edit
 		            </span>
 		          </div>
@@ -77,6 +83,8 @@ const UserCard = ({user}) => {
 			 </div>
 
 			 <DeleteUserBox userId={user._id} username={user.username} open={openDeleteBox} handleOpenDeleteBox={handleOpenDeleteBox}/>
+
+			 <EditProfileBox admin={true} user={user} openEditBox={openEditBox} setOpenEditBox={setOpenEditBox} />
 		</div>
 	)
 }

@@ -45,7 +45,7 @@ const DeleteBox = ({userId ,username ,open , handleOpenDeleteBox}) => {
 	}
 	return (
  
-		<div className={open ? "  flex flex-row justify-center  bg-[#1e343d]/[.89]  [height:100vh] [width:100vw]   [position:fixed] [top:0] [left:0]" : "hidden"}
+		<div className={open ? "  flex flex-row justify-center  bg-[#1e343d]/[.89]  [height:100vh] [width:100vw]   [position:fixed] [top:0] [left:0] [z-index:200] " : "hidden"}
 
 		>
 

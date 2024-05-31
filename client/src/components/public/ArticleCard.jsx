@@ -137,7 +137,7 @@ const ArticleCard = ({size ,id, title,content,author,authorId,pending,approved, 
 					</div>
 					{
 						(currentUser) &&
-						(currentUser.id == authorId) && 
+						(currentUser.id == authorId || (currentUser.isAdmin ) ) && 
 						<div className="flex flex-row xs:text-[20px] md:text-[22px] pl-2 mt-1">
 							<div className="btn flex flex-col justify-start text-[#025921] mr-2 px-[4px]"
 								onClick={()=>{navigate(`/articles/edit/${id}`); dispatch(setActionType("edit"));}}
