@@ -20,6 +20,10 @@ const ArticleSchema = new mongoose.Schema({
     type : String,
     required: true
   },
+  categoryId: {
+    type : String,
+    required: true
+  },
   pending : {
     type : Boolean,
     required: true,

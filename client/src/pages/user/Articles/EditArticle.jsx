@@ -7,6 +7,7 @@ import { FiEdit3 } from "react-icons/fi";
 
 import SideBar from "../../../components/articles/add/SideBar" 
 import TypingBox from "../../../components/articles/add/TypingBox" 
+import DropDownMenu from "../../../components/layout/DropDownMenu"
 
 import Loading from "../../../components/public/Loading";
 import LoadingBox from "../../../hooks/useLoading";
@@ -144,6 +145,13 @@ const EditArticle = () => {
 
 				{/* left */}
 			    <div className="xs:px-2 md:px-3 md:basis-11/12  lg:basis-9/12 ">
+
+					<div className="flex flex-col [width:100%]">
+					    <span className="xs:text-[26px] sm:text-[30px] lg:text-[36px] text-[#666]">
+						    category
+					    </span>
+						< DropDownMenu />
+					</div>
 			    	<TypingBox editedTitle={editedArticle.title} EditedContent={editedArticle.content} editing={true}
 			    	handleChangeEditedArticle={handleChangeEditedArticle}/>
 			    </div>
