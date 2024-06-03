@@ -47,11 +47,15 @@ export const getUserArticles = async (req , res) => {
 export const createArticle = async (req , res) => {
 	
 	try {
-		const {title , content ,author,authorId} = req.body
+		const {title , content ,author,authorId, categoryId} = req.body
 		
-		const article = await Article.create({title , content, author,authorId, });
+		const article = await Article.create({title , content, author,authorId, categoryId});
 		console.log('the new article is',article)
-		return res.status(200).json(article)
+		
+		// res.status(200);
+		// article.status = 200
+	    // res.json(article)
+		return res.json({...article, status:200  });
 	} catch(error) {
 		res.status(500).send(error.message)
 	}

@@ -15,18 +15,14 @@ import { setShowActionSuccessMsg} from "../../../redux/SuccessMsgSlice.js";
 
 const AddArticle = () => {
 
-	// const menuList = [
-	// 	{title: 'sport'},
-	// 	{title: 'family'},
-	// 	{title: 'technology'},
-	// 	{title: 'science'},
-	// 	{title: 'new'},
-	// ];
 
 	const [title , setTitle] = useState("");
 	const [content , setContent] = useState("");
+	
+	// .... state for categories Dropdown Box....
 	const [menuValue , setMenuValue] = useState("");
 	const [menuList , setMenuList] = useState("")
+	const [newCategoryTitle , setNewCategoryTitle] = useState("");
 
 	const [error , setError] = useState("");
 	const [showError , setShowError] = useState(false);
@@ -40,6 +36,9 @@ const AddArticle = () => {
 	const {articles} = useSelector(state => state.article);
 	const {allCategories, isLoading} = useSelector(state => state.category);
 
+	const categoryElement = {
+		authorId: currentUser.id
+	}
 	useEffect(()=>{
 		
 		if(!currentUser)
@@ -60,16 +59,69 @@ const AddArticle = () => {
 	useEffect(()=>{
 		
 		dispatch(getCategories())
-		
+		setMenuList(allCategories);
 		console.log('categories are :',allCategories)
 		
 	},[setMenuValue,dispatch]);
 
 	useEffect(()=>{
 		setMenuList(allCategories)
+		console.log("menu list is :",menuList);
+		menuList ? 
+			setMenuValue(menuList[0]?.title) 
+			: setMenuValue("");
+		
 		console.log("setting categories....")
-	},[allCategories])
+	},[allCategories]);
 
+	// useEffect(()=>{
+	// 	setMenuValue(menuList[0]?.title);
+	// },[menuList])
+
+	const getCategoryByTitle = (title)=> {
+
+		let categoryId = ""
+		menuList.map(category => {
+					if(category.title === title)
+						categoryId = category._id;
+		});
+		return categoryId;
+	}
+
+	const saveNewCategory =  async () => {
+
+			const newCategory = {
+				title : menuValue ,
+				authorId : currentUser.id 
+			}
+
+			try {
+				const res = await fetch("/api/categories" , {
+					method: "POST" ,
+					body: JSON.stringify({title : menuValue , authorId : currentUser.id}) ,
+					headers: {
+						'Content-Type': 'application/json'
+					}
+				})
+				
+				const response = await res.json();
+				console.log('...categories...',response);
+				// if(response.status == 200)
+					return response._id;
+				// else 
+				// 	return "error"
+			}catch(err){
+			    const error = {
+					message : "Error ,something went wrong"
+				}
+				console.log('errrrro')
+				return error;
+			}
+
+
+		
+		
+	}
 	const handlePublishClick = async() => {
 		if(!title || !content){
 			setError("title or content must not be empty");
@@ -77,20 +129,34 @@ const AddArticle = () => {
 			
 			return;
 		}
+		
+		let categoryId = "";
+		// user added a new category and selected it
+		if(menuValue === newCategoryTitle) {
+			categoryId =  await saveNewCategory();
 
-		const articleFormData = {title,content,authorId:currentUser.id,author:currentUser.username}
+		// user selected previus category
+		} else {
+			categoryId = getCategoryByTitle(menuValue)
+		}
+		
+		console.log('id is',categoryId)
+
+		const articleFormData = {title,content,authorId:currentUser.id,author:currentUser.username, categoryId:categoryId}
 		console.log("Fonm in add article is :",articleFormData);
 
 		try {
-			const response = await fetch("/api/articles" , {
+			
+			const response = await fetch("http://localhost:5000/api/articles" , {
 				method: "POST" ,
 				body: JSON.stringify(articleFormData) ,
 				headers: {
 					'Content-Type': 'application/json'
 				}
 			})
-			const res = response.json()
-            if(response.ok) {
+			const res = await response.json()
+			console.log('res is :',res);
+            if( res.status == 200) {
 				dispatch(setShowActionSuccessMsg(true));
             	navigate(-1)
             }
@@ -98,6 +164,8 @@ const AddArticle = () => {
 			setError(error)
 		}
 	}
+
+
 
 	if(loading){
 		return <Loading />
@@ -146,6 +214,9 @@ const AddArticle = () => {
 								setMenuValue={setMenuValue}
 								menuList={menuList}
 								setMenuList={setMenuList}
+								element={categoryElement}
+								newValue={newCategoryTitle}
+								setNewValue={setNewCategoryTitle}
 							/>
 
 						}

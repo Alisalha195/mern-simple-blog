@@ -63,6 +63,30 @@ export const getCategories = createAsyncThunk('categories/getAllCategories', asy
   
 });
 
+export const createCategory = createAsyncThunk('categories/create', async(payload,thunkAPI)=>{
+
+	try {
+		const res = await fetch(allCategoriessUrl , {
+			method: "POST" ,
+			body: JSON.stringify({title:payload.title, authorId:payload.authorId}) ,
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		})
+		
+		const response = await res.json();
+		console.log('...categories',response)
+		return response;
+	}catch(err){
+    const error = {
+			message : "Error ,something went wrong"
+		}
+		console.log('errrrro')
+		return thunkAPI.rejectWithValue(error);
+	}
+  
+});
+
 // export const getArticle = createAsyncThunk('articles/getArticle', async(articleId,thunkAPI)=>{
 //   
 // 	 try {
@@ -111,7 +135,7 @@ const categorySlice = createSlice({
 // 		    state.isLoading = false;
 // 		});
 
-		// .....................................
+		// ..... get all catagories.......
 			builder.addCase(getCategories.pending , (state)=> {
 				state.isLoading = true;
 			});
@@ -131,7 +155,27 @@ const categorySlice = createSlice({
 			    state.allCategories = null
 			    state.isLoading = false;
 			});
-		// .....................................
+
+		// ........add new catagory........
+			builder.addCase(createCategory.pending , (state)=> {
+				state.isLoading = true;
+			});
+
+			builder.addCase(createCategory.fulfilled, (state, action)=>{
+				
+				// console.log("action.payload",action.payload)
+			    state.allCategories = action.payload; 
+			    
+			    state.isLoading = false;
+			});
+
+			builder.addCase(createCategory.rejected, (state, action)=>{
+				
+				// console.log("action.payload",action.payload)
+			    state.error = action.payload;
+			    state.allCategories = null
+			    state.isLoading = false;
+			});
 
 // 		builder.addCase(getArticle.pending , (state)=> {
 // 			state.isLoading = true;

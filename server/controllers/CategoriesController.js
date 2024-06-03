@@ -13,7 +13,15 @@ export const getCategories = async (req, res) => {
 }
 
 export const createCategory = async (req, res) => {
-
+	try {
+		const {title ,authorId} = req.body
+		
+		const category = await Category.create({title ,authorId });
+		console.log('the new category is',category)
+		return res.status(200).json(category)
+	} catch(error) {
+		res.status(500).json(error.message)
+	}
 }
 
 export const getCategory = (req, res) => {
