@@ -150,7 +150,7 @@ const EditArticle = () => {
 					    <span className="xs:text-[26px] sm:text-[30px] lg:text-[36px] text-[#666]">
 						    category
 					    </span>
-						< DropDownMenu />
+						< DropDownMenu inputTitle={"new Category"}/>
 					</div>
 			    	<TypingBox editedTitle={editedArticle.title} EditedContent={editedArticle.content} editing={true}
 			    	handleChangeEditedArticle={handleChangeEditedArticle}/>

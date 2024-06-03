@@ -1,5 +1,6 @@
 import {configureStore} from "@reduxjs/toolkit";
 import articleReducer from './ArticleSlice.js';
+import categoryReducer from './CategorySlice.js';
 import userReducer from './UserSlice.js';
 import successMsgReducer from './SuccessMsgSlice.js';
 
@@ -10,6 +11,7 @@ export const store = configureStore({
     article: articleReducer,
     user: userReducer,
     auth: authReducer,
+    category: categoryReducer,
     successMsg : successMsgReducer
 
   }

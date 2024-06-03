@@ -5,8 +5,8 @@ import connectDB from "./db/connection.js";
 
 import ArticleRouter  from "./routes/ArticleRouter.js";
 import UserRouter  from "./routes/UserRouter.js";
-
 import AuthRouter from "./routes/AuthRouter.js"
+import CategoryRouter from "./routes/CategoryRouter.js"
 
 import cors from "cors"; 
 
@@ -34,6 +34,9 @@ app.use("/api/auth" , AuthRouter);
 
 // articles routes
 app.use("/api/articles", ArticleRouter); 
+
+// category routes
+app.use("/api/categories", CategoryRouter); 
 
 // users routes
 app.use("/api/users", UserRouter); 

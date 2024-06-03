@@ -10,13 +10,23 @@ import SideBar from "../../../components/articles/add/SideBar"
 import TypingBox from "../../../components/articles/add/TypingBox" 
 import DropDownMenu from "../../../components/layout/DropDownMenu"
 
+import { getCategories} from "../../../redux/CategorySlice.js";
 import { setShowActionSuccessMsg} from "../../../redux/SuccessMsgSlice.js";
 
 const AddArticle = () => {
 
+	// const menuList = [
+	// 	{title: 'sport'},
+	// 	{title: 'family'},
+	// 	{title: 'technology'},
+	// 	{title: 'science'},
+	// 	{title: 'new'},
+	// ];
+
 	const [title , setTitle] = useState("");
 	const [content , setContent] = useState("");
-	const [newCategory , setNewCategory] = useState("");
+	const [menuValue , setMenuValue] = useState("");
+	const [menuList , setMenuList] = useState("")
 
 	const [error , setError] = useState("");
 	const [showError , setShowError] = useState(false);
@@ -27,7 +37,8 @@ const AddArticle = () => {
 	const loading = loadingProps.loading;
 	
 	const{currentUser}=useSelector(state=>state.auth);
-	const {articles, isLoading} = useSelector(state => state.article);
+	const {articles} = useSelector(state => state.article);
+	const {allCategories, isLoading} = useSelector(state => state.category);
 
 	useEffect(()=>{
 		
@@ -45,6 +56,19 @@ const AddArticle = () => {
 		} 
 
 	},[error,showError])
+
+	useEffect(()=>{
+		
+		dispatch(getCategories())
+		
+		console.log('categories are :',allCategories)
+		
+	},[setMenuValue,dispatch]);
+
+	useEffect(()=>{
+		setMenuList(allCategories)
+		console.log("setting categories....")
+	},[allCategories])
 
 	const handlePublishClick = async() => {
 		if(!title || !content){
@@ -112,7 +136,19 @@ const AddArticle = () => {
 					    <span className="xs:text-[26px] sm:text-[30px] lg:text-[36px] text-[#666]">
 						    category
 					    </span>
-						< DropDownMenu />
+						{
+							!loading 
+							&&
+							<DropDownMenu 
+								
+								inputTitle={"new Category"} 
+								menuValue={menuValue}
+								setMenuValue={setMenuValue}
+								menuList={menuList}
+								setMenuList={setMenuList}
+							/>
+
+						}
 					</div>
 
 					

@@ -1,15 +1,20 @@
 
 import mongoose from "mongoose";
  
-const ArticleSchema = new mongoose.Schema({     
+const CategorySchema = new mongoose.Schema({     
   title: {
     type: String,
     required: true
+  },
+
+  authorId : {
+    type: String,
+     required: true
   },
  
   
   date: { type: Date, default: Date.now },
 });
  
-const Article = mongoose.model("Article", ArticleSchema);
-export default Article;
+const Category = mongoose.model("Category", CategorySchema);
+export default Category;
