@@ -1,16 +1,30 @@
+import {useState, useEffect} from 'react'
+import {useNavigate} from 'react-router-dom' 
+import {useDispatch,useSelector} from 'react-redux';
+
+import { getCategories} from "../../redux/CategorySlice.js";
 
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 
 import useSearchBox from "../../hooks/useSearchBox"
 
 import SearchOpenBox from "../public/SearchOpenBox"
+import DropDownMenu from "../layout/DropDownMenu"
 
 const ArticleFilterBox = () => {
 
+	// .... state for categories Dropdown Box....
+	const [menuValue , setMenuValue] = useState("");
+	const [menuList , setMenuList] = useState("")
+
+	const {allCategories, isLoading} = useSelector(state => state.category);
+	
 	const openSearchBoxProps = useSearchBox()
 
 	const openSearchBox = openSearchBoxProps.open;
-	const handleOpenSearchBox = openSearchBoxProps.handleOpenSearchBox
+	const handleOpenSearchBox = openSearchBoxProps.handleOpenSearchBox;
+
+	const dispatch = useDispatch();
 
 	return (
 		<div className={openSearchBox ? "no-doc-scroll flex xs:flex-col justify-between  my-3 p-2 " 
@@ -35,23 +49,8 @@ const ArticleFilterBox = () => {
 
 					<div className="sm:ml-2 mb-2">	
 						<span className=" xs:[max-width:150px]" >  
-    
-							<select className="text-gray-700 sm:px-2 lg:px-3 xs:px-1 xs:text-[22px] md:text-[24px]
-							             [border-radius:4px] [overflow:hidden]
-							              [text-overflow:ellipsis] [white-space:nowrap]"
-							        
 
-							        >
-								
-								<option value="all">all tags</option>
-								<option value="programing">programing</option>
-								<option value="science">science</option>
-								<option value="sport">sport</option>
-								<option value="family">family</option>
-								
-									
-
-							</select>
+							<DropDownMenu />
 							
 						</span>
 					</div>
