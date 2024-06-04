@@ -74,9 +74,6 @@ const AddArticle = () => {
 		console.log("setting categories....")
 	},[allCategories]);
 
-	// useEffect(()=>{
-	// 	setMenuValue(menuList[0]?.title);
-	// },[menuList])
 
 	const getCategoryByTitle = (title)=> {
 

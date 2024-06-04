@@ -1,4 +1,3 @@
-
 import {useState , useEffect} from 'react';
 import {useParams} from 'react-router-dom' 
 import {useNavigate} from 'react-router-dom' 
@@ -12,6 +11,7 @@ import DropDownMenu from "../../../components/layout/DropDownMenu"
 import Loading from "../../../components/public/Loading";
 import LoadingBox from "../../../hooks/useLoading";
 
+import { getCategories} from "../../../redux/CategorySlice.js";
 import { setShowActionSuccessMsg} from "../../../redux/SuccessMsgSlice.js";
 
 const EditArticle = () => {
@@ -19,6 +19,11 @@ const EditArticle = () => {
 	const dispatch = useDispatch();
 
     const [editedArticle, setEditedArticle] = useState({})
+
+	// .... state for categories Dropdown Box....
+	const [menuValue , setMenuValue] = useState("");
+	const [menuList , setMenuList] = useState("")
+	const [newCategoryTitle , setNewCategoryTitle] = useState("");
 
     const [error , setError] = useState("");
 	const [showError , setShowError] = useState(false);
@@ -28,8 +33,13 @@ const EditArticle = () => {
 
     const params = useParams();
     const navigate = useNavigate();
-
 	
+	const{currentUser}=useSelector(state=>state.auth);
+	const {allCategories, isLoading} = useSelector(state => state.category);
+	
+	const categoryElement = {
+		authorId: currentUser.id
+	}
 
     const handleChangeEditedArticle = (e)=>{
     	
@@ -55,16 +65,63 @@ const EditArticle = () => {
 
 	},[error,showError])
 
+	useEffect(()=>{
+		
+		dispatch(getCategories())
+		// setMenuList(allCategories);
+		console.log('categories are :',allCategories)
+		
+	},[setMenuValue,dispatch]);
+
+	useEffect(()=>{
+		setMenuList(allCategories);
+	},[isLoading])
+
+	useEffect(()=>{
+		setMenuList(allCategories)
+		console.log("menu list is :",menuList);
+		menuList ? 
+			setMenuValue(menuList[0]?.title) 
+			: setMenuValue("");
+		
+		console.log("setting categories....")
+
+		// menuList 
+		// 	? console.log("cat id is ::", getCategoryById(editedArticle.categoryId) )
+		// 	: console.log("not ready yet")
+
+		menuList 
+		?  setMenuValue( getCategoryById(editedArticle.categoryId)) 
+		: console.log("not ready yet")
+	},[allCategories]);
+
+	const getCategoryByTitle = (title)=> {
+
+		let categoryId = ""
+		menuList.map(category => {
+					if(category.title === title)
+						categoryId = category._id;
+		});
+		return categoryId;
+	}
+	const getCategoryById = (id)=> {
+
+		let categoryTitle = "empty"
+		menuList?.forEach(category => {
+					if(category._id === id)
+						categoryTitle = category.title;
+		});
+		return categoryTitle;
+	}
 	const getArticle = async (articleId)=> {
 		try {
 			// console.log('payload is',payload)
 			const res = await fetch(`http://localhost:5000/api/articles/${articleId}`);
 			
 			const response = await res.json();
-		    console.log('response',response);
-			if(response) {
-				setEditedArticle(response)
-				console.log("dfdfdf")
+		    console.log('responseis',response );
+			if(res.status == 200) {
+				setEditedArticle(response);
 			}
 		}catch(err){
 
@@ -76,6 +133,37 @@ const EditArticle = () => {
 		}
 	}
 
+	const saveNewCategory =  async () => {
+
+			const newCategory = {
+				title : menuValue ,
+				authorId : currentUser.id 
+			}
+
+			try {
+				const res = await fetch("/api/categories" , {
+					method: "POST" ,
+					body: JSON.stringify({title : menuValue , authorId : currentUser.id}) ,
+					headers: {
+						'Content-Type': 'application/json'
+					}
+				})
+				
+				const response = await res.json();
+				console.log('...categories...',response);
+				// if(response.status == 200)
+					return response._id;
+				// else 
+				// 	return "error"
+			}catch(err){
+			    const error = {
+					message : "Error ,something went wrong"
+				}
+				console.log('errrrro')
+				return error;
+			}
+
+	}
 	const handleEditClick = async() => {
 		if(!editedArticle.title || !editedArticle.content){
 			console.log('title or content must not be empty')
@@ -84,9 +172,21 @@ const EditArticle = () => {
 			
 			return;
 		}
+
+		let categoryId = "";
+		// user added a new category and selected it
+		if(menuValue === newCategoryTitle) {
+			categoryId =  await saveNewCategory();
+
+		// user selected previus category
+		} else {
+			categoryId = getCategoryByTitle(menuValue)
+		}
+
+		console.log('id is',categoryId)
 		
 		const {title,content} = editedArticle;
-		const articleFormData = {title,content};
+		const articleFormData = {title,content, categoryId:categoryId};
 		// const articleFormData = {editedArticle.title,editedArticle.content,authorId:currentUser.id,author:currentUser.username}
 		console.log("Fonm in edit article is :",articleFormData);
 
@@ -150,7 +250,22 @@ const EditArticle = () => {
 					    <span className="xs:text-[26px] sm:text-[30px] lg:text-[36px] text-[#666]">
 						    category
 					    </span>
-						< DropDownMenu inputTitle={"new Category"}/>
+						{
+							!loading 
+							&&
+							<DropDownMenu 
+								
+								inputTitle={"new Category"} 
+								menuValue={menuValue}
+								setMenuValue={setMenuValue}
+								menuList={menuList}
+								setMenuList={setMenuList}
+								element={categoryElement}
+								newValue={newCategoryTitle}
+								setNewValue={setNewCategoryTitle}
+							/>
+
+						}
 					</div>
 			    	<TypingBox editedTitle={editedArticle.title} EditedContent={editedArticle.content} editing={true}
 			    	handleChangeEditedArticle={handleChangeEditedArticle}/>

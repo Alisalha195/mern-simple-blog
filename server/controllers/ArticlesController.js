@@ -22,7 +22,10 @@ export const getArticle = async (req , res) => {
 		const {id} = req.params
 		const article = await Article.findById(id);
 		console.log('Article is',article)
-		return res.json(article)
+		res.status(200)  ;
+		res.json(article);
+		// console.log('res',res)
+		 return res
 	} catch(error) {
 		console.log('ERROR IN DATABASE')
 		return res.status(500).json({status:500});
@@ -65,8 +68,8 @@ export const updateArticle = async (req , res) => {
 	
 	try {
 		const {id} = req.params
-		const {title , content} = req.body
-		const article = await Article.findByIdAndUpdate(id,{title , content});
+		const {title , content, categoryId} = req.body
+		const article = await Article.findByIdAndUpdate(id,{title , content, categoryId});
 		return res.status(200).json(article)
 	} catch(error) {
 		res.status(500).send(error.message)
