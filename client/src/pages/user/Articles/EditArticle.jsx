@@ -11,6 +11,7 @@ import DropDownMenu from "../../../components/layout/DropDownMenu"
 import Loading from "../../../components/public/Loading";
 import LoadingBox from "../../../hooks/useLoading";
 
+import {getCategoryByTitle} from "../../../assets/helpers.js";
 import { getCategories} from "../../../redux/CategorySlice.js";
 import { setShowActionSuccessMsg} from "../../../redux/SuccessMsgSlice.js";
 
@@ -95,15 +96,6 @@ const EditArticle = () => {
 		: console.log("not ready yet")
 	},[allCategories]);
 
-	const getCategoryByTitle = (title)=> {
-
-		let categoryId = ""
-		menuList.map(category => {
-					if(category.title === title)
-						categoryId = category._id;
-		});
-		return categoryId;
-	}
 	const getCategoryById = (id)=> {
 
 		let categoryTitle = "empty"
@@ -180,7 +172,7 @@ const EditArticle = () => {
 
 		// user selected previus category
 		} else {
-			categoryId = getCategoryByTitle(menuValue)
+			categoryId = getCategoryByTitle(menuList , menuValue)
 		}
 
 		console.log('id is',categoryId)
@@ -255,6 +247,7 @@ const EditArticle = () => {
 							&&
 							<DropDownMenu 
 								
+								isStatic={false}
 								inputTitle={"new Category"} 
 								menuValue={menuValue}
 								setMenuValue={setMenuValue}
@@ -263,6 +256,7 @@ const EditArticle = () => {
 								element={categoryElement}
 								newValue={newCategoryTitle}
 								setNewValue={setNewCategoryTitle}
+								property={"title"}
 							/>
 
 						}

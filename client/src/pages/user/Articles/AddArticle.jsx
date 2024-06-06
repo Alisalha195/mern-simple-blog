@@ -10,6 +10,7 @@ import SideBar from "../../../components/articles/add/SideBar"
 import TypingBox from "../../../components/articles/add/TypingBox" 
 import DropDownMenu from "../../../components/layout/DropDownMenu"
 
+import {getCategoryByTitle} from "../../../assets/helpers.js";
 import { getCategories} from "../../../redux/CategorySlice.js";
 import { setShowActionSuccessMsg} from "../../../redux/SuccessMsgSlice.js";
 
@@ -75,16 +76,6 @@ const AddArticle = () => {
 	},[allCategories]);
 
 
-	const getCategoryByTitle = (title)=> {
-
-		let categoryId = ""
-		menuList.map(category => {
-					if(category.title === title)
-						categoryId = category._id;
-		});
-		return categoryId;
-	}
-
 	const saveNewCategory =  async () => {
 
 			const newCategory = {
@@ -115,9 +106,6 @@ const AddArticle = () => {
 				return error;
 			}
 
-
-		
-		
 	}
 	const handlePublishClick = async() => {
 		if(!title || !content){
@@ -134,7 +122,7 @@ const AddArticle = () => {
 
 		// user selected previus category
 		} else {
-			categoryId = getCategoryByTitle(menuValue)
+			categoryId = getCategoryByTitle(menuList , menuValue)
 		}
 		
 		console.log('id is',categoryId)
@@ -161,7 +149,6 @@ const AddArticle = () => {
 			setError(error)
 		}
 	}
-
 
 
 	if(loading){
@@ -206,6 +193,7 @@ const AddArticle = () => {
 							&&
 							<DropDownMenu 
 								
+								isStatic={false}
 								inputTitle={"new Category"} 
 								menuValue={menuValue}
 								setMenuValue={setMenuValue}
@@ -214,6 +202,7 @@ const AddArticle = () => {
 								element={categoryElement}
 								newValue={newCategoryTitle}
 								setNewValue={setNewCategoryTitle}
+								property={"title"}
 							/>
 
 						}

@@ -1,8 +1,3 @@
-import {useState, useEffect} from 'react'
-import {useNavigate} from 'react-router-dom' 
-import {useDispatch,useSelector} from 'react-redux';
-
-import { getCategories} from "../../redux/CategorySlice.js";
 
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 
@@ -13,18 +8,13 @@ import DropDownMenu from "../layout/DropDownMenu"
 
 const ArticleFilterBox = () => {
 
-	// .... state for categories Dropdown Box....
-	const [menuValue , setMenuValue] = useState("");
-	const [menuList , setMenuList] = useState("")
-
-	const {allCategories, isLoading} = useSelector(state => state.category);
+	
 	
 	const openSearchBoxProps = useSearchBox()
 
 	const openSearchBox = openSearchBoxProps.open;
 	const handleOpenSearchBox = openSearchBoxProps.handleOpenSearchBox;
 
-	const dispatch = useDispatch();
 
 	return (
 		<div className={openSearchBox ? "no-doc-scroll flex xs:flex-col justify-between  my-3 p-2 " 
