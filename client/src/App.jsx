@@ -98,6 +98,8 @@ function App() {
           <Route path="/profile/:id" element={ <Profile /> } />
 
           <Route path="/about" element={<About />} />
+
+          {/* <Route path="/articles/search/:searchText" element={<About />} /> */}
           {/* <Route path="/home" element={authUser ? <HomePage /> : <Navigate to='/login' /> }/> */}
             
            {/* <Route path="/dashboard" element={<Dashboard /> } /> */}

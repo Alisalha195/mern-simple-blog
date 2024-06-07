@@ -4,9 +4,9 @@ import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 
 import { IoMdClose } from "react-icons/io";
 
-const SearchOpenBox = ({open , handleOpenSearchBox}) => {  
+const SearchOpenBox = ({open , handleOpenSearchBox, searchText, setSearchText, setShowSearchResults , handleSearch}) => {  
 	
-	const [searchText , setSearchText]  = useState("")
+	// const [searchText , setSearchText]  = useState("")
 
 	useEffect(()=> {
 		document.getElementById("#serachInput").focus()
@@ -43,7 +43,9 @@ const SearchOpenBox = ({open , handleOpenSearchBox}) => {
 			        />
 
 					<span className="btn pr-1 pl-2 bg-white text-[26px] text-gray-700 flex flex-col justify-center [border-radius:0_10px_10px_0]    [border-left-width:0] "
-							>
+					
+						onClick={handleSearch}		
+					>
 
 						<SearchOutlinedIcon className=""/>
 					</span>

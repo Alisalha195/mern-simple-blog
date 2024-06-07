@@ -19,3 +19,11 @@ export const getUserByUsername = (list , username)=> {
 	});
 	return userId;
 }
+
+// export const isValid = (value , type)=> {
+// 	let valid = false
+// 	if(type == "searchText") {
+// 		value
+// 	}
+// 	return valid;
+// }

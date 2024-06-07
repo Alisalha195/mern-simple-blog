@@ -3,6 +3,7 @@ import {useDispatch,useSelector} from 'react-redux';
 
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
+import { IoMdClose } from "react-icons/io";
 
 import LoadingBox from "../../../hooks/useLoading"
 import useSearchBox from "../../../hooks/useSearchBox"
@@ -32,13 +33,18 @@ const Articles = () => {
 	const [authorsMenuList , setAuthorsMenuList] = useState("")
 	
 	const [articlesToFilter , setArticlesToFilter] = useState("");
+	
+	// search text 
+	const [searchText , setSearchText] = useState("")
+	const [showSearchResults , setShowSearchResults] = useState(false)
+	const [searchResults , setSearchResults] = useState("")
+	
 
 	const articles = useSelector((state)=> state.article.allArticles);
 	const isLoading = useSelector((state)=> state.article.isLoading);
 	const {allCategories} = useSelector(state => state.category);
 	const {users} = useSelector(state=>state.user);
 
-	// const articlesRef = useRef(articles)
 	const loadingProps = LoadingBox();
 	const loading = loadingProps.loading;
 
@@ -70,8 +76,11 @@ const Articles = () => {
 	},[]);
 
 	useEffect(()=>{
-		if(articles)
-			setArticlesToFilter(articles)
+		if(articles) {
+			setArticlesToFilter(articles);
+			setSearchResults(articles);
+		}
+		// console.log('cahnging')
 		// console.log("articlesToFilter",articlesToFilter)
 	},[articles, isLoading]);
 
@@ -136,7 +145,29 @@ const Articles = () => {
 			handleFilterArticles()
 		// articlesToFilter.filter(article=>(article.categoryId == getCategoryByTitle(articlesToFilter,categoryMenuValue)));
 		
-	},[categoryMenuValue , authorsMenuValue])
+	},[categoryMenuValue , authorsMenuValue]);
+
+	const handleSearch = () => {
+		handleOpenSearchBox("close");
+
+		setSearchText(prev => prev.trim());
+		// setSearchText(prev => prev.toLowerCase());
+		setShowSearchResults(true);
+		if(articles.length> 0)
+			setSearchResults(articles);
+		
+		// console.log('articles in search :',articles )
+
+		setSearchResults(prevResult => prevResult.filter(article => (article.title.toLowerCase().indexOf(searchText.toLowerCase()) > -1)));
+		console.log('prevResult :', searchResults)
+		console.log('searchText :', searchText)
+
+
+	}
+
+	// useEffect(()=>{
+	// 	
+	// },[searchText])
 
 	if(loading){
 		return <Loading />
@@ -209,11 +240,47 @@ const Articles = () => {
 				</div>
 
 				
-
-				<SearchOpenBox open={openSearchBox} handleOpenSearchBox={handleOpenSearchBox}/>
+				<SearchOpenBox 
+							open={openSearchBox} 
+							handleOpenSearchBox={handleOpenSearchBox}
+							searchText={searchText}
+							setSearchText={setSearchText}
+							setShowSearchResults={setShowSearchResults}
+							handleSearch={handleSearch}
+				/>
 			</div>	
+			
+			<div>
+				{}
+			</div>
+			{
+				showSearchResults 
+				? <div className="flex flex-col ">
+						<div className=" flex flex-row"
+							     
+						>
+							
+							<div className="flex flex-col justify-center btn text-gray-900    text-[40px] xs:text-[30px] "
+								onClick={() => {setShowSearchResults(false); setSearchText("")}}
+							>
+								<span >
+									<IoMdClose />
+								</span>
+							</div>
 
-			<UserArticles articles={articlesToFilter}/>
+							<div className="flex flex-col justify-center ml-4">
+					    	{searchText.length > 0 ? `Results For ${searchText}` : "No Results" }
+					    </div>
+
+						</div>
+
+				    
+
+						<UserArticles articles={searchResults}/>
+				  </div>
+
+				: <UserArticles articles={articlesToFilter}/>
+			}
 			
 			<div className=" text-center mt-3 text-gray-700 xs:text-[24px] md:text-[28px] lg:text-[31px] " >
 				<span className="btn px-2 py-1">

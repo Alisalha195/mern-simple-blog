@@ -10,7 +10,7 @@ const LoadingBox = () => {
 	useEffect(()=> {
 		setTimeout(()=> {
 			setLoading(false)
-		}, 2500)
+		}, 2000)
 
 	} , []);
 
