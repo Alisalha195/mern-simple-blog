@@ -15,6 +15,9 @@ const EditProfileBox = ({admin ,user,openEditBox ,setOpenEditBox}) => {
 	const [waiting , setWaiting]  = useState(false);
 	
 	const [formData , setFormData] = useState(user);
+	const previousPassword = user?.password || "" ;
+	// console.log('old password ', previousPassword)
+	const [profileImage , setProfileImage] = useState("");
 
 	// const {user} = useSelector(state => state.user) ;
 
@@ -32,6 +35,10 @@ const EditProfileBox = ({admin ,user,openEditBox ,setOpenEditBox}) => {
 		console.log(formData)
 	}
 
+	const handleImageChange = (e) => {
+		setProfileImage(e.target.files[0])
+	}
+
 	const handleUpdateClick = async() => {
 		console.log('clicked!');
 
@@ -40,6 +47,54 @@ const EditProfileBox = ({admin ,user,openEditBox ,setOpenEditBox}) => {
 
 		try {
 			
+			// formData.map(item)
+			let updatedFormData = new FormData();
+			let passwordStatus = ""
+
+			if(formData.password == previousPassword) {
+				passwordStatus = "same"
+			} else if(formData.password == null) {
+				passwordStatus = "empty"
+			}
+
+			// console.log('password formData[password] ',formData.password);
+			// console.log('password previousPassword ',previousPassword);
+			// if(formData.password === previousPassword) 
+			// 	formData.password = "";
+			Object.keys(formData).forEach(key => {
+
+				updatedFormData.append(key,formData[key])
+// 				if(key === "password") {
+// 					if(formData.password === previousPassword || formData.password == null) {
+// 						console.log('key password true',key,formData[key])
+// 						updatedFormData.append(key,"0")
+// 
+// 					} else if(formData.password != null) {
+// 						console.log('key password false',key,formData[key])
+// 						updatedFormData.append(key,formData[key])
+// 					}
+// 
+// 				} else if(formData[key] !== null ) {
+// 					console.log('key',key,formData[key])
+// 					updatedFormData.append(key,formData[key])
+// 				}
+			});
+			
+			if(profileImage)
+				updatedFormData.append("image",profileImage);
+
+			updatedFormData.append("passwordStatus",passwordStatus);
+			console.log("passwordStatus : ",passwordStatus)
+
+			// updatedFormData.append('image', {
+			//    uri: profileImage,
+			//    type: 'multipart/form-data',
+			//    name: 'profileImage.png',
+			// });
+
+			console.log('updatedFormData',updatedFormData.get("username"))
+			// console.log('updatedFormData.image',updatedFormData)
+			// console.log('updatedFormData.age',updatedFormData)
 			// const res = await fetch(`${editUserUrl}/${user._id}`,{
 			// 	method:"PUT"
 			// 	
@@ -48,8 +103,12 @@ const EditProfileBox = ({admin ,user,openEditBox ,setOpenEditBox}) => {
 			// console.log('response in update profile',response)
 			
 			// handleOpenDeleteBox();
+			// console.log("profileImage :",profileImage)
 
-			dispatch(updateUser(formData));
+			
+
+			
+			dispatch(updateUser(updatedFormData));
 			
 			dispatch(setShowActionSuccessMsg(true));
 
@@ -194,6 +253,23 @@ const EditProfileBox = ({admin ,user,openEditBox ,setOpenEditBox}) => {
 		                onChange={handleChange}
 						>
 						</textarea>
+					</div>
+
+					{/* image */}
+					<div className="flex flex-col">
+						<div className=" xs:text-[24px] sm:text-[28px] lg:text-[30px] leading-7 text-gray-100">
+						  profile image
+						</div>
+						<div className="">
+						    <input className=" pl-2 py-1 border-t-gray-900 focus:text-gray-900 text-gray-600  xs:[width:100%] text-[24px] [border:1px_solid_#aaa] [outline:none] [border-radius:7px]" 
+						      type="file" 
+						      // id={openEditBox ? "username" :`username-${user._id}`}
+						      name="image"
+						      onChange = {handleImageChange}
+						      
+						              />
+
+						</div>
 					</div>
 	              
 

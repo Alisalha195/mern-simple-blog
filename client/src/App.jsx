@@ -60,6 +60,11 @@ function App() {
 //   },[])
 
 
+    // useEffect(()=> {
+    //     if(!currentUser)
+    //         navigate("/login")
+    // },[currentUser])
+
   return (
     <div className="app ">  
       

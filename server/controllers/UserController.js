@@ -21,6 +21,7 @@ export const getUser = async (req , res) => {
 	try {
 		const {id} = req.params
 		const user = await User.findById(id);
+		// console.log('user',user)
 		return res.status(200).json(user)
 	} catch(error) {
 		res.status(500)
@@ -28,19 +29,41 @@ export const getUser = async (req , res) => {
 		return res;
 	}
 }
-
-export const createUser = async (req , res) => {
+// original
+export const create2User = async (req , res) => {
 	
 	try {
 		const {username , email, password} = req.body
 		const user = await User.create({username , email, password});
-		return res.status(200).json(user)
+
+
+		return res.status(200).json(user);
+
+
+	} catch(error) {
+		res.status(500).send(error.message)
+	}
+}
+// copy
+export const createUser = async (req , res) => {
+	
+	try {
+		const {username , email, password} = req.body
+		// const user = await User.create({username , email, password});
+
+		if(req.file)
+			console.log('file',req.file)
+		
+		return res.status(200).json(user);
+
+
 	} catch(error) {
 		res.status(500).send(error.message)
 	}
 }
 
-export const editUser = async (req , res) => { 
+// original
+export const editUser2 = async (req , res) => { 
 
 	try {
 		const {id} = req.params
@@ -60,6 +83,35 @@ export const editUser = async (req , res) => {
 	}
 }
 
+export const editUser = async (req , res) => { 
+
+	try {
+		const {id} = req.params;
+		const photo = req.file ? req.file.filename :"";
+		const {firstname,lastname, username,age , password, jobTitle ,breifInfo, passwordStatus} = req.body;
+		console.log(firstname,lastname, username,age , password, jobTitle ,breifInfo);
+
+		const correctPassword = getCorrectPassword(password, passwordStatus);
+		console.log("correctPassword : ",correctPassword)
+
+		// console.log("req.params",req.params); 
+		console.log("new req.body",req.body);
+		// console.log("header type :",req.get('Content-Type')); 
+		// console.log("file or image :",photo)
+
+
+		// const hashedPassword = bcryptjs.hashSync(password, 10);
+		// if(firstname)
+		const user = await User.findByIdAndUpdate(id,{firstname,lastname, username,age , password: correctPassword, jobTitle ,breifInfo});
+
+		console.log("json(user) is",user) 
+		return res.status(200).json(user)
+		// return res.status(200).json(req.body)
+	} catch(error) {
+		return res.status(500).json(error)
+	}
+}
+
 export const deleteUser = async (req , res) => {
 	
 	try {
@@ -70,5 +122,14 @@ export const deleteUser = async (req , res) => {
 		res.status(500).send(error.message)
 	}
 
+}
+
+const getCorrectPassword = (password , passwordStatus) => {
+	if(passwordStatus == "same")
+		return password;
+	else if(passwordStatus == "empty")
+		return password;
+	
+		return bcryptjs.hashSync(password, 10);
 }
 

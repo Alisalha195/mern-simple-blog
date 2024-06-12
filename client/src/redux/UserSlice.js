@@ -1,8 +1,9 @@
 
 import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
+import {updateUserService} from "../services/user.js"
 
 const getUserUrl = "http://localhost:5000/api/users";
-const editUserUrl = "http://localhost:5000/api/users/update"
+const editUserUrl = "http://localhost:5000/api/users/update";
 
 const initialState = {
 	users:null,
@@ -19,7 +20,7 @@ export const getAllUsers = createAsyncThunk('user/getUsers', async(payload,thunk
 		const res = await fetch(getUserUrl);
 		
 		const response = await res.json();
-        console.log('response',response);
+        // console.log('response',response);
 
 		if(!response || response.length == 0) {
 			const error = {
@@ -44,11 +45,11 @@ export const getAllUsers = createAsyncThunk('user/getUsers', async(payload,thunk
 export const getUser = createAsyncThunk('user/getUser', async(payload,thunkAPI)=>{
 
 	try {
-		console.log('payload is',payload)
+		// console.log('payload is',payload)
 		const res = await fetch(`${getUserUrl}/${payload}`);
 		
 		const response = await res.json();
-        console.log('response',response);
+        // console.log('response',response);
 
 		if(!response || response.length == 0) {
 			const error = {
@@ -71,35 +72,45 @@ export const getUser = createAsyncThunk('user/getUser', async(payload,thunkAPI)=
 });
 
 export const updateUser = createAsyncThunk('user/updateUser',async(payload,thunkAPI)=>{
+// 	try {
+// 		// const res = await fetch(`${editUserUrl}/${payload._id}`, {
+// 		// 	method:"PUT",
+// 		// 	headers:{ 'Content-Type':'multipart/form-data'},
+// 		// 	body: JSON.stringify({ firstname:payload.firstname, 
+// 		// 		lastname:payload.lastname, username:payload.username,password:payload.password, age:payload.age, jobTitle:payload.jobTitle, breifInfo:payload.breifInfo , image:payload.image})
+// 		// });
+// 		
+// 		const response = await res.json();
+//         console.log('response in slice ',response);
+// 
+// 		if(!response || response.length == 0) {
+// 			const error = {
+// 				message : "Error Faild To Update User"
+// 			}
+// 			return thunkAPI.rejectWithValue(error);
+// 		}
+// 		// console.log('errrrro',response)
+//     return response
+// 	}catch(err){
+// 
+// 		const error = {
+// 			message : "Error User Not Found"
+// 		}
+// 		// console.log('errrrro')
+// 		return thunkAPI.rejectWithValue(error);
+//     
+// 	}
+
 	try {
-		console.log('payload is',payload)
-		const res = await fetch(`${editUserUrl}/${payload._id}`, {
-			method:"PUT",
-			headers:{ 'Content-Type':'application/json'},
-			body: JSON.stringify({ firstname:payload.firstname, 
-				lastname:payload.lastname, username:payload.username,password:payload.password, age:payload.age, jobTitle:payload.jobTitle, breifInfo:payload.breifInfo})
-		});
-		
-		const response = await res.json();
-        console.log('response in slice ',response);
+		// console.log('payload in slice is',payload.get("firstname"))
+		const data = await updateUserService(payload , payload.get("_id"))
 
-		if(!response || response.length == 0) {
-			const error = {
-				message : "Error Faild To Update User"
-			}
-			return thunkAPI.rejectWithValue(error);
-		}
-		// console.log('errrrro',response)
-    return response
-	}catch(err){
-
-		const error = {
-			message : "Error User Not Found"
-		}
-		// console.log('errrrro')
+		return data
+		console.log("data :",data);
+	} catch(error) {
+		console.log("error in data");
 		return thunkAPI.rejectWithValue(error);
-    
-	}
+	} 
 });
 
 const userSlice = createSlice({

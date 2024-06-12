@@ -26,7 +26,7 @@ export const getUserArticles = createAsyncThunk('articles/getUserArticles', asyn
 		});
 		
 		const response = await res.json();
-        console.log('response',response)
+        // console.log('response',response)
 		if(!response || response.length == 0) {
 			const error = {
 				message : "Error User Not Found"
@@ -53,13 +53,13 @@ export const getArticles = createAsyncThunk('articles/getAllArticles', async(pay
 		const res = await fetch(allArticlesUrl);
 		
 		const response = await res.json();
-		console.log('...articles',response)
+		// console.log('...articles',response)
 		return response;
 	}catch(err){
     const error = {
 			message : "Error ,something went wrong"
 		}
-		console.log('errrrro')
+		// console.log('errrrro')
 		return thunkAPI.rejectWithValue(error);
 	}
   
@@ -79,7 +79,7 @@ export const getArticle = createAsyncThunk('articles/getArticle', async(articleI
 		const error = {
 				message : "Error ,something went wrong"
 			}
-		console.log("error.message")
+		// console.log("error.message")
 		return thunkAPI.rejectWithValue(err);
 	 }
 });
@@ -147,7 +147,7 @@ const articleSlice = createSlice({
 		    state.isLoading = false;
 		});
 		builder.addCase(getArticle.rejected,(state,action)=>{
-			console.log('Rejected in getArticle')
+			// console.log('Rejected in getArticle')
 			state.isLoading = false;
 			 state.article = null
 		});

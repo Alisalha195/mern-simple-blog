@@ -41,27 +41,27 @@ const Profile = () => {
 
 		dispatch(getUser(params.id))
 
-		console.log('user in profile is :',user)
+		// console.log('user in profile is :',user)
 	},[navigate,dispatch,showActionSuccessMsg, successMsg]);
 
 	useEffect(()=> {
 	  
 	  dispatch(getUserArticles(params.id))
 
-	  if(!articles)
-	  	console.log('This User Has No Articles ! ',error)
-	  else
-	  	console.log("Articles Found",articles)
-      if(error)
-      	console.log('error from slice is :',error)
-      else
-      	console.log('no error from slice')
+	  // if(!articles)
+	  // 	console.log('This User Has No Articles ! ',error)
+	  // else
+	  // 	console.log("Articles Found",articles)
+   //    if(error)
+   //    	console.log('error from slice is :',error)
+   //    else
+   //    	console.log('no error from slice')
 	}, [dispatch, user, showActionSuccessMsg , successMsg]);
 
 	useEffect(()=>{
 
 		if(successMsg && showActionSuccessMsg) { 
-			console.log('actionType ',actionType)
+			// console.log('actionType ',actionType)
 			setTimeout(()=>{
 				dispatch(setShowActionSuccessMsg(false))
 				setSuccessMsg('');
