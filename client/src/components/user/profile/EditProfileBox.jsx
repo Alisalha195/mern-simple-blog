@@ -40,7 +40,7 @@ const EditProfileBox = ({admin ,user,openEditBox ,setOpenEditBox}) => {
 	}
 
 	const handleUpdateClick = async() => {
-		console.log('clicked!');
+		// console.log('clicked!');
 
 		setWaiting(true);
 		
@@ -84,7 +84,7 @@ const EditProfileBox = ({admin ,user,openEditBox ,setOpenEditBox}) => {
 				updatedFormData.append("image",profileImage);
 
 			updatedFormData.append("passwordStatus",passwordStatus);
-			console.log("passwordStatus : ",passwordStatus)
+			// console.log("passwordStatus : ",passwordStatus)
 
 			// updatedFormData.append('image', {
 			//    uri: profileImage,
@@ -92,7 +92,7 @@ const EditProfileBox = ({admin ,user,openEditBox ,setOpenEditBox}) => {
 			//    name: 'profileImage.png',
 			// });
 
-			console.log('updatedFormData',updatedFormData.get("username"))
+			// console.log('updatedFormData',updatedFormData.get("username"))
 			// console.log('updatedFormData.image',updatedFormData)
 			// console.log('updatedFormData.age',updatedFormData)
 			// const res = await fetch(`${editUserUrl}/${user._id}`,{

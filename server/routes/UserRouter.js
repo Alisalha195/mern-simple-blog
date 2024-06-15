@@ -7,7 +7,8 @@ import {
   getUser ,
   createUser ,
   editUser ,
-  deleteUser
+  deleteUser,
+  checkFile
 } from "../controllers/UserController.js"
 
 import {upload} from "../utils/fileUpload.js"
@@ -15,19 +16,22 @@ import {upload} from "../utils/fileUpload.js"
 const router = express.Router();
 
 
-// get all artiles
+// get all users
 router.get("/", getUsers)
 
-// post a new article
-router.post("/" , upload.single("image")  ,createUser)
+// post a new user
+router.post("/"   ,createUser)
 
-// get article using id 
+// get user using id 
 router.get("/:id", getUser)
 
-// update an article using id
-router.put("/update/:id", upload.single("image")   ,editUser)
+//check file 
+router.patch("/checkFile" ,checkFile)
 
-// delete an article using id
+// update a user using id
+router.put("/update/:id"  , upload.single("image") ,editUser)
+
+// delete a user using id
 router.delete("/delete/:id", deleteUser)
 
 // post a new profile image

@@ -13,6 +13,8 @@ import {setActionType, setShowActionSuccessMsg} from "../../redux/SuccessMsgSlic
 
 import AboutBox from "../../components/user/profile/AboutBox"
 import UserArticles from "../../components/user/profile/UserArticles"
+
+// import user from "../../assets/images/user.png"
 // import EditProfileBox from "../../components/user/profile/EditProfileBox"
 
 

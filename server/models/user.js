@@ -65,7 +65,8 @@ import mongoose from "mongoose";
     },
     image: {
       type : String,
-      required: false
+      required: false,
+      default: "user"
     },
     date: { type: Date, default: Date.now },
     // authenticated : {

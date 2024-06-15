@@ -1,5 +1,5 @@
  
-
+import fs from "fs";
 import mongoose from "mongoose";
 import User from "../models/user.js"
 import bcryptjs from 'bcryptjs';
@@ -30,7 +30,7 @@ export const getUser = async (req , res) => {
 	}
 }
 // original
-export const create2User = async (req , res) => {
+export const createUser = async (req , res) => {
 	
 	try {
 		const {username , email, password} = req.body
@@ -45,7 +45,7 @@ export const create2User = async (req , res) => {
 	}
 }
 // copy
-export const createUser = async (req , res) => {
+export const create2User = async (req , res) => {
 	
 	try {
 		const {username , email, password} = req.body
@@ -85,26 +85,27 @@ export const editUser2 = async (req , res) => {
 
 export const editUser = async (req , res) => { 
 
+	console.log("req.body :",req.body)
 	try {
 		const {id} = req.params;
 		const photo = req.file ? req.file.filename :"";
 		const {firstname,lastname, username,age , password, jobTitle ,breifInfo, passwordStatus} = req.body;
 		console.log(firstname,lastname, username,age , password, jobTitle ,breifInfo);
 
-		const correctPassword = getCorrectPassword(password, passwordStatus);
-		console.log("correctPassword : ",correctPassword)
+		let correctPassword = getCorrectPassword(password, passwordStatus);
+		// console.log("correctPassword : ",correctPassword)
 
 		// console.log("req.params",req.params); 
-		console.log("new req.body",req.body);
+		// console.log("new req.body",req.body);
 		// console.log("header type :",req.get('Content-Type')); 
 		// console.log("file or image :",photo)
 
 
 		// const hashedPassword = bcryptjs.hashSync(password, 10);
 		// if(firstname)
-		const user = await User.findByIdAndUpdate(id,{firstname,lastname, username,age , password: correctPassword, jobTitle ,breifInfo});
+		const user = await User.findByIdAndUpdate(id,{firstname,lastname, username,age , password: correctPassword, image:photo , jobTitle ,breifInfo});
 
-		console.log("json(user) is",user) 
+		// console.log("json(user) is",user) 
 		return res.status(200).json(user)
 		// return res.status(200).json(req.body)
 	} catch(error) {
@@ -131,5 +132,19 @@ const getCorrectPassword = (password , passwordStatus) => {
 		return password;
 	
 		return bcryptjs.hashSync(password, 10);
+}
+
+
+
+export const checkFile = (req, res)=> {
+	
+
+	if (fs.existsSync(req.body.filePath)) {
+	  console.log(`The file  exists.`);
+	  return res.json({status:true});
+	} else {
+	  console.log(`The file does not exist.`);
+	  return res.json({status:false});
+	}
 }
 

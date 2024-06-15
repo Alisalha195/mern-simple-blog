@@ -1,6 +1,6 @@
 
 import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
-import {updateUserService} from "../services/user.js"
+import {updateUserService , checkFile} from "../services/user.js"
 
 const getUserUrl = "http://localhost:5000/api/users";
 const editUserUrl = "http://localhost:5000/api/users/update";
@@ -10,6 +10,7 @@ const initialState = {
 	user: null,
 	isAdmin:null,
 	isLoading: false,
+	imageExists: false,
 	error:''
 };
 
@@ -102,7 +103,7 @@ export const updateUser = createAsyncThunk('user/updateUser',async(payload,thunk
 // 	}
 
 	try {
-		// console.log('payload in slice is',payload.get("firstname"))
+		console.log('payload in slice is',payload.get("firstname"))
 		const data = await updateUserService(payload , payload.get("_id"))
 
 		return data
@@ -111,6 +112,24 @@ export const updateUser = createAsyncThunk('user/updateUser',async(payload,thunk
 		console.log("error in data");
 		return thunkAPI.rejectWithValue(error);
 	} 
+});
+
+export const checkFileImage = createAsyncThunk('user/checkFile', async(payload,thunkAPI)=>{
+
+	try {
+		const response = await checkFile(payload)
+
+		return response
+	}catch(err){
+
+		const error = {
+			message : "Error User Not Found"
+		}
+		// console.log('errrrro')
+		return thunkAPI.rejectWithValue(error);
+    
+	}
+  
 });
 
 const userSlice = createSlice({
@@ -158,7 +177,7 @@ const userSlice = createSlice({
 		});
 
 		builder.addCase(getUser.rejected, (state, action)=>{
-			console.log('STATE is ',initialState)
+			// console.log('STATE is ',initialState)
 			// console.log("action.payload",action.payload)
 		    state.error = action.payload;
 		    state.user = null
@@ -184,6 +203,23 @@ const userSlice = createSlice({
 		    state.error = action.payload;
 		    state.user = null
 		    state.isLoading = false;
+		});
+
+		// --- check Image ----
+		builder.addCase(checkFileImage.pending , (state)=> {
+			state.imageExists = false;
+		});
+
+		builder.addCase(checkFileImage.fulfilled, (state, action)=>{
+			
+			// console.log("action.payload",action.payload)
+		    state.imageExists = action.payload; 
+		});
+
+		builder.addCase(checkFileImage.rejected, (state, action)=>{
+			console.log('STATE is ',initialState)
+			// console.log("action.payload",action.payload)
+		   state.imageExists = false;
 		});
 	}
 });
