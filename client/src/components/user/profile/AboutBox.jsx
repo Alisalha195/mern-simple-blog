@@ -6,10 +6,12 @@ import UserProfileImage from "../../user/UserProfileImage"
 import EditProfileBox from "../../user/profile/EditProfileBox"
 import {setActionType} from "../../../redux/SuccessMsgSlice.js";
 
-const AboutBox = ({currentUser, user}) => {
+const AboutBox = ({currentUser, user, setEditingUser}) => {
 
 	const dispatch = useDispatch()
-
+	// console.log('user : ',user._id)
+	console.log('currentUser in About : ',currentUser)
+	console.log('user in About : ',user)
 	const [openEditBox, setOpenEditBox] = useState(false);
 
 	const breifInfo = "senior software engineer at Google , 3 years experience in web development and design , father of two children and loved husband"
@@ -22,19 +24,34 @@ const AboutBox = ({currentUser, user}) => {
 			{/* profile image */}
 			<div className="md:basis-5/12 lg:basis-4/12  flex justify-center">
 				<div className="xs:hidden xl:flex">
-					<UserProfileImage size={350}  />
+					<UserProfileImage size={350}  
+							userId={currentUser.id == user._id ? currentUser.id : user._id} 
+							userImage={currentUser.id == user._id ? user.image : user.image}
+					/>
 				</div>
 				<div className="xs:hidden lg:flex xl:hidden">
-					<UserProfileImage size={300}  />
+					<UserProfileImage size={300} 
+							userId={currentUser.id == user._id ? currentUser.id : user._id} 
+							userImage={currentUser.id == user._id ? user.image : user.image}
+					/>
 				</div>
 				<div className="xs:hidden md:flex lg:hidden">
-					<UserProfileImage size={250}  />
+					<UserProfileImage size={250} 
+							userId={currentUser.id == user._id ? currentUser.id : user._id}
+							userImage={currentUser.id == user._id ? user.image : user.image}
+					 />
 				</div>
 				<div className="xs:hidden sm:flex md:hidden">
-					<UserProfileImage size={200}  rounded={true}/>
+					<UserProfileImage size={200}  rounded={true}
+							userId={currentUser.id == user._id ? currentUser.id : user._id}
+							userImage={currentUser.id == user._id ? user.image : user.image} 
+					/>
 				</div>
 				<div className="xs:flex sm:hidden">
-					<UserProfileImage size={"full"}   />
+					<UserProfileImage size={"full"} 
+							userId={currentUser.id == user._id ? currentUser.id : user._id}  
+							userImage={currentUser.id == user._id ? user.image : user.image}
+					/>
 				</div>
 			</div>
 
@@ -78,7 +95,7 @@ const AboutBox = ({currentUser, user}) => {
 				</div>
 			</div>
 
-			<EditProfileBox user={user} openEditBox={openEditBox} setOpenEditBox={setOpenEditBox} />
+			<EditProfileBox user={user} openEditBox={openEditBox} setOpenEditBox={setOpenEditBox} setEditingUser={setEditingUser}/>
 		</div>	
 	)
 }

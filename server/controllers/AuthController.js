@@ -5,23 +5,16 @@ import bcryptjs from 'bcryptjs';
 import { errorHandler } from '../utils/error.js';
 import jwt from 'jsonwebtoken';
 
+
 export const signup = async (req, res, next) => {
   
   const { firstname, lastname, username, email, password } = req.body;
   // console.log("req.body",firstname, lastname, username, email, password)
-  // if(!username  | !email | !password)
-  //   throw new Error("Invalid Crdentials !"); 
-
+  
   const hashedPassword = bcryptjs.hashSync(password, 10);
   try {
-    // console.log("dfsdfsdf")
-    // const user = await User.create({ firstname, lastname });
-    // console.log("user : ",user);
-
-    const authUser = await User.create({ username, email, password: hashedPassword, firstname, lastname })
-    // console.log("in try");
-    
-    
+  
+    const authUser = await User.create({ username, email, password: hashedPassword, firstname, lastname, image:"anonymous.png" })
 
     if(authUser ) {
       // console.log("authusr : ",authUser);
@@ -30,9 +23,11 @@ export const signup = async (req, res, next) => {
         username:authUser.username,
         email:authUser.email,
         firstname: authUser.firstname,
-        lastname : authUser.lastname
+        lastname : authUser.lastname,
+        image: authUser.image
       })
       console.log('RES is is is',res.json());
+
       return res;
     } else {
 
@@ -74,10 +69,11 @@ export const login = async(req, res, next) => {
       email:validUser.email,
       firstname: validUser.firstname,
       lastname: validUser.lastname,
-      isAdmin: isAdmin
+      isAdmin: isAdmin,
+      image: validUser.image || "anonymous.png"
     })
     res.message = "User Loged in ";
-    console.log('RES is is',res.message);
+    console.log('RES is is',res.image);
     return res;
   } else {
     res.status(400);

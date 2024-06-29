@@ -42,7 +42,7 @@ const UserCard = ({user}) => {
 		      <div className="flex xs:flex-col sm:flex-row xs:justify-center sm:justify-start xs:py-[10px] sm:py-[4px] xs:basis-8/12 sm:basis-9/12">
 			      
 			      	  <div className="flex xs:flex-row justify-center sm:flex-col sm:ml-2 sm:mr-2 ">
-				      	<UserProfileImage size={"lg"} rounded={true} />
+				      	<UserProfileImage size={"lg"} rounded={true} userId={user?._id} userImage={user.image}/>
 				      </div>
 				      <div className="flex xs:flex-col xs:[margin:auto] sm:[margin:0]   justify-center ">
 				      	

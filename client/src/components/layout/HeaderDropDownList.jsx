@@ -39,7 +39,7 @@ const HeaderDropDownList = ({openMenu, setOpenMenu , logedin,currentUser , heade
                     	<div className={logedin ? "btn flex flex-row justify-center" : "hidden"}
 												onClick={()=>{setOpenMenu(false); navigate("/profile")}}
                     	>
-	                      < UserProfileImage size="xs" rounded={true} bordered={true}/>
+	                      < UserProfileImage size="xs" rounded={true} bordered={true} userId={currentUser.id} userImage={currentUser.image} />
 	                      <span className="text-[#444] text-[26px] ml-1 font-bold">
 	                      	{getShortUsername (currentUser.username)}
 	                      </span>

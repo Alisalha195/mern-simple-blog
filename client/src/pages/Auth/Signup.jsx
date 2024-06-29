@@ -17,6 +17,7 @@ const SignUp = ()=>  {
   const[errorMessage, setErrorMessage] = useState(""); 
   
   const [formData , setFormData] = useState({});
+  // const [profileImage , setProfileImage] = useState("");
 
   const loadingProps = LoadingBox();
   const loading = loadingProps.loading; 
@@ -53,8 +54,17 @@ const SignUp = ()=>  {
   }
 
   const handleSignup = () => {
-    // console.log("proccessing...");
-    console.log('Form data ; ',formData)
+    
+    console.log('Form data ; ',formData);
+
+//     let createFormData = new FormData();
+//     Object.keys(formData).forEach(key => {
+//       createFormData.append(key,formData[key])
+//     });
+// 
+//     updatedFormData.append("image",profileImage);
+// 
+//       updatedFormData.append("passwordStatus",passwordStatus);
     dispatch(signupUserAsync(formData));
     // setLoading(true);
     

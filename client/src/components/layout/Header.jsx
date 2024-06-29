@@ -1,11 +1,14 @@
 
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import {useNavigate} from 'react-router-dom' 
 import {Navigate} from 'react-router-dom'
 import {useDispatch,useSelector} from 'react-redux';
 // import {  signOut  } from 'firebase/auth';
 // import { auth } from '../../firebase/firebase';
 import {logoutAsync} from "../../redux/AuthSlice.js";
+import LoadingBox from "../../hooks/useLoading"
+
+import {getUser} from "../../redux/UserSlice.js";
 
 import { TiThMenu } from "react-icons/ti";
 import UserProfileImage from '../user/UserProfileImage'
@@ -16,14 +19,30 @@ import Logo from "../public/Logo"
 import HeaderDropDownList from "./HeaderDropDownList"
 
 const Header = () => {
+  // let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null
+  // const {currentUser, error,isLoading, isSuccess} = useSelector(state => state.auth) ;
+  // console.log('currentUser in header :',currentUser)
 
+  const {currentUser, isUpdating} = useSelector(state => state.auth) ;
   const dispatch = useDispatch();
+  
+  const loadingProps = LoadingBox();
+  const loading = loadingProps.loading; 
 
   const [openMenu, setOpenMenu] = useState(false)
   
-  const {currentUser, error,isLoading, isSuccess} = useSelector(state => state.auth) ;
-
   
+
+  useEffect(()=>{
+    // dispatch(getUser(currentUser.id));
+     // currentUser = JSON.parse(localStorage.getItem('currentUser'))
+
+    console.log("getting current user from localStorage...")
+  },[isUpdating]);
+
+  console.log('currentUser in header :',currentUser)
+
+  // console.log('currentUser : ',currentUser)
   const navigate = useNavigate()
   
   const navigateTo = (link) => {
@@ -31,6 +50,7 @@ const Header = () => {
   } 
   const logedin = false;
 
+  
   
   const headerList = [
     {
@@ -129,7 +149,7 @@ const Header = () => {
                   <div className="btn px-1"
                       onClick={()=>navigate(`/profile/${currentUser.id}`)}
                   >
-                    < UserProfileImage size="xs" rounded={true} bordered={true}/>
+                    < UserProfileImage size="xs" rounded={true} bordered={true} userId={currentUser.id} userImage={currentUser.image}/>
                   </div>
                 </div> 
               

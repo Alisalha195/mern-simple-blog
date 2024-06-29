@@ -8,11 +8,13 @@ import LoadingBox from "../../hooks/useLoading"
 
 import {getUser, checkFileImage} from "../../redux/UserSlice.js";
 
-const UserProfileImage = ({size , rounded, bordered}) => {
+const UserProfileImage = ({size , rounded, bordered, userId ,userImage}) => {
+
+	
 
 	const dispatch = useDispatch();
 	
-	const {user, imageExists} = useSelector(state => state.user) ;
+	// const {user, imageExists} = useSelector(state => state.user) ;
 	const {currentUser} = useSelector(state => state.auth) ;
 	const{actionType,showActionSuccessMsg}=useSelector(state=>state.successMsg);
 
@@ -23,15 +25,31 @@ const UserProfileImage = ({size , rounded, bordered}) => {
 	const imagesFolder = "uploads/user";
 	const imagesFolderUrl = `http://localhost:5000/${imagesFolder}`;
 	
-	
-	useEffect(()=>{
-		dispatch(getUser(currentUser.id));
+	// console.log('userId in header :',userId);
+	// console.log('currentUser in header :',currentUser.id);
+	// console.log("user image in userprofileimage is : ",userImage)
+	useEffect(()=>{ 
+		// dispatch(getUser(userId));
+		// console.log("dispatch(getUser(userId));")
+		console.log(";")
+		// (currentUser.id == userId 
+		// 	? dispatch(getUser(currentUser.id));
+		// 	: dispatch(getUser(userId));
+		// 	)
+		
 		// dispatch(checkFileImage(`${imagesFolder}/${currentUser?.id}/${user?.image}`))
 	},[loading]);
 
 	useEffect(()=>{
 		// dispatch(getUser(currentUser.id));
-		dispatch(checkFileImage(`${imagesFolder}/${currentUser?.id}/${user?.image}`))
+
+		// dispatch(checkFileImage(`${imagesFolder}/${currentUser?.id}/${user?.image}`))
+		
+		// dispatch(checkFileImage(`${imagesFolder}/${userId}/${
+		// 	user?.image}`))
+
+		// console.log("dispatch(checkFileImage);")
+		console.log(";")
 	},[loading, showActionSuccessMsg]);
 
 	const getSize = (size) => {
@@ -58,21 +76,41 @@ const UserProfileImage = ({size , rounded, bordered}) => {
 			return"5px"
 	} 
 
-	const checkFile = (filePath)=> {
+	const getUserImage = () => {
 		
-	}
+		// if(currentUser.id == userId) {
+		// 	
+		// }
+		let image = ""
+		if(userImage == "anonymous.png") {
+			image =  (`http://localhost:5000/${imagesFolder}/anonymous.png`)
+		} else {
+			image =  (`${imagesFolderUrl}/${userId}/${userImage}`)
+		}
 
+		// console.log('img in image : ',image)
+		return image;
+
+	}
 	return (
 		<div className="flex "> 
 			<div className={bordered ?"bg-gray-900 [border:1px_solid_#0f0]" : "bg-gray-900"} 
 			      style={{borderRadius:isRounded(rounded), width:getSize(size) , height:getSize(size) }}>
 
-				<img src={user?.image 
-				           ? (imageExists)
-				              
-				              ? (`${imagesFolderUrl}/${currentUser.id}/${user.image}`)
-				              : anonymousUser
+{/* 				<img src={user?.image  */}
+{/* 				           ? (imageExists) */}
+{/* 				               */}
+{/* 				              ? (`${imagesFolderUrl}/${userId}/${user.image}`) */}
+{/* 				              : anonymousUser */}
+{/*  */}
+{/* 				           : anonymousUser */}
+{/* 				     } */}
+{/*  */}
+{/* 				style={{width:"100%" , height:"100%" ,borderRadius:isRounded(rounded) }}/> */}
 
+				<img src={userImage 
+				           ? getUserImage()
+				              
 				           : anonymousUser
 				     }
 
@@ -82,5 +120,6 @@ const UserProfileImage = ({size , rounded, bordered}) => {
 			</div>
 		</div>	
 	)
+	
 }
 export default UserProfileImage

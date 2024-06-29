@@ -63,9 +63,6 @@ const AdminDashboard = () => {
 			let usersList =  users;
 			setLocalUsers(usersList.filter(user => (user.username.indexOf(searchText) > -1 || user.firstname.indexOf(searchText) > -1 || user.lastname.indexOf(searchText) > -1 )      ))
 
-			// users &&
-			// 
-			// 	dispatch(setUsers(users.filter( user => (user.username.indexOf(searchText) > -1))))
 
 			console.log('users ::',users);
 			console.log('local users ::',localUsers)
@@ -107,7 +104,14 @@ const AdminDashboard = () => {
 							        
 							       type="text"
 							       value={searchText}
+							       autoComplete="none"
 							       onChange={(e) =>setSearchText(e.target.value)}
+					        />
+
+					        <input id="#serachInput" className="serachInput leading-7 pl-2 py-1  focus:text-gray-900 text-gray-600 [width:100%]  [border-right-width:0] [outline:none]
+							     [border-radius:10px_0_0_10px] "  
+							        
+							       type="text"
 					        />
 
 							<span className={(searchText.length > 0) ? "hidden" :" pr-1 pl-2 bg-white text-[26px] text-gray-700 flex flex-col justify-center [border-radius:0_10px_10px_0]    [border-left-width:0] "}

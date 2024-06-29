@@ -5,11 +5,13 @@ import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import {useDispatch,useSelector} from 'react-redux';
 
 import { setActionType, setShowActionSuccessMsg} from "../../../redux/SuccessMsgSlice.js";
-import { updateUser} from "../../../redux/UserSlice.js";
+import { updateUser, getUser} from "../../../redux/UserSlice.js";
+import { updateAuth} from "../../../redux/AuthSlice.js";
+// import {getUser, checkFileImage} from "../../redux/UserSlice.js";
 
 import { IoMdClose } from "react-icons/io";
 
-const EditProfileBox = ({admin ,user,openEditBox ,setOpenEditBox}) => {  
+const EditProfileBox = ({admin ,user  ,openEditBox ,setOpenEditBox, setEditingUser}) => {  
 	
 	const dispatch = useDispatch()
 	const [waiting , setWaiting]  = useState(false);
@@ -56,66 +58,30 @@ const EditProfileBox = ({admin ,user,openEditBox ,setOpenEditBox}) => {
 			} else if(formData.password == null) {
 				passwordStatus = "empty"
 			}
-
-			// console.log('password formData[password] ',formData.password);
-			// console.log('password previousPassword ',previousPassword);
-			// if(formData.password === previousPassword) 
-			// 	formData.password = "";
+	
 			Object.keys(formData).forEach(key => {
-
 				updatedFormData.append(key,formData[key])
-// 				if(key === "password") {
-// 					if(formData.password === previousPassword || formData.password == null) {
-// 						console.log('key password true',key,formData[key])
-// 						updatedFormData.append(key,"0")
-// 
-// 					} else if(formData.password != null) {
-// 						console.log('key password false',key,formData[key])
-// 						updatedFormData.append(key,formData[key])
-// 					}
-// 
-// 				} else if(formData[key] !== null ) {
-// 					console.log('key',key,formData[key])
-// 					updatedFormData.append(key,formData[key])
-// 				}
 			});
 			
 			if(profileImage)
 				updatedFormData.append("image",profileImage);
 
 			updatedFormData.append("passwordStatus",passwordStatus);
-			// console.log("passwordStatus : ",passwordStatus)
-
-			// updatedFormData.append('image', {
-			//    uri: profileImage,
-			//    type: 'multipart/form-data',
-			//    name: 'profileImage.png',
-			// });
-
-			// console.log('updatedFormData',updatedFormData.get("username"))
-			// console.log('updatedFormData.image',updatedFormData)
-			// console.log('updatedFormData.age',updatedFormData)
-			// const res = await fetch(`${editUserUrl}/${user._id}`,{
-			// 	method:"PUT"
-			// 	
-			// });
-			// const response = await res.json()
-			// console.log('response in update profile',response)
-			
-			// handleOpenDeleteBox();
-			// console.log("profileImage :",profileImage)
-
-			
-
 			
 			dispatch(updateUser(updatedFormData));
+			setTimeout(()=>{
+				setEditingUser(true)
+				dispatch(setShowActionSuccessMsg(true));
+			},2000);
+
+			// dispatch(updateAuth({...formData,image:}))
+			// dispatch(getUser(updatedFormData._id))
 			
-			dispatch(setShowActionSuccessMsg(true));
 
 			setTimeout(()=>{
 				setOpenEditBox(false);
 				setWaiting(false);
-			},1500);
+			},3000);
 		}catch(error) {
 			setWaiting(false)
 			console.log("error in update profile :");

@@ -1,6 +1,7 @@
 
 import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
 import {updateUserService , checkFile} from "../services/user.js"
+import {updateAuth} from "./AuthSlice.js"
 
 const getUserUrl = "http://localhost:5000/api/users";
 const editUserUrl = "http://localhost:5000/api/users/update";
@@ -10,6 +11,7 @@ const initialState = {
 	user: null,
 	isAdmin:null,
 	isLoading: false,
+	isUpdating: false,
 	imageExists: false,
 	error:''
 };
@@ -73,41 +75,23 @@ export const getUser = createAsyncThunk('user/getUser', async(payload,thunkAPI)=
 });
 
 export const updateUser = createAsyncThunk('user/updateUser',async(payload,thunkAPI)=>{
-// 	try {
-// 		// const res = await fetch(`${editUserUrl}/${payload._id}`, {
-// 		// 	method:"PUT",
-// 		// 	headers:{ 'Content-Type':'multipart/form-data'},
-// 		// 	body: JSON.stringify({ firstname:payload.firstname, 
-// 		// 		lastname:payload.lastname, username:payload.username,password:payload.password, age:payload.age, jobTitle:payload.jobTitle, breifInfo:payload.breifInfo , image:payload.image})
-// 		// });
-// 		
-// 		const response = await res.json();
-//         console.log('response in slice ',response);
-// 
-// 		if(!response || response.length == 0) {
-// 			const error = {
-// 				message : "Error Faild To Update User"
-// 			}
-// 			return thunkAPI.rejectWithValue(error);
-// 		}
-// 		// console.log('errrrro',response)
-//     return response
-// 	}catch(err){
-// 
-// 		const error = {
-// 			message : "Error User Not Found"
-// 		}
-// 		// console.log('errrrro')
-// 		return thunkAPI.rejectWithValue(error);
-//     
-// 	}
 
 	try {
 		console.log('payload in slice is',payload.get("firstname"))
 		const data = await updateUserService(payload , payload.get("_id"))
+		
+		console.log('payload in updateUserService :',data)
 
+		// if(thunkAPI.getState(auth.currentUser.id ))
+// 		console.log("thunkAPI.getState(auth.currentUser.id",thunkAPI.getState().auth.currentUser.id);
+// 
+// 		let currentUserId = thunkAPI.getState().auth.currentUser.id;
+// 
+// 		if(currentUserId == data._id) {
+// 			thunkAPI.dispatch(updateAuth())
+// 		}
 		return data
-		console.log("data :",data);
+		
 	} catch(error) {
 		console.log("error in data");
 		return thunkAPI.rejectWithValue(error);
@@ -187,6 +171,7 @@ const userSlice = createSlice({
 		// --- update user ----
 		builder.addCase(updateUser.pending , (state)=> {
 			state.isLoading = true;
+			state.isUpdating = true;
 		});
 
 		builder.addCase(updateUser.fulfilled, (state, action)=>{
@@ -195,6 +180,7 @@ const userSlice = createSlice({
 		    state.user = action.payload; 
 		    state.error = null;
 		    state.isLoading = false;
+		    state.isUpdating = false;
 		});
 
 		builder.addCase(updateUser.rejected, (state, action)=>{
@@ -203,6 +189,7 @@ const userSlice = createSlice({
 		    state.error = action.payload;
 		    state.user = null
 		    state.isLoading = false;
+		    state.isUpdating = false;
 		});
 
 		// --- check Image ----

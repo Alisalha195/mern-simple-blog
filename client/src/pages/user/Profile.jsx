@@ -5,8 +5,8 @@ import { NavLink, useNavigate ,useParams} from 'react-router-dom';
 import Loading from "../../components/public/Loading";
 import LoadingBox from "../../hooks/useLoading"
 import {useDispatch,useSelector} from 'react-redux';
-
-import {loginUserAsync, reset} from "../../redux/AuthSlice.js";
+// import { updateAuth} from "../../../redux/AuthSlice.js";
+import {loginUserAsync, reset, updateAuth} from "../../redux/AuthSlice.js";
 import {getUserArticles} from "../../redux/ArticleSlice.js";
 import {getUser} from "../../redux/UserSlice.js";
 import {setActionType, setShowActionSuccessMsg} from "../../redux/SuccessMsgSlice.js";
@@ -23,14 +23,14 @@ const Profile = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
     const params = useParams();
+
     const [successMsg , setSuccessMsg] = useState("");
     const [showSuccessMsg , setShowSuccessMsg] = useState(false);
-
-	// const [openEditBox, setOpenEditBox] = useState(false);
+	const [editingUser , setEditingUser] = useState(false)
 
 	const {currentUser, isSuccess} = useSelector(state => state.auth) ;
 	const {articles, error ,isLoading} = useSelector(state => state.article);
-	const {user} = useSelector(state => state.user) ;
+	const {user, isUpdating} = useSelector(state => state.user) ;
 	const{actionType,showActionSuccessMsg}=useSelector(state=>state.successMsg);
 	
 	const loadingProps = LoadingBox();
@@ -38,27 +38,47 @@ const Profile = () => {
 	const setLoading = loadingProps.setLoading;
 
 	useEffect(()=>{
+		setLoading(true)
+		setTimeout(()=>{setLoading(false)},2000)
+	},[params])
+
+	useEffect(()=>{
 		if(!params.id)
 	      navigate("/notfound");
 
 		dispatch(getUser(params.id))
 
-		// console.log('user in profile is :',user)
-	},[navigate,dispatch,showActionSuccessMsg, successMsg]);
+		console.log('getuser in profile is :',user)
+	},[params]);
+
+	// navigate,dispatch,showActionSuccessMsg, successMsg
+
+	useEffect(()=>{
+		console.log('updating currentUser' );
+	
+		setTimeout(()=>{
+			if(currentUser?.id == user?._id && editingUser) {
+				console.log('user problem : ',user)
+				dispatch(updateAuth(user?._id));
+				setEditingUser(false)
+			}
+		},1000)
+
+			
+	},[ editingUser, user])
 
 	useEffect(()=> {
 	  
 	  dispatch(getUserArticles(params.id))
+	  console.log('user before storage is :',user)
+	  if(user?._id == currentUser?.id) {
+	  	console.log('user  : ',user)
+	  	// localStorage.setItem('currentUser',JSON.stringify(user));
+	  	// dispatch(updateAuth(user?._id));
+	  }
 
-	  // if(!articles)
-	  // 	console.log('This User Has No Articles ! ',error)
-	  // else
-	  // 	console.log("Articles Found",articles)
-   //    if(error)
-   //    	console.log('error from slice is :',error)
-   //    else
-   //    	console.log('no error from slice')
 	}, [dispatch, user, showActionSuccessMsg , successMsg]);
+
 
 	useEffect(()=>{
 
@@ -83,6 +103,10 @@ const Profile = () => {
 	},[actionType,successMsg,showActionSuccessMsg])
 
 
+	// console.log('currentUser ::',currentUser)
+
+	console.log('currentUser in profile :',currentUser)
+	console.log('User in profile :',user)
 	if(loading){
 		return <Loading />
 	}
@@ -97,7 +121,7 @@ const Profile = () => {
 						</div>
 					</div>
 				}
-				<AboutBox currentUser={currentUser} user={user} setActionType={setActionType}  />
+				<AboutBox currentUser={currentUser} user={user} setEditingUser={setEditingUser} />
 
 				<div className="flex xs:justify-center md:justify-start ml-3 mt-6 mb-7 xs:text-[28px] sm:text-[32px] md:text-[36px]">
 					<div className="xmd:basis-5/12 lg:basis-4/12 xl:basis-3/12 pl-1 border-b-4 border-b-gray-300 font-bold text-gray-700 "
@@ -107,7 +131,7 @@ const Profile = () => {
 					</div>
 
 					<div className="flex flex-row justify-start mt-4 mr-5 ">
-						{currentUser ? (currentUser.id == user._id) : false && 
+						{ (currentUser?.id == user?._id)  && 
 						<span className="btn flex flex-col ml-4 xs:justify-center px-2  [border:1px_solid_#888] xs:text-[25px] xm:text-[28px] lg:text-[30px] text-[#fff] bg-[#00872b] [border-radius:8px]" 
 
 							onClick={()=>{navigate("/articles/add"); dispatch(setActionType("add"));}}
