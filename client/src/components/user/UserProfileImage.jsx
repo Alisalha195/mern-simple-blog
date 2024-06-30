@@ -28,19 +28,19 @@ const UserProfileImage = ({size , rounded, bordered, userId ,userImage}) => {
 	// console.log('userId in header :',userId);
 	// console.log('currentUser in header :',currentUser.id);
 	// console.log("user image in userprofileimage is : ",userImage)
-	useEffect(()=>{ 
+	// useEffect(()=>{ 
 		// dispatch(getUser(userId));
 		// console.log("dispatch(getUser(userId));")
-		console.log(";")
+		// console.log(";")
 		// (currentUser.id == userId 
 		// 	? dispatch(getUser(currentUser.id));
 		// 	: dispatch(getUser(userId));
 		// 	)
 		
 		// dispatch(checkFileImage(`${imagesFolder}/${currentUser?.id}/${user?.image}`))
-	},[loading]);
+	// },[loading]);
 
-	useEffect(()=>{
+	// useEffect(()=>{
 		// dispatch(getUser(currentUser.id));
 
 		// dispatch(checkFileImage(`${imagesFolder}/${currentUser?.id}/${user?.image}`))
@@ -49,8 +49,8 @@ const UserProfileImage = ({size , rounded, bordered, userId ,userImage}) => {
 		// 	user?.image}`))
 
 		// console.log("dispatch(checkFileImage);")
-		console.log(";")
-	},[loading, showActionSuccessMsg]);
+		// console.log(";")
+	// },[loading, showActionSuccessMsg]);
 
 	const getSize = (size) => {
 

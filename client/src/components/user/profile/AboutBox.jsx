@@ -16,6 +16,7 @@ const AboutBox = ({currentUser, user, setEditingUser}) => {
 
 	const breifInfo = "senior software engineer at Google , 3 years experience in web development and design , father of two children and loved husband"
 
+	
 	return (
 		<div className={openEditBox ? " no-doc-scroll flex md:flex-row xs:flex-col xs:flex-wrap sm:flex-nowrap mt-3 p-3 border-2 border-b-gray-300	" 
 		    : " flex md:flex-row xs:flex-col xs:flex-wrap sm:flex-nowrap mt-3 p-3 border-2 border-b-gray-300	" }

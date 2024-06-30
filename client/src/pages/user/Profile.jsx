@@ -37,19 +37,22 @@ const Profile = () => {
 	const loading = loadingProps.loading; 
 	const setLoading = loadingProps.setLoading;
 
+	if(params.id)
+		dispatch(getUser(params.id))
+
 	useEffect(()=>{
 		setLoading(true)
 		setTimeout(()=>{setLoading(false)},2000)
 	},[params])
 
-	useEffect(()=>{
-		if(!params.id)
-	      navigate("/notfound");
-
-		dispatch(getUser(params.id))
-
-		console.log('getuser in profile is :',user)
-	},[params]);
+// 	useEffect(()=>{
+// 		if(!params.id || params.id == undefined)
+// 	      navigate("/notfound");
+// 
+// 		dispatch(getUser(params.id))
+// 
+// 		console.log('getuser in profile is :',user)
+// 	},[params]);
 
 	// navigate,dispatch,showActionSuccessMsg, successMsg
 
