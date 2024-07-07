@@ -1,10 +1,12 @@
 
-import {useState, useEffect} from 'react'
+import {useState, useEffect, useMemo} from 'react'
 import {useNavigate} from 'react-router-dom' 
 import {Navigate} from 'react-router-dom'
 import {useDispatch,useSelector} from 'react-redux';
 // import {  signOut  } from 'firebase/auth';
 // import { auth } from '../../firebase/firebase';
+import anonymousUser from "../../assets/images/user.png"
+
 import {logoutAsync} from "../../redux/AuthSlice.js";
 import LoadingBox from "../../hooks/useLoading"
 
@@ -19,11 +21,15 @@ import Logo from "../public/Logo"
 import HeaderDropDownList from "./HeaderDropDownList"
 
 const Header = () => {
-  // let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null
-  // const {currentUser, error,isLoading, isSuccess} = useSelector(state => state.auth) ;
-  // console.log('currentUser in header :',currentUser)
+  
+
 
   const {currentUser, isUpdating} = useSelector(state => state.auth) ;
+  const {user} = useSelector(state => state.user) ;
+  
+  const [authUserImage,setAuthUserImage] = useState(currentUser?.image)
+
+
   const dispatch = useDispatch();
   
   const loadingProps = LoadingBox();
@@ -31,7 +37,11 @@ const Header = () => {
 
   const [openMenu, setOpenMenu] = useState(false)
   
-  
+  useEffect(()=>{
+    if(user?._id == currentUser?.id) {
+      setAuthUserImage(prev => user.image)
+    }
+  },[user?.image, currentUser?.image])
 
 
   const navigate = useNavigate()
@@ -140,7 +150,7 @@ const Header = () => {
                   <div className="btn px-1"
                       onClick={()=>navigate(`/profile/${currentUser.id}`)}
                   >
-                    < UserProfileImage size="xs" rounded={true} bordered={true} userId={currentUser.id} userImage={currentUser.image}/>
+                    < UserProfileImage size="xs" rounded={true} bordered={true} userId={currentUser.id} userImage={authUserImage}/>
                   </div>
                 </div> 
               

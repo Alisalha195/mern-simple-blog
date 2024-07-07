@@ -58,7 +58,7 @@ const Profile = () => {
 			dispatch(getUser(params.id))
 
 		console.log('dispatch(getUser(params.id))')
-	},[])
+	},[params.id])
 
 	// useEffect(()=>{
 	// 	setLoading(true)
