@@ -14,7 +14,6 @@ import {setActionType, setShowActionSuccessMsg} from "../../redux/SuccessMsgSlic
 import AboutBox from "../../components/user/profile/AboutBox"
 import UserArticles from "../../components/user/profile/UserArticles"
 
-// import user from "../../assets/images/user.png"
 // import EditProfileBox from "../../components/user/profile/EditProfileBox"
 
 
@@ -31,54 +30,56 @@ const Profile = () => {
 	const {currentUser, isSuccess} = useSelector(state => state.auth) ;
 	const {articles, error ,isLoading} = useSelector(state => state.article);
 	const {user, isUpdating} = useSelector(state => state.user) ;
-	const{actionType,showActionSuccessMsg}=useSelector(state=>state.successMsg);
+	const {actionType,showActionSuccessMsg}=useSelector(state=>state.successMsg);
 	
 	const loadingProps = LoadingBox();
 	const loading = loadingProps.loading; 
 	const setLoading = loadingProps.setLoading;
 
-	if(params.id)
-		dispatch(getUser(params.id))
+	// console.log("params.id : ",params.id)
+	// console.log(params.id == "undefined")
 
 	useEffect(()=>{
-		setLoading(true)
-		setTimeout(()=>{setLoading(false)},2000)
-	},[params])
+		if(!params.id || params.id == "undefined") {
+			navigate("/notfound");
+			return
+		}
+	},[])
+	  
+	if(!params.id || params.id == "undefined") {
+		
+		return
+	}
 
-// 	useEffect(()=>{
-// 		if(!params.id || params.id == undefined)
-// 	      navigate("/notfound");
-// 
-// 		dispatch(getUser(params.id))
-// 
-// 		console.log('getuser in profile is :',user)
-// 	},[params]);
+    // console.log("not out yet")  
+    
+	useEffect(()=>{
+		if(params.id)
+			dispatch(getUser(params.id))
+
+		console.log('dispatch(getUser(params.id))')
+	},[])
+
+	// useEffect(()=>{
+	// 	setLoading(true)
+	// 	setTimeout(()=>{setLoading(false)},2000)
+	// },[params])
+
+
 
 	// navigate,dispatch,showActionSuccessMsg, successMsg
 
-	useEffect(()=>{
-		console.log('updating currentUser' );
-	
-		setTimeout(()=>{
-			if(currentUser?.id == user?._id && editingUser) {
-				console.log('user problem : ',user)
-				dispatch(updateAuth(user?._id));
-				setEditingUser(false)
-			}
-		},1000)
 
-			
-	},[ editingUser, user])
 
 	useEffect(()=> {
 	  
 	  dispatch(getUserArticles(params.id))
-	  console.log('user before storage is :',user)
-	  if(user?._id == currentUser?.id) {
-	  	console.log('user  : ',user)
-	  	// localStorage.setItem('currentUser',JSON.stringify(user));
-	  	// dispatch(updateAuth(user?._id));
-	  }
+	  // console.log('user before storage is :',user)
+	  // if(user?._id == currentUser?.id) {
+	  // 	console.log('user  : ',user)
+	  // 	// localStorage.setItem('currentUser',JSON.stringify(user));
+	  // 	// dispatch(updateAuth(user?._id));
+	  // }
 
 	}, [dispatch, user, showActionSuccessMsg , successMsg]);
 
@@ -108,8 +109,8 @@ const Profile = () => {
 
 	// console.log('currentUser ::',currentUser)
 
-	console.log('currentUser in profile :',currentUser)
-	console.log('User in profile :',user)
+	// console.log('currentUser in profile :',currentUser)
+	// console.log('User in profile :',user)
 	if(loading){
 		return <Loading />
 	}

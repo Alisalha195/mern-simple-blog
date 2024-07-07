@@ -33,16 +33,7 @@ const Header = () => {
   
   
 
-  useEffect(()=>{
-    // dispatch(getUser(currentUser.id));
-     // currentUser = JSON.parse(localStorage.getItem('currentUser'))
 
-    console.log("getting current user from localStorage...")
-  },[isUpdating]);
-
-  console.log('currentUser in header :',currentUser)
-
-  // console.log('currentUser : ',currentUser)
   const navigate = useNavigate()
   
   const navigateTo = (link) => {

@@ -1,7 +1,7 @@
 
 import {useEffect , useState} from 'react';
 import {useDispatch,useSelector} from 'react-redux';
-
+import {useNavigate} from 'react-router-dom' 
 import UserProfileImage from "../../user/UserProfileImage"
 import EditProfileBox from "../../user/profile/EditProfileBox"
 import {setActionType} from "../../../redux/SuccessMsgSlice.js";
@@ -9,9 +9,10 @@ import {setActionType} from "../../../redux/SuccessMsgSlice.js";
 const AboutBox = ({currentUser, user, setEditingUser}) => {
 
 	const dispatch = useDispatch()
+	const navigate = useNavigate()
 	// console.log('user : ',user._id)
-	console.log('currentUser in About : ',currentUser)
-	console.log('user in About : ',user)
+	// console.log('currentUser in About : ',currentUser)
+	// console.log('user in About : ',user)
 	const [openEditBox, setOpenEditBox] = useState(false);
 
 	const breifInfo = "senior software engineer at Google , 3 years experience in web development and design , father of two children and loved husband"
@@ -89,14 +90,15 @@ const AboutBox = ({currentUser, user, setEditingUser}) => {
 				<div className={(currentUser ? currentUser.id == user._id : false) ? "flex flex-row justify-end" : "hidden"}>
 					<button className="btn flex flex-col xs:justify-center px-2  [border:1px_solid_#888] xs:text-[22px] xm:text-[24px] lg:text-[28px] text-[#fff] bg-[#00872b] [border-radius:8px]"
 						
-						onClick={()=>{setOpenEditBox(true); dispatch(setActionType('edit'));}}
+						// onClick={()=>{setOpenEditBox(true); dispatch(setActionType('edit'));}}
+						onClick={()=>{navigate(`/profile/edit/${user?._id}`)}}
 					>
 						edit
 					</button>
 				</div>
 			</div>
 
-			<EditProfileBox user={user} openEditBox={openEditBox} setOpenEditBox={setOpenEditBox} setEditingUser={setEditingUser}/>
+			{/* <EditProfileBox user={user} openEditBox={openEditBox} setOpenEditBox={setOpenEditBox} setEditingUser={setEditingUser}/> */}
 		</div>	
 	)
 }

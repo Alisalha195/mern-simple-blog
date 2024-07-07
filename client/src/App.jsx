@@ -18,6 +18,7 @@ import Homepage from './pages/user/Homepage'
 import Login from './pages/Auth/Login'
 import Signup from './pages/Auth/Signup'
 import Profile from './pages/user/Profile'  
+import EditProfile from './pages/user/EditProfile' 
 import About from './pages/user/About'
 import Dashboard from './pages/user/Dashboard'
 
@@ -25,6 +26,7 @@ import Articles from './pages/user/Articles/Articles'
 import Article from './pages/user/Articles/Article'
 import AddArticle from './pages/user/Articles/AddArticle'
 import EditArticle from './pages/user/Articles/EditArticle'
+import NotFound from './pages/NotFound'
 // import DeleteArticle from './user/pages/Articles/DeleteArticle'
 
 
@@ -39,36 +41,10 @@ function App() {
 
   const {currentUser, isSuccess} = useSelector(state => state.auth) ;
 
-  // const[isLoading, setIsLoading] = useState(true) ;
-  // const[backendData, setBackendData] = useState([""]) ;
-
-//   useEffect(()=>{
-// 
-//     // const fetchedData = fetch("/api");
-//     // const responseData = response.json();
-//     // const dataArray = res 
-//     const getData = async () => {
-//       await fetch("/api/articles/").then(
-//         response =>  response.json()
-//       ).then(
-//         data => setBackendData(data)
-//         // data => console.log(data)
-//       )
-//     }
-// 
-//     getData()
-//   },[])
-
-
-    // useEffect(()=> {
-    //     if(!currentUser)
-    //         navigate("/login")
-    // },[currentUser])
-
   return (
     <div className="app ">  
       
-        {/* <Header  /> */}
+        <Header  />
 
         
         <Routes>  
@@ -102,6 +78,8 @@ function App() {
           */}
           <Route path="/profile/:id" element={ <Profile /> } />
 
+          <Route path="/profile/edit/:id" element={ <EditProfile /> } />
+
           <Route path="/about" element={<About />} />
 
           {/* <Route path="/articles/search/:searchText" element={<About />} /> */}
@@ -110,6 +88,8 @@ function App() {
            {/* <Route path="/dashboard" element={<Dashboard /> } /> */}
 
            <Route path="/dashboard" element={currentUser ? <Dashboard /> : <Navigate to='/login' />} />
+
+           <Route path="/notfound" element={<NotFound />} />
 
           
         </Routes>
