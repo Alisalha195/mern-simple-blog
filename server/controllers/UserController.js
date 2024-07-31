@@ -9,7 +9,7 @@ export const getUsers = async (req , res) => {
 	
 	try {
 		const users = await User.find({isAdmin : false});
-		console.log("users is controller : ",users);
+		// console.log("users is controller : ",users);
 		return res.status(200).json(users)
 	} catch(error) {
 		res.status(500).send(error.message)
@@ -90,8 +90,8 @@ export const editUser = async (req , res) => {
 		const {id} = req.params;
 		const photo = req.file ? req.file.filename :"";
 		console.log('photo in edit :',photo)
-		const {firstname,lastname, username,age , password, jobTitle ,breifInfo, passwordStatus} = req.body;
-		console.log(firstname,lastname, username,age , password, jobTitle ,breifInfo);
+		const {firstname,lastname, username,age , password, jobTitle ,breifInfo, passwordStatus, isAdmin} = req.body;
+		console.log(firstname,lastname, username,age , password, jobTitle ,breifInfo, isAdmin);
 		let correctPassword = getCorrectPassword(password, passwordStatus);
 
 		const user = await User.findOne({_id:id});
@@ -110,6 +110,7 @@ export const editUser = async (req , res) => {
 			image: photo || user.image,
 			jobTitle:  jobTitle || user.jobTitle,
 			breifInfo:  breifInfo || user.breifInfo,
+			isAdmin: isAdmin 
 		});
 
 		// const updatedUser = await User.updateOne

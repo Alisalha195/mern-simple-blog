@@ -87,7 +87,12 @@ function App() {
             
            {/* <Route path="/dashboard" element={<Dashboard /> } /> */}
 
-           <Route path="/dashboard" element={currentUser ? <Dashboard /> : <Navigate to='/login' />} />
+           <Route path="/dashboard" 
+               element={(currentUser) 
+                   ? <Dashboard /> 
+                   : <Navigate to='/login' />} 
+
+           />
 
            <Route path="/notfound" element={<NotFound />} />
 

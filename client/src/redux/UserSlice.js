@@ -77,7 +77,7 @@ export const getUser = createAsyncThunk('user/getUser', async(payload,thunkAPI)=
 export const updateUser = createAsyncThunk('user/updateUser',async(payload,thunkAPI)=>{
 
 	try {
-		console.log('payload in slice is',payload.get("firstname"))
+		console.log('payload in slice is',payload.get("isAdmin"))
 		const data = await updateUserService(payload , payload.get("_id"))
 		
 		console.log('payload in updateUserService :',data)

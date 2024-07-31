@@ -11,29 +11,45 @@ import { updateAuth} from "../../../redux/AuthSlice.js";
 
 import { IoMdClose } from "react-icons/io";
 
-const EditProfileBox = ({admin ,user  ,openEditBox ,setOpenEditBox, setEditingUser}) => {  
+const EditProfileBox = ({admin ,user  ,openEditBox ,setOpenEditBox}) => {  
 	
 	const dispatch = useDispatch()
 	const [waiting , setWaiting]  = useState(false);
-	
+	const userIsAdmin = user?.isAdmin;
+	console.log('userIsAdmin',userIsAdmin)
 	const [formData , setFormData] = useState(user);
-	const previousPassword = user?.password || "" ;
-	// console.log('old password ', previousPassword)
+	const previousPassword = user?.password  ;
+	console.log('old password ', previousPassword)
 	const [profileImage , setProfileImage] = useState("");
 
 	// const {user} = useSelector(state => state.user) ;
 
 	const editUserUrl = "http://localhost:5000/api/users/update"
-	
-	// const getBreifText = (text , cutPoint) => {
-	// 	return (`${text.substring(0,cutPoint)}...`);
-	// } ;
 
 	const handleChange = (e)=> {
-		setFormData({
-			...formData , 
-			[e.target.id] : e.target.value
-		});
+
+		if(e.target.id == "isAdmin") {
+			
+			if(!formData.isAdmin) {
+
+				setFormData({
+					...formData , 
+					[e.target.id] : true
+				});
+			}
+			else if(!userIsAdmin) {
+				setFormData({
+					...formData , 
+					[e.target.id] : false
+				});
+			}
+		} else {
+			setFormData({
+				...formData , 
+				[e.target.id] : e.target.value
+			});
+		}
+		
 		console.log(formData)
 	}
 
@@ -42,8 +58,7 @@ const EditProfileBox = ({admin ,user  ,openEditBox ,setOpenEditBox, setEditingUs
 	}
 
 	const handleUpdateClick = async() => {
-		// console.log('clicked!');
-
+		
 		setWaiting(true);
 		
 
@@ -55,33 +70,32 @@ const EditProfileBox = ({admin ,user  ,openEditBox ,setOpenEditBox, setEditingUs
 
 			if(formData.password == previousPassword) {
 				passwordStatus = "same"
-			} else if(formData.password == null) {
+				console.log('passwordStatus = same')
+			} else if(formData.password == null || formData.password == undefined) {
 				passwordStatus = "empty"
+				console.log('passwordStatus = empty')
 			}
 	
 			Object.keys(formData).forEach(key => {
 				updatedFormData.append(key,formData[key])
 			});
 			
-			if(profileImage)
-				updatedFormData.append("image",profileImage);
+			// if(profileImage)
+			// 	updatedFormData.append("image",profileImage);
 
 			updatedFormData.append("passwordStatus",passwordStatus);
 			
+			console.log("form data before updating is : ",formData)
 			dispatch(updateUser(updatedFormData));
 			setTimeout(()=>{
-				setEditingUser(true)
+				// setEditingUser(true)
 				dispatch(setShowActionSuccessMsg(true));
 			},2000);
-
-			// dispatch(updateAuth({...formData,image:}))
-			// dispatch(getUser(updatedFormData._id))
-			
 
 			setTimeout(()=>{
 				setOpenEditBox(false);
 				setWaiting(false);
-			},3000);
+			},2500);
 		}catch(error) {
 			setWaiting(false)
 			console.log("error in update profile :");
@@ -103,58 +117,6 @@ const EditProfileBox = ({admin ,user  ,openEditBox ,setOpenEditBox, setEditingUs
 
 				<div className="flex flex-col justify-center xs:px-4 lg:px-3 pt-2 mb-5  mt-5" >
 
-	                {/* fullname  */}
-					<div className="flex md:flex-row xs:flex-col  justify-between  xs:[width:100%]">
-						<div className="flex flex-col xs:[width:100%] md:[max-width:35%]">
-						  <div className=" xs:text-[24px] sm:text-[28px] lg:text-[30px] leading-7 text-gray-100">
-						    first name
-						  </div>
-						  <div className="">
-						    <input className=" pl-2 py-1 border-t-gray-900 focus:text-gray-900 text-gray-600 [width:100%] text-[24px] [border:1px_solid_#aaa] [outline:none] [border-radius:7px]"
-						      required 
-						      type="text" 
-						      id={openEditBox ? "firstname" :`firstname-${user._id}`}
-						      value={formData.firstname }
-						      onChange = {handleChange}
-						      
-						              />
-
-						  </div>
-						</div>
-
-						<div className="flex flex-col xs:[width:100%] md:[max-width:35%]">
-						  <div className=" xs:text-[24px] sm:text-[28px] lg:text-[30px] leading-7 text-gray-100">
-						    last name
-						  </div>
-						  <div className="">
-						    <input className=" pl-2 py-1 border-t-gray-900 focus:text-gray-900 text-gray-600 lg:[width:100%] xs:[width:100%] text-[24px] [border:1px_solid_#aaa] [outline:none] [border-radius:7px]"
-						      required 
-						      type="text"
-						      id={openEditBox ? "lastname" :`lastname-${user._id}`}
-						      value={formData.lastname }
-						      onChange = {handleChange}
-						      
-						              />
-
-						  </div>
-						</div>
-						<div className="flex flex-col xs:[width:100%] md:[max-width:10%]">
-							<div className=" xs:text-[24px] sm:text-[28px] lg:text-[30px] leading-7 text-gray-100">
-						    age
-						  </div>
-						  <div className="">
-						    <input className=" pl-2 py-1 border-t-gray-900 focus:text-gray-900 text-gray-600 lg:[width:100%] xs:[width:100%] text-[24px] [border:1px_solid_#aaa] [outline:none] [border-radius:7px]"
-						      required 
-						      type="number" 
-						      id={openEditBox ? "age" :`age-${user._id}`}
-						      value={formData.age }
-						      onChange = {handleChange}
-						      
-						              />
-
-						  </div>
-						</div>
-					</div>
 
 					{/* username */}
 					<div className="flex flex-col">
@@ -174,70 +136,23 @@ const EditProfileBox = ({admin ,user  ,openEditBox ,setOpenEditBox, setEditingUs
 						</div>
 					</div>
 
-					{/* password */}
-					<div className="flex flex-col mt-2">
-						<div className="  leading-7 text-gray-100 xs:text-[24px] sm:text-[28px] lg:text-[30px] ">
-						  password
-						</div>
-						<div className="basis-8/12">
-						  <input className=" pl-2 py-1 border-t-gray-900 focus:text-gray-900 text-gray-600  xs:[width:100%] text-[24px] [border:1px_solid_#aaa] [outline:none] [border-radius:7px]" 
-						  required
-						  type="password"
-						  id={openEditBox ? "password" :`password-${user._id}`}
-						  onChange = {handleChange} 
-						       />
-
-						</div>
-					</div>
-					{/* job title */}
-					<div className="flex flex-col mt-2">
-						<div className="  leading-7 text-gray-100 xs:text-[24px] sm:text-[28px] lg:text-[30px] ">
-						  job title
-						</div>
-						<div className="basis-8/12">
-						  <input className=" pl-2 py-1 border-t-gray-900 focus:text-gray-900 text-gray-600  xs:[width:100%] text-[24px] [border:1px_solid_#aaa] [outline:none] [border-radius:7px]" 
-						  required
-						  type="text"
-						  id={openEditBox ? "jobTitle" :`jobTitle-${user._id}`}
-						  value={formData.jobTitle}
-						  onChange = {handleChange} 
-						       />
-
-						</div>
-					</div>
-
-					{/* breif information */}
-					<div className="flex flex-col mt-2">
-						<div className="  leading-7 text-gray-100 xs:text-[24px] sm:text-[28px] lg:text-[30px] ">
-						  breif information
-						</div>
-						<textarea placeholder="text" wrap="off" 
-						id={openEditBox ? "breifInfo" :`breifInfo-${user._id}`}
-					    className="xs:p-2 lg:p-3 xs:text-[26px] lg:text-[31px] text-gray-600 [outline:none] [resize:none]
-					               [border:1px_solid_#ddd] [width:100%] [height:100%] " 
-		                value={formData.breifInfo}
-		                onChange={handleChange}
-						>
-						</textarea>
-					</div>
-
-					{/* image */}
-					<div className="flex flex-col">
-						<div className=" xs:text-[24px] sm:text-[28px] lg:text-[30px] leading-7 text-gray-100">
-						  profile image
-						</div>
-						<div className="">
-						    <input className=" pl-2 py-1 border-t-gray-900 focus:text-gray-900 text-gray-600  xs:[width:100%] text-[24px] [border:1px_solid_#aaa] [outline:none] [border-radius:7px]" 
-						      type="file" 
-						      // id={openEditBox ? "username" :`username-${user._id}`}
-						      name="image"
-						      onChange = {handleImageChange}
-						      
-						              />
-
-						</div>
-					</div>
+					
 	              
+					
+
+					<div className="flex flex-row mt-2">
+		              	<div className={formData.isAdmin ?"btn bg-[#017c06] px-2 [border-radius:5px] text-[#eee]" : "bg-[#78d594] px-2 [border-radius:5px] text-[#444] btn " }
+							id={openEditBox ? "isAdmin" :`admin-${user._id}`}
+							onClick={handleChange}
+
+		              	>
+		              		{formData.isAdmin ? "switch to user" : "switch to admin"}
+
+
+		              	</div>
+
+		              	
+					</div>
 
 	                {/* Error Box */}
 	              
@@ -255,8 +170,8 @@ const EditProfileBox = ({admin ,user  ,openEditBox ,setOpenEditBox, setEditingUs
 
 				    </div>
 	              
+	              
 	            </div>
-
 
 
 

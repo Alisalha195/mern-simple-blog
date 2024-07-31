@@ -1,6 +1,6 @@
 import User from '../models/user.js';
 // import Auth from '../models/auth.js';
-
+// import bcrypt from "bcrypt";
 import bcryptjs from 'bcryptjs';
 import { errorHandler } from '../utils/error.js';
 import jwt from 'jsonwebtoken';
@@ -18,15 +18,21 @@ export const signup = async (req, res, next) => {
 
     if(authUser ) {
       // console.log("authusr : ",authUser);
+
+      const token = createToken(authUser?._id);
+
       res.json({
         id:authUser._id,
         username:authUser.username,
         email:authUser.email,
         firstname: authUser.firstname,
         lastname : authUser.lastname,
-        image: authUser.image
+        image: authUser.image,
+        token: token
       })
-      console.log('RES is is is',res.json());
+      console.log('RES is is is',authUser);
+      
+      
 
       return res;
     } else {
@@ -63,6 +69,9 @@ export const login = async(req, res, next) => {
   const isAdmin = validUser.isAdmin ? true : false
   const validPassword = bcryptjs.compareSync(password, validUser.password);
   if(validUser && validPassword) {
+
+    const token = createToken(validUser?._id );
+
     res.json({
       id:validUser._id,
       username:validUser.username,
@@ -70,7 +79,8 @@ export const login = async(req, res, next) => {
       firstname: validUser.firstname,
       lastname: validUser.lastname,
       isAdmin: isAdmin,
-      image: validUser.image || "anonymous.png"
+      image: validUser.image || "anonymous.png",
+      token: token
     })
     res.message = "User Loged in ";
     console.log('RES is is',res.image);
@@ -107,5 +117,11 @@ export const loginBackup = async (req, res, next) => {
     return res;
     // return res.status(200).json("loged in ")
  
+};
+
+const createToken = (id) => {
+  // expiresIn is set to 1 day
+  // JWT_SECRET is a secret string that is used to sign the token
+  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "1d" });
 };
 

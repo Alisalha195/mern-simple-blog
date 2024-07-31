@@ -98,14 +98,7 @@ const AuthSlice = createSlice({
 			state.isSuccess = false;
 			state.error = null;
 		}
-		// , 
-		// updateAuth : (state , action) => {
-		// 	// state.currentUser = action.payload;
-		// 	localStorage.setItem('currentUser',JSON.stringify(action.payload));
-		// 	state.currentUser = JSON.parse(localStorage.getItem('currentUser'))
-		// 	state.isUpdating = true
-		// 	state.isUpdating = false
-		// }
+		
 	},
 	extraReducers: (builder) => {
 		builder.addCase(loginUserAsync.pending , (state,payload)=> {
@@ -143,6 +136,7 @@ const AuthSlice = createSlice({
 			state.isSuccess = true;
 			state.currentUser = action.payload;
 		    state.isLoading = false;
+		    localStorage.setItem('currentUser',JSON.stringify(action.payload));
 		    
 		});
 		builder.addCase(signupUserAsync.rejected , (state, action)=> {

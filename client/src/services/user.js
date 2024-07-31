@@ -18,7 +18,7 @@ export const createUserService = async(userData)=> {
 
 export const updateUserService = async(updatedData, userId)=> {
 
-	console.log("updatedData in service :",updatedData.get("image"))
+	console.log("updatedData in service :",updatedData.get("isAdmin"))
 	// console.log("updatedData in service :",updatedData)
 	console.log("userId in service :",userId);
 
