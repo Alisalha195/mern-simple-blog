@@ -2,6 +2,7 @@
 import fs from "fs";
 import mongoose from "mongoose";
 import User from "../models/user.js"
+import Article from "../models/article.js"
 import bcryptjs from 'bcryptjs';
 
 
@@ -127,6 +128,11 @@ export const deleteUser = async (req , res) => {
 	try {
 		const {id} = req.params;
 		const user = await User.findByIdAndDelete(id);
+
+		if(user) {
+			const deletedAticlesCounts = await Article.deleteMany({authorId: id})
+			console.log("deletedAticlesCounts : ",deletedAticlesCounts)
+		}
 		return res.status(200).json(user)
 	} catch (error) {
 		res.status(500).send(error.message)
