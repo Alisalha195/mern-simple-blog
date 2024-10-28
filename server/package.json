@@ -19,8 +19,13 @@
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
+<<<<<<< HEAD
     "mongodb": "^6.10.0",
     "mongoose": "^8.7.3",
+=======
+    "mongodb": "^6.5.0",
+    "mongoose": "^8.3.2",
+>>>>>>> e61584c982257f123df7b51a0053c255e4e28b7a
     "multer": "^1.4.5-lts.1"
   },
   "devDependencies": {

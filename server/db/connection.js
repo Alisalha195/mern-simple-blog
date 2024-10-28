@@ -1,5 +1,9 @@
 
+<<<<<<< HEAD
 // connection
+=======
+
+>>>>>>> e61584c982257f123df7b51a0053c255e4e28b7a
 import mongoose from "mongoose";
 
 export default function connectDB() {

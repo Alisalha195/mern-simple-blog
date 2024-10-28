@@ -10,7 +10,10 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+<<<<<<< HEAD
 uploads
+=======
+>>>>>>> e61584c982257f123df7b51a0053c255e4e28b7a
 node_modules
 dist
 dist-ssr
